@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidCourse</string>
+    <string name="app_name">ESC</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -13,4 +13,15 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_main">ESC</string>
+    <string name="action_search">חיפוש</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_my_profile">הפרופיל שלי</string>
+    <string name="nav_room_history">היסטוריית חדרים</string>
+    <string name="nav_top5">TOP 5</string>
+    <string name="nav_wish_list">רשימת משאלות</string>
+    <string name="nav_manage_rooms">ניהול חדרים בבעלותי</string>
+    <string name="nav_settings">הגדרות</string>
+    <string name="action_settings">Settings</string>
 </resources>
