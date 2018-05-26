@@ -16,7 +16,9 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog"
+            android:excludeFromRecents="true"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -24,7 +26,6 @@
         <activity android:name=".ESC_Entrance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
