@@ -1,4 +1,4 @@
-package com.example.kardana.androidcourse;
+package Model;
 
 /**
  * Created by Dana on 20-May-18.

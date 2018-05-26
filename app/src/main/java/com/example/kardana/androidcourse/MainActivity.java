@@ -22,6 +22,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.Room;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
