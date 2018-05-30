@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.Date;
-
 /**
  * Created by Dana Koren and Karin Wasenstein on 26/05/2018.
  *
@@ -12,7 +10,7 @@ public class User {
 
     public int user_id;
     public String name;
-    public Date birth_date;
+    public String birth_Date;
     public String gender;
     public int phone;
     public String mail;
@@ -35,12 +33,12 @@ public class User {
         this.name = name;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public String getBirth_Date() {
+        return birth_Date;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirth_Date(String birth_Date) {
+        this.birth_Date = birth_Date;
     }
 
     public String getGender() {
