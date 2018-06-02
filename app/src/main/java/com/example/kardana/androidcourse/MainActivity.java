@@ -17,11 +17,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
 import Model.Room;
 
 public class MainActivity extends AppCompatActivity
@@ -32,6 +35,13 @@ public class MainActivity extends AppCompatActivity
     private RoomListAdapter roomListAdapter;
     private ListView roomListView;
     private List<Room> roomList= new ArrayList<Room>();
+    private DrawerLayout drawer;
+    ExpandableListAdapter mMenuAdapter;
+    List<ExpandedMenuHeader> listDataHeader;
+    HashMap<ExpandedMenuHeader, List<ExpandedMenuItem>> listDataChild;
+    ExpandableListView expandableList;
+    //HashMap<FilterByType, List<String>> filters = new HashMap<FilterByType,List<String>>();
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +49,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        context=this;
         roomListAdapter = new RoomListAdapter(this, roomList);
         ListView listView = (ListView) findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
 
-        roomList.add(new Room("123", "1", "1", "1", 1.1));
-        roomList.add(new Room("234", "2", "2", "2", 2.2));
+        roomList.add(new Room("123", "1", "1", "1", 4.1));
+        roomList.add(new Room("234", "2", "2", "2", 5.2));
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -55,6 +66,117 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        NavigationView navigationViewFilter = (NavigationView) findViewById(R.id.nav_filter);
+        navigationViewFilter.setNavigationItemSelectedListener(this);
+
+        expandableList = (ExpandableListView) findViewById(R.id.navigationmenu);
+        prepareListData();
+        mMenuAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild, expandableList);
+
+        // setting list adapter
+        expandableList.setAdapter(mMenuAdapter);
+
+        expandableList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                CheckBox cbCheck= (CheckBox) view.findViewById(R.id.cb_submenu);
+                ExpandedMenuItem child =((ExpandedMenuItem)((ExpandableListAdapter)expandableListView.getExpandableListAdapter()).getChild(i,i1));
+                setChildChecked(child, cbCheck);
+                return true;
+            }
+        });
+        expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                //Log.d("DEBUG", "heading clicked");
+                return false;
+            }
+        });
+
+
+//        CheckBox cbCheck= (CheckBox) findViewById(R.id.cb_submenu);
+//        cbCheck.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                set
+//            }
+//        });
+
+    }
+
+    private void setChildChecked(ExpandedMenuItem child, CheckBox cbCheck)
+    {
+        if (child.getIsChecked())
+        {
+            child.setIsChecked(false);
+            cbCheck.setChecked(false);
+        }
+        else
+        {
+            child.setIsChecked(true);
+            cbCheck.setChecked(true);
+        }
+    }
+
+    private void filter(HashMap<FilterByType, List<String>> filters)
+    {
+        roomListAdapter.setConstraints(filters);
+        roomListAdapter.getFilter().filter("");
+    }
+
+    private HashMap<FilterByType, List<String>> getCheckedChildren()
+    {
+        int groupCount= expandableList.getExpandableListAdapter().getGroupCount();
+        int childCount;
+        HashMap<FilterByType, List<String>> filters = new HashMap<FilterByType, List<String>>();
+
+        for(int i=0; i < groupCount; i++) {
+            childCount = expandableList.getExpandableListAdapter().getChildrenCount(i);
+            for (int j = 0; j < childCount; j++) {
+                ExpandedMenuItem child = ((ExpandedMenuItem) expandableList.getExpandableListAdapter().getChild(i, j));
+
+                if (child.getIsChecked()) {
+                    FilterByType type = FilterByType.getTypeByName(child.getGroup().getName());
+                    List<String> constraints = new ArrayList<String>();
+                    constraints.add(child.getName());
+
+                    if (filters.containsKey(type))
+                    {
+                        constraints.addAll(filters.get(type));
+                    }
+                    filters.put(type,constraints);
+                }
+            }
+        }
+
+        return filters;
+    }
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<ExpandedMenuHeader>();
+        listDataChild = new HashMap<ExpandedMenuHeader, List<ExpandedMenuItem>>();
+
+        ExpandedMenuHeader item1 = new ExpandedMenuHeader("קטגוריה");
+        // Adding data header
+        listDataHeader.add(item1);
+
+        ExpandedMenuHeader item2 = new ExpandedMenuHeader("דירוג");
+        listDataHeader.add(item2);
+
+        ExpandedMenuHeader item3 = new ExpandedMenuHeader("מיקום");
+        listDataHeader.add(item3);
+
+        // Adding child data
+        List<ExpandedMenuItem> heading1 = new ArrayList<ExpandedMenuItem>();
+        heading1.add(new ExpandedMenuItem("אימה",item1));
+
+        List<ExpandedMenuItem> heading2 = new ArrayList<ExpandedMenuItem>();
+        heading2.add(new ExpandedMenuItem(getString(R.string.five_stars),item2));
+        heading2.add(new ExpandedMenuItem(getString(R.string.four_stars),item2));
+        heading2.add(new ExpandedMenuItem(getString(R.string.three_stars),item2));
+
+        listDataChild.put(listDataHeader.get(0), heading1);// Header, Child data
+        listDataChild.put(listDataHeader.get(1), heading2);
 
     }
 
@@ -70,6 +192,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
@@ -114,9 +237,20 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                roomListAdapter.setFilterType(FilterByType.NAME);
                 roomListAdapter.getFilter().filter(newText);
                 return true;
             }
+        });
+
+        Button finishButton = (Button) this.findViewById(R.id.finish_button);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter(getCheckedChildren());
+                drawer.closeDrawer(GravityCompat.END);
+            }
+
         });
 
         return true;
@@ -141,6 +275,9 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.nav_settings:
+                return true;
+            case R.id.action_filter:
+                drawer.openDrawer(GravityCompat.END);
                 return true;
 
             default:

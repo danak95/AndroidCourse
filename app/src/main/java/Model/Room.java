@@ -20,7 +20,7 @@ public class Room
         this.imagePath=imagePath;
         this.rank=rank;
     }
-    public Room(String name, String address, String description)
+    public Room(String name, String address, String description, double rank)
     {
         this.name=name;
         this.address=address;

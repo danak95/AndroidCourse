@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Model.Room;
@@ -26,12 +27,26 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
     private List<Room> originalData = null;
     private List<Room> filteredData = null;
     private LayoutInflater inflater;
-    private ItemFilter mFilter = new ItemFilter();
+    private NameFilter mFilter = new NameFilter();
+    private HashMap<FilterByType,List<String>> constraints;
+    private FilterByType filterType;
 
     public RoomListAdapter(Context context, List<Room> data) {
         this.filteredData = data ;
         this.originalData = data ;
         inflater = LayoutInflater.from(context);
+        this.constraints = new HashMap<FilterByType,List<String>>();
+    }
+
+    public void setFilterType(FilterByType filterType)
+    {
+        this.filterType = filterType;
+    }
+
+    public void setConstraints(HashMap<FilterByType,List<String>> constraints)
+    {
+        this.constraints.clear();
+        this.constraints.putAll(constraints);
     }
 
     public int getCount() {
@@ -90,34 +105,45 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         return mFilter;
     }
 
-    private class ItemFilter extends Filter {
+    private class NameFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-
             FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
-            ArrayList<Room> FilteredArrList = new ArrayList<Room>();
+            List<Room> filteredArrList = new ArrayList<Room>();
 
             if (originalData == null) {
                 originalData = new ArrayList<Room>(filteredData); // saves the original data in mOriginalValues
             }
 
-            if (constraint == null || constraint.length() == 0) {
+            if (filterType != null && filterType == FilterByType.NAME) {
+                if (constraint == null || constraint.length() == 0) {
+                    // set the Original result to return
+                    results.count = originalData.size();
+                    results.values = originalData;
+
+                    filterType = null;
+                    return results;
+                }
+
+                List<String> nameConstraint = new ArrayList<String>();
+                nameConstraint.add(constraint.toString());
+                constraints.put(FilterByType.NAME, nameConstraint);
+            }
+
+            if (constraints == null || constraints.size() == 0) {
 
                 // set the Original result to return
                 results.count = originalData.size();
                 results.values = originalData;
             } else {
-                constraint = constraint.toString().toLowerCase();
-                for (int i = 0; i < originalData.size(); i++) {
-                    String data = originalData.get(i).getName();
-                    if (data.toLowerCase().contains(constraint.toString())) {
-                        FilteredArrList.add(new Room(originalData.get(i).getName(),originalData.get(i).getAddress(),originalData.get(i).getDescription()));
-                    }
-                }
+                //constraint = constraint.toString().toLowerCase();
+                filteredArrList = FilterByType.filterByType(originalData, constraints);
                 // set the Filtered result to return
-                results.count = FilteredArrList.size();
-                results.values = FilteredArrList;
+                results.count = filteredArrList.size();
+                results.values = filteredArrList;
             }
+
+            filterType = null;
             return results;
         }
 
