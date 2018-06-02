@@ -22,7 +22,7 @@ public class ESC_Entrance extends AppCompatActivity {
 
     // This function opens the Add new member activity
     public void clickSignIn (View view) {
-        Intent signin_intent = new Intent(this, AddNewMember.class);
+        Intent signin_intent = new Intent(this, AddNewMemberActivity.class);
         startActivity(signin_intent);
     }
 }

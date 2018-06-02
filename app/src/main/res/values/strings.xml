@@ -24,4 +24,10 @@
     <string name="nav_manage_rooms">ניהול חדרים בבעלותי</string>
     <string name="nav_settings">הגדרות</string>
     <string name="action_settings">Settings</string>
+    <string name="image_edit_title">בחר תמונה</string>
+    <string-array name="image_array">
+    <item>גלריה</item>
+    <item>מצלמה</item>
+    <item>ביטול</item>
+    </string-array>
 </resources>
