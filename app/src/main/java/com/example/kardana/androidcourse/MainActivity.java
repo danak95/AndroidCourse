@@ -57,6 +57,12 @@ public class MainActivity extends AppCompatActivity
 
         roomList.add(new Room("123", "1", "1", "1", 4.1));
         roomList.add(new Room("234", "2", "2", "2", 5.2));
+        roomList.add(new Room("fdsfsd", "3", "3", "3", 2));
+        roomList.add(new Room("deadasr", "4", "4", "4", 3.5));
+        roomList.add(new Room("dfds", "5", "5", "5", 1));
+        roomList.add(new Room("היוש", "6", "6", "6", 2.5));
+        roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
+        roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
