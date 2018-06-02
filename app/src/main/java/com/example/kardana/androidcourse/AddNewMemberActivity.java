@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,7 +60,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
                             galleryIntent();
                         }
 
-                        if (which == CAMERA_POSITION)
+                        else if (which == CAMERA_POSITION)
                         {
                             cameraIntent();
                         }
@@ -98,13 +100,13 @@ public class AddNewMemberActivity extends AppCompatActivity {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
-                    // Toast.makeText(AddNewMember.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    //String path = saveImage(bitmap);
+                    Toast.makeText(AddNewMemberActivity.this, "Image Saved Successfully!", Toast.LENGTH_SHORT).show();
                     avatar.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    //  Toast.makeText(getActivity().this, "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNewMemberActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -112,12 +114,36 @@ public class AddNewMemberActivity extends AppCompatActivity {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             avatar.setImageBitmap(thumbnail);
             //saveImage(thumbnail);
-            //Toast.makeText(AddNewMember.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddNewMemberActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    public String saveImage(Bitmap myBitmap) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*  public String saveImage(Bitmap myBitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File wallpaperDirectory = new File(
@@ -144,5 +170,5 @@ public class AddNewMemberActivity extends AppCompatActivity {
             e1.printStackTrace();
         }
         return "";
-    }
+    }*/
 }
