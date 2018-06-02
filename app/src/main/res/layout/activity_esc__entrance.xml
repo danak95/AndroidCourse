@@ -25,7 +25,7 @@
         android:layout_height="59dp"
         android:layout_marginTop="32dp"
         android:onClick="clickSignIn"
-        android:text="Sign-In"
+        android:text="Sign-Up"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

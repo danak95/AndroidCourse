@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "146492360912",
+    "firebase_url": "https://escproject-ceb68.firebaseio.com",
+    "project_id": "escproject-ceb68",
+    "storage_bucket": "escproject-ceb68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146492360912:android:c912e35a25e985fc",
+        "android_client_info": {
+          "package_name": "com.example.kardana.androidcourse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146492360912-rvt0pga4supirigvu80u8d9m5lf63ikj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kardana.androidcourse",
+            "certificate_hash": "00f78e2accf3b1bed65f372d51dac742d31f046a"
+          }
+        },
+        {
+          "client_id": "146492360912-jjn90di9oejm46sliss4fd0sknakkcdi.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "146492360912-jjn90di9oejm46sliss4fd0sknakkcdi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaiQYIP2T5KbkE7ZcE5s7F_YFrwr1NT3Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146492360912-jjn90di9oejm46sliss4fd0sknakkcdi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

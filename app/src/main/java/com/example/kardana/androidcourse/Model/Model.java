@@ -30,8 +30,6 @@ public class Model {
         modelFirebase.saveImage(imageBitmap,listener);
     }
 
-
-
     public interface GetImageListener{
         void onDone(Bitmap imageBitmap);
     }

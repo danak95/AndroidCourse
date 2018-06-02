@@ -3,25 +3,20 @@ package com.example.kardana.androidcourse;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.support.design.widget.FloatingActionButton;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import com.example.kardana.androidcourse.Model.Model;
+
 import java.io.IOException;
-import java.util.Calendar;
-import static android.app.Activity.RESULT_OK;
 
 
 public class AddNewMemberActivity extends AppCompatActivity {
@@ -29,12 +24,34 @@ public class AddNewMemberActivity extends AppCompatActivity {
     static final int CAMERA_POSITION = 1;
     static final int REQUEST_IMAGE_GALLERY = 1;
     static final int REQUEST_IMAGE_CAMERA = 2;
-    private static final String IMAGE_DIRECTORY = "/demonuts";
     private ImageView avatar;
+    private Bitmap imageBitmap;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member);
+        avatar = this.findViewById(R.id.new_member_image);
+
+        FloatingActionButton save = this.findViewById(R.id.add_user_btn);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                //save image
+                if (imageBitmap != null) {
+                    Model.instance.saveImage(imageBitmap, new Model.SaveImageListener() {
+                        @Override
+                        public void onDone(String url) {
+
+                        }
+                    });
+                    Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                }
+                Intent main_intent = new Intent(view.getContext(), MainActivity.class);
+                startActivity(main_intent);
+            }
+
+            ;
+        });
 
         // Edit image button- opens a dialog for picking image from gallery / camera
         Button editImage = this.findViewById(R.id.image_btn);
@@ -44,7 +61,6 @@ public class AddNewMemberActivity extends AppCompatActivity {
                 ShowImageDialog();
             }
         });
-        avatar = this.findViewById(R.id.new_member_image);
     }
 
     // This function manages the picking image - opens a dialog for choosing between
@@ -53,15 +69,10 @@ public class AddNewMemberActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.image_edit_title).setItems(R.array.image_array,
                 new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        if (which == GALLERY_POSITION)
-                        {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == GALLERY_POSITION) {
                             galleryIntent();
-                        }
-
-                        else if (which == CAMERA_POSITION)
-                        {
+                        } else if (which == CAMERA_POSITION) {
                             cameraIntent();
                         }
                     }
@@ -71,8 +82,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
     }
 
     // This function creates an intent for taking picture by camera
-    public void cameraIntent()
-    {
+    public void cameraIntent() {
         Intent takePictureIntent = new Intent(
                 MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
@@ -99,10 +109,8 @@ public class AddNewMemberActivity extends AppCompatActivity {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    //String path = saveImage(bitmap);
-                    Toast.makeText(AddNewMemberActivity.this, "Image Saved Successfully!", Toast.LENGTH_SHORT).show();
-                    avatar.setImageBitmap(bitmap);
+                    imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    avatar.setImageBitmap(imageBitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -111,64 +119,8 @@ public class AddNewMemberActivity extends AppCompatActivity {
             }
 
         } else if (requestCode == REQUEST_IMAGE_CAMERA) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            avatar.setImageBitmap(thumbnail);
-            //saveImage(thumbnail);
-            Toast.makeText(AddNewMemberActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            imageBitmap = (Bitmap) data.getExtras().get("data");
+            avatar.setImageBitmap(imageBitmap);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*  public String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
-            return f.getAbsolutePath();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return "";
-    }*/
 }

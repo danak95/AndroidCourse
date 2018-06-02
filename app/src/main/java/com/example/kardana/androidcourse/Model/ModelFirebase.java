@@ -8,12 +8,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -23,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 public class ModelFirebase {
+    ValueEventListener eventListener;
 
     //Managing Files
     public void saveImage(Bitmap imageBitmap, final Model.SaveImageListener listener) {
@@ -45,7 +41,7 @@ public class ModelFirebase {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                @SuppressWarnings("VisibleForTests") Task<Uri>  downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
                 listener.onDone(downloadUrl.toString());
             }
         });
