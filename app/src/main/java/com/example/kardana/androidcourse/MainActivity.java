@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
@@ -22,6 +25,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+
+import com.example.kardana.androidcourse.Fragments.HomeFragment;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,16 +38,26 @@ public class MainActivity extends AppCompatActivity
 
     private SearchView searchView;
     private MenuItem searchMenuItem;
-    private RoomListAdapter roomListAdapter;
+    //private RoomListAdapter roomListAdapter;
     private ListView roomListView;
-    private List<Room> roomList= new ArrayList<Room>();
+    //private List<Room> roomList= new ArrayList<Room>();
     private DrawerLayout drawer;
     ExpandableListAdapter mMenuAdapter;
     List<ExpandedMenuHeader> listDataHeader;
     HashMap<ExpandedMenuHeader, List<ExpandedMenuItem>> listDataChild;
     ExpandableListView expandableList;
-    //HashMap<FilterByType, List<String>> filters = new HashMap<FilterByType,List<String>>();
+    private Handler mHandler;
     public static Context context;
+    public static int navItemIndex = 0;
+    private static final String TAG_HOME = "home";
+    private static final String TAG_MY_PROFILE = "my_profile";
+    private static final String TAG_ROOM_HISTORY = "room_history";
+    private static final String TAG_TOP5 = "top5";
+    private static final String TAG_WISH_LIST = "wish_list";
+    private static final String TAG_MANAGE_ROOMS = "manage_rooms";
+    public static String CURRENT_TAG = TAG_HOME;
+    private Fragment currFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +67,26 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context=this;
-        roomListAdapter = new RoomListAdapter(this, roomList);
-        ListView listView = (ListView) findViewById(R.id.room_list_view);
-        listView.setAdapter(roomListAdapter);
+        currFragment = new HomeFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                android.R.anim.fade_out);
+        fragmentTransaction.replace(R.id.frame, currFragment, CURRENT_TAG);
+        fragmentTransaction.commitAllowingStateLoss();
 
-        roomList.add(new Room("123", "1", "1", "1", 4.1));
-        roomList.add(new Room("234", "2", "2", "2", 5.2));
-        roomList.add(new Room("fdsfsd", "3", "3", "3", 2));
-        roomList.add(new Room("deadasr", "4", "4", "4", 3.5));
-        roomList.add(new Room("dfds", "5", "5", "5", 1));
-        roomList.add(new Room("היוש", "6", "6", "6", 2.5));
-        roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
-        roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
+//        roomList.add(new Room("123", "1", "1", "1", 4.1));
+//        roomList.add(new Room("234", "2", "2", "2", 5.2));
+//        roomList.add(new Room("fdsfsd", "3", "3", "3", 2));
+//        roomList.add(new Room("deadasr", "4", "4", "4", 3.5));
+//        roomList.add(new Room("dfds", "5", "5", "5", 1));
+//        roomList.add(new Room("היוש", "6", "6", "6", 2.5));
+//        roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
+//        roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
+//
+//        roomListAdapter = new RoomListAdapter(this, roomList);
+//        ListView listView = (ListView) findViewById(R.id.room_list_view);
+//        listView.setAdapter(roomListAdapter);
+        mHandler = new Handler();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -99,15 +123,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-//        CheckBox cbCheck= (CheckBox) findViewById(R.id.cb_submenu);
-//        cbCheck.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                set
-//            }
-//        });
-
     }
 
     private void setChildChecked(ExpandedMenuItem child, CheckBox cbCheck)
@@ -124,11 +139,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void filter(HashMap<FilterByType, List<String>> filters)
-    {
-        roomListAdapter.setConstraints(filters);
-        roomListAdapter.getFilter().filter("");
-    }
+    //private void filter(HashMap<FilterByType, List<String>> filters)
+    //{
+        //roomListAdapter.setConstraints(filters);
+        //roomListAdapter.getFilter().filter("");
+    //}
 
     private HashMap<FilterByType, List<String>> getCheckedChildren()
     {
@@ -243,8 +258,9 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                roomListAdapter.setFilterType(FilterByType.NAME);
-                roomListAdapter.getFilter().filter(newText);
+                ((HomeFragment)currFragment).onQueryTextChanged(newText);
+                //roomListAdapter.setFilterType(FilterByType.NAME);
+                //roomListAdapter.getFilter().filter(newText);
                 return true;
             }
         });
@@ -253,7 +269,8 @@ public class MainActivity extends AppCompatActivity
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filter(getCheckedChildren());
+                ((HomeFragment) currFragment).filter(getCheckedChildren());
+                //filter(getCheckedChildren());
                 drawer.closeDrawer(GravityCompat.END);
             }
 
@@ -297,26 +314,96 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_my_profile) {
-            // Handle the camera action
-        } else if (id == R.id.nav_room_history) {
-
-        } else if (id == R.id.nav_top5) {
-
-        } else if (id == R.id.nav_wishlist) {
-
-        } else if (id == R.id.nav_manage_rooms) {
-
-        } else if (id == R.id.nav_settings) {
-
+        switch (item.getItemId())
+        {
+            case R.id.home:
+                navItemIndex = 0;
+                CURRENT_TAG = TAG_HOME;
+                break;
+            case R.id.nav_my_profile:
+                navItemIndex = 1;
+                CURRENT_TAG = TAG_MY_PROFILE;
+                break;
+            case R.id.nav_room_history:
+                navItemIndex = 2;
+                CURRENT_TAG = TAG_ROOM_HISTORY;
+                break;
+            case R.id.nav_top5:
+                navItemIndex = 3;
+                CURRENT_TAG = TAG_TOP5;
+                break;
+            case R.id.nav_wishlist:
+                navItemIndex = 4;
+                CURRENT_TAG = TAG_WISH_LIST;
+                break;
+            case R.id.nav_manage_rooms:
+                navItemIndex = 5;
+                CURRENT_TAG = TAG_MANAGE_ROOMS;
+                break;
+            default:
+                navItemIndex = 0;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        loadFragment();
         return true;
+    }
+
+    private void loadFragment()
+    {
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+            drawer.closeDrawers();
+            return;
+        }
+        Runnable mPendingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // update the main content by replacing fragments
+                Fragment fragment = getFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        };
+
+        if (mPendingRunnable != null) {
+            mHandler.post(mPendingRunnable);
+        }
+
+        drawer.closeDrawers();
+        invalidateOptionsMenu();
+    }
+    private Fragment getFragment() {
+        switch (navItemIndex) {
+            case 0:
+                HomeFragment homeFragment = new HomeFragment();
+                currFragment = homeFragment;
+                return homeFragment;
+            case 1:
+//                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
+//                return roomHistoryFragment;
+            case 2:
+                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
+                return roomHistoryFragment;
+            case 3:
+                // notifications fragment
+                //NotificationsFragment notificationsFragment = new NotificationsFragment();
+                //return notificationsFragment;
+
+            case 4:
+                // settings fragment
+                //SettingsFragment settingsFragment = new SettingsFragment();
+                //return settingsFragment;
+            default:
+                //return new HomeFragment();
+        }
+
+        return null;
     }
 
 }
