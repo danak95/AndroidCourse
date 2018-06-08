@@ -22,4 +22,22 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_filter"
+        app:menu="@menu/filter_drawer" >
+        <ExpandableListView
+            android:id="@+id/navigationmenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp"
+            android:background="@android:color/white"
+            android:layoutDirection="ltr">
+        </ExpandableListView>
+    </android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>

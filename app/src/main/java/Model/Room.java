@@ -9,28 +9,55 @@ public class Room
     private String name;
     private String address;
     private String description;
-    private String image_path;
+    private String imagePath;
     private double rank;
-    private int company_id;
-    private int owner_id;
-    private int min_num_of_people;
-    private int max_num_of_people;
+    private int companyId;
+    private int ownerId;
+    private int minNumOfPeople;
+    private int maxNumOfPeople;
     private String comments;
-    private String room_site;
+    private String roomSite;
 
-    public Room(String name, String address, String description, String image_path, double rank, int company_id, int owner_id, int min_num_of_people, int max_num_of_people, String comments, String room_site)
+    public Room(String name, String address, String description,
+                String image_path, double rank, int company_id,
+                int owner_id, int min_num_of_people, int max_num_of_people,
+                String comments, String room_site)
+    {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.imagePath = image_path;
+        this.rank = rank;
+        this.companyId = company_id;
+        this.ownerId = owner_id;
+        this.minNumOfPeople = min_num_of_people;
+        this.maxNumOfPeople = max_num_of_people;
+        this.comments = comments;
+        this.roomSite = room_site;
+    }
+
+
+    public Room(String name, String address, String description, String imagePath, double rank)
     {
         this.name=name;
         this.address=address;
         this.description=description;
-        this.image_path=image_path;
+        this.imagePath = this.imagePath;
         this.rank=rank;
     }
     public Room(String name, String address, String description)
     {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+    }
+
+    public Room(String name, String address, String description, double rank)
+    {
         this.name=name;
         this.address=address;
         this.description=description;
+        this.rank = rank;
     }
 
     public double getRank() {
@@ -66,51 +93,43 @@ public class Room
     }
 
     public String getImagePath() {
-        return image_path;
+        return imagePath;
     }
 
     public void setImagePath(String imagePath) {
-        this.image_path = imagePath;
+        this.imagePath = imagePath;
     }
 
-    public int getCompany_id() {
-        return company_id;
+    public int getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany_id(int company_id) {
-        this.company_id = company_id;
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
-    public String getImage_path() {
-        return image_path;
+    public int getMinNumOfPeople() {
+        return minNumOfPeople;
     }
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
+    public void setMinNumOfPeople(int minNumOfPeople) {
+        this.minNumOfPeople = minNumOfPeople;
     }
 
-    public int getMin_num_of_people() {
-        return min_num_of_people;
+    public int getMaxNumOfPeople() {
+        return maxNumOfPeople;
     }
 
-    public void setMin_num_of_people(int min_num_of_people) {
-        this.min_num_of_people = min_num_of_people;
+    public void setMaxNumOfPeople(int maxNumOfPeople) {
+        this.maxNumOfPeople = maxNumOfPeople;
     }
 
-    public int getMax_num_of_people() {
-        return max_num_of_people;
+    public int getOwnerId() {
+        return ownerId;
     }
 
-    public void setMax_num_of_people(int max_num_of_people) {
-        this.max_num_of_people = max_num_of_people;
-    }
-
-    public int getOwner_id() {
-        return owner_id;
-    }
-
-    public void setOwner_id(int owner_id) {
-        this.owner_id = owner_id;
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getComments() {
@@ -121,11 +140,12 @@ public class Room
         this.comments = comments;
     }
 
-    public String getRoom_site() {
-        return room_site;
+    public String getRoomSite() {
+        return roomSite;
     }
 
-    public void setRoom_site(String room_site) {
-        this.room_site = room_site;
+    public void setRoomSite(String roomSite) {
+        this.roomSite = roomSite;
     }
+
 }
