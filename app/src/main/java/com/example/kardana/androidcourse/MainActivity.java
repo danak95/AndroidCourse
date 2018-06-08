@@ -388,8 +388,8 @@ public class MainActivity extends AppCompatActivity
 //                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
 //                return roomHistoryFragment;
             case 2:
-                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
-                return roomHistoryFragment;
+//                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
+//                return roomHistoryFragment;
             case 3:
                 // notifications fragment
                 //NotificationsFragment notificationsFragment = new NotificationsFragment();
