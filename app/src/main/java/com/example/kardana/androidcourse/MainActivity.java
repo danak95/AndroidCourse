@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.SearchView;
@@ -27,20 +28,21 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
+import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import Model.Room;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private SearchView searchView;
+    public SearchView searchView;
     private MenuItem searchMenuItem;
     //private RoomListAdapter roomListAdapter;
     private ListView roomListView;
     //private List<Room> roomList= new ArrayList<Room>();
+    private MenuItem filterMenuItem;
     private DrawerLayout drawer;
     ExpandableListAdapter mMenuAdapter;
     List<ExpandedMenuHeader> listDataHeader;
@@ -74,18 +76,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.frame, currFragment, CURRENT_TAG);
         fragmentTransaction.commitAllowingStateLoss();
 
-//        roomList.add(new Room("123", "1", "1", "1", 4.1));
-//        roomList.add(new Room("234", "2", "2", "2", 5.2));
-//        roomList.add(new Room("fdsfsd", "3", "3", "3", 2));
-//        roomList.add(new Room("deadasr", "4", "4", "4", 3.5));
-//        roomList.add(new Room("dfds", "5", "5", "5", 1));
-//        roomList.add(new Room("היוש", "6", "6", "6", 2.5));
-//        roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
-//        roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
-//
-//        roomListAdapter = new RoomListAdapter(this, roomList);
-//        ListView listView = (ListView) findViewById(R.id.room_list_view);
-//        listView.setAdapter(roomListAdapter);
         mHandler = new Handler();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -118,7 +108,6 @@ public class MainActivity extends AppCompatActivity
         expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                //Log.d("DEBUG", "heading clicked");
                 return false;
             }
         });
@@ -138,12 +127,6 @@ public class MainActivity extends AppCompatActivity
             cbCheck.setChecked(true);
         }
     }
-
-    //private void filter(HashMap<FilterByType, List<String>> filters)
-    //{
-        //roomListAdapter.setConstraints(filters);
-        //roomListAdapter.getFilter().filter("");
-    //}
 
     private HashMap<FilterByType, List<String>> getCheckedChildren()
     {
@@ -201,13 +184,35 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void clearCheckedChildren() {
+        int groupCount = expandableList.getExpandableListAdapter().getGroupCount();
+        int childCount;
+
+        for (int i = 0; i < groupCount; i++) {
+            childCount = expandableList.getExpandableListAdapter().getChildrenCount(i);
+            for (int j = 0; j < childCount; j++) {
+                ExpandedMenuItem child = ((ExpandedMenuItem) expandableList.getExpandableListAdapter().getChild(i, j));
+                child.setIsChecked(false);
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (CURRENT_TAG == TAG_HOME && getCheckedChildren().size() > 0)
+        {
+            ((HomeFragment) currFragment).onBackPressed();
+            clearCheckedChildren();
+        }
+        else {
+            if (count == 0) {
+                super.onBackPressed();
+            } else {
+                filterMenuItem.setVisible(true);
+                searchMenuItem.setVisible(true);
+                getSupportFragmentManager().popBackStack();
+            }
         }
     }
 
@@ -216,7 +221,7 @@ public class MainActivity extends AppCompatActivity
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-
+        filterMenuItem = menu.findItem(R.id.action_filter);
         SearchManager searchManager = (SearchManager)
                 getSystemService(Context.SEARCH_SERVICE);
         searchMenuItem = menu.findItem(R.id.action_search);
@@ -233,6 +238,10 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onSuggestionClick(int position) {
+                if (CURRENT_TAG == TAG_HOME)
+                {
+                    ((HomeFragment) currFragment).setRoomListAdapterFilter(FilterByType.NAME);
+                }
                 CursorAdapter selectedView = searchView.getSuggestionsAdapter();
                 Cursor cursor = (Cursor) selectedView.getItem(position);
                 int index = cursor.getColumnIndexOrThrow(SearchManager.SUGGEST_COLUMN_TEXT_1);
@@ -301,6 +310,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
             case R.id.action_filter:
                 drawer.openDrawer(GravityCompat.END);
+
                 return true;
 
             default:
@@ -362,12 +372,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 // update the main content by replacing fragments
+                searchMenuItem.setVisible(false);
+                filterMenuItem.setVisible(false);
                 Fragment fragment = getFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
-                fragmentTransaction.commitAllowingStateLoss();
+                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG).addToBackStack(null).commit();
+
+                fragmentManager.executePendingTransactions();;
+
+                //fragmentTransaction.commitAllowingStateLoss();
             }
         };
 
@@ -388,8 +404,8 @@ public class MainActivity extends AppCompatActivity
 //                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
 //                return roomHistoryFragment;
             case 2:
-//                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
-//                return roomHistoryFragment;
+                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
+                return roomHistoryFragment;
             case 3:
                 // notifications fragment
                 //NotificationsFragment notificationsFragment = new NotificationsFragment();

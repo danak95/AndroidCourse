@@ -27,7 +27,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
     private List<Room> originalData = null;
     private List<Room> filteredData = null;
     private LayoutInflater inflater;
-    private NameFilter mFilter = new NameFilter();
+    private RoomFilter mFilter = new RoomFilter();
     private HashMap<FilterByType,List<String>> constraints;
     private FilterByType filterType;
 
@@ -105,7 +105,12 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         return mFilter;
     }
 
-    private class NameFilter extends Filter {
+    public void clearResults()
+    {
+        mFilter.clearResults();
+    }
+
+    private class RoomFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
@@ -151,6 +156,12 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredData = (ArrayList<Room>) results.values;
+            notifyDataSetChanged();
+        }
+
+        public void clearResults()
+        {
+            filteredData = originalData;
             notifyDataSetChanged();
         }
 

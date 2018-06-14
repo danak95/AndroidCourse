@@ -55,6 +55,11 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    public void setRoomListAdapterFilter(FilterByType filter)
+    {
+        roomListAdapter.setFilterType(filter);
+    }
+
     public void filter(HashMap<FilterByType, List<String>> filters)
     {
         roomListAdapter.setConstraints(filters);
@@ -67,4 +72,8 @@ public class HomeFragment extends Fragment {
         roomListAdapter.getFilter().filter(newText);
     }
 
+    public void onBackPressed()
+    {
+        roomListAdapter.clearResults();
+    }
 }
