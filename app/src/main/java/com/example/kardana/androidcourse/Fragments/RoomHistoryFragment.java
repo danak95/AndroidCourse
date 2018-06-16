@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomListAdapter;
@@ -66,19 +67,21 @@ public class RoomHistoryFragment extends Fragment {
         // inflate the customized Action Bar View
         LayoutInflater inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.fragment_actionbar, null);
+        View view = inflater.inflate(R.layout.fragment_actionbar, null);
+        final TextView title = view.findViewById(R.id.frag_title);
+        title.setText(R.string.nav_room_history);
 
         if (actionBar != null) {
             // enable the customized view and disable title
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
 
-            actionBar.setCustomView(v);
+            actionBar.setCustomView(view);
             // remove Burger Icon
             toolbar.setNavigationIcon(null);
 
             // add click listener to the back arrow icon
-            v.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // reverse back the show
