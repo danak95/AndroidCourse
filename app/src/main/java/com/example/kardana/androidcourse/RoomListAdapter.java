@@ -69,11 +69,11 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
 
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.room_list_item, null);
-            holder.roomListItem = (LinearLayout)convertView.findViewById(R.id.room_list_item);
-            holder.roomName = (TextView) convertView.findViewById(R.id.room_name);
-            holder.roomAddress = (TextView) convertView.findViewById(R.id.room_address);
-            holder.roomDescription = (TextView) convertView.findViewById(R.id.room_description);
-            holder.roomImage = (ImageView) convertView.findViewById(R.id.room_image);
+            holder.roomListItem = convertView.findViewById(R.id.room_list_item);
+            holder.roomName = convertView.findViewById(R.id.room_name);
+            holder.roomAddress = convertView.findViewById(R.id.room_address);
+            holder.roomDescription = convertView.findViewById(R.id.room_description);
+            holder.roomImage = convertView.findViewById(R.id.room_image);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

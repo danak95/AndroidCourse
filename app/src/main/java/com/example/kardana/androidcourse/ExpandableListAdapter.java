@@ -86,7 +86,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.expandable_list_header, null);
         }
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.submenu);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle.getName());
@@ -103,10 +103,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.expandable_list_submenu, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        TextView txtListChild = convertView
                 .findViewById(R.id.submenu);
         txtListChild.setText(childText);
-        CheckBox cbCheckBox = (CheckBox) convertView.findViewById(R.id.cb_submenu);
+        CheckBox cbCheckBox = convertView.findViewById(R.id.cb_submenu);
 
         return convertView;
     }
@@ -114,5 +114,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void clearCheckedChildren()
+    {
+
     }
 }

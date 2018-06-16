@@ -34,7 +34,7 @@ public enum FilterByType {
         THREE_STARS(MainActivity.context.getString(R.string.three_stars));
         private String filter;
 
-        private RankFilter(String filter)
+        RankFilter(String filter)
         {
             this.filter = filter;
         }

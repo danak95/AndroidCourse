@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
 
         roomListAdapter = new RoomListAdapter(view.getContext(), roomList);
-        ListView listView = (ListView) view.findViewById(R.id.room_list_view);
+        ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
 
         return view;

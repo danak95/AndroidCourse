@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context=this;
@@ -78,18 +78,18 @@ public class MainActivity extends AppCompatActivity
 
         mHandler = new Handler();
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        NavigationView navigationViewFilter = (NavigationView) findViewById(R.id.nav_filter);
+        NavigationView navigationViewFilter = findViewById(R.id.nav_filter);
         navigationViewFilter.setNavigationItemSelectedListener(this);
 
-        expandableList = (ExpandableListView) findViewById(R.id.navigationmenu);
+        expandableList = findViewById(R.id.navigationmenu);
         prepareListData();
         mMenuAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild, expandableList);
 
@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity
         expandableList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                CheckBox cbCheck= (CheckBox) view.findViewById(R.id.cb_submenu);
-                ExpandedMenuItem child =((ExpandedMenuItem)((ExpandableListAdapter)expandableListView.getExpandableListAdapter()).getChild(i,i1));
+                CheckBox cbCheck= view.findViewById(R.id.cb_submenu);
+                ExpandedMenuItem child =((ExpandedMenuItem) expandableListView.getExpandableListAdapter().getChild(i,i1));
                 setChildChecked(child, cbCheck);
                 return true;
             }
@@ -185,16 +185,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void clearCheckedChildren() {
-        int groupCount = expandableList.getExpandableListAdapter().getGroupCount();
-        int childCount;
-
-        for (int i = 0; i < groupCount; i++) {
-            childCount = expandableList.getExpandableListAdapter().getChildrenCount(i);
-            for (int j = 0; j < childCount; j++) {
-                ExpandedMenuItem child = ((ExpandedMenuItem) expandableList.getExpandableListAdapter().getChild(i, j));
-                child.setIsChecked(false);
-            }
-        }
+        expandableList.setAdapter(mMenuAdapter);
     }
 
     @Override
@@ -268,18 +259,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 ((HomeFragment)currFragment).onQueryTextChanged(newText);
-                //roomListAdapter.setFilterType(FilterByType.NAME);
-                //roomListAdapter.getFilter().filter(newText);
                 return true;
             }
         });
 
-        Button finishButton = (Button) this.findViewById(R.id.finish_button);
+        Button finishButton = this.findViewById(R.id.finish_button);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((HomeFragment) currFragment).filter(getCheckedChildren());
-                //filter(getCheckedChildren());
                 drawer.closeDrawer(GravityCompat.END);
             }
 
@@ -356,7 +344,7 @@ public class MainActivity extends AppCompatActivity
                 navItemIndex = 0;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         loadFragment();
         return true;
@@ -381,7 +369,7 @@ public class MainActivity extends AppCompatActivity
                         android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG).addToBackStack(null).commit();
 
-                fragmentManager.executePendingTransactions();;
+                fragmentManager.executePendingTransactions();
 
                 //fragmentTransaction.commitAllowingStateLoss();
             }

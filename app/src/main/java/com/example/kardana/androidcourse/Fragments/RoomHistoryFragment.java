@@ -53,7 +53,7 @@ public class RoomHistoryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         roomListAdapter = new RoomListAdapter(view.getContext(), roomList);
-        ListView listView = (ListView) view.findViewById(R.id.room_list_view);
+        ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
         showActionBar();
     }
