@@ -11,7 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,9 +28,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
 import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
+import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -389,20 +393,17 @@ public class MainActivity extends AppCompatActivity
                 currFragment = homeFragment;
                 return homeFragment;
             case 1:
-//                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
-//                return roomHistoryFragment;
+//                ProfileFragment profileFragment = new ProfileFragment();
+//                return profileFragment;
             case 2:
                 RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
                 return roomHistoryFragment;
             case 3:
-                // notifications fragment
-                //NotificationsFragment notificationsFragment = new NotificationsFragment();
-                //return notificationsFragment;
+
 
             case 4:
-                // settings fragment
-                //SettingsFragment settingsFragment = new SettingsFragment();
-                //return settingsFragment;
+                WishlistFragment wishlistFragment = new WishlistFragment();
+                return wishlistFragment;
             default:
                 //return new HomeFragment();
         }
@@ -410,4 +411,46 @@ public class MainActivity extends AppCompatActivity
         return null;
     }
 
+    public void showActionBar(int titleID) {
+        // get the ToolBar from Main Activity
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        // get the ActionBar from Main Activity
+        final ActionBar actionBar = getSupportActionBar();
+        // inflate the customized Action Bar View
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.fragment_actionbar, null);
+        final TextView title = view.findViewById(R.id.frag_title);
+        title.setText(titleID);
+
+        if (actionBar != null) {
+            // enable the customized view and disable title
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+
+            actionBar.setCustomView(view);
+            // remove Burger Icon
+            toolbar.setNavigationIcon(null);
+
+            // add click listener to the back arrow icon
+            view.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // reverse back the show
+                    actionBar.setDisplayShowCustomEnabled(false);
+                    actionBar.setDisplayShowTitleEnabled(true);
+                    //get the Drawer and DrawerToggle from Main Activity
+                    // set them back as normal
+                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                            MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open,
+                            R.string.navigation_drawer_close);
+                    // All that to re-synchronize the Drawer State
+                    toggle.syncState();
+                    // Implement Back Arrow Icon
+                    // so it goes back to previous Fragment
+                    onBackPressed();
+                }
+            });
+        }
+    }
 }

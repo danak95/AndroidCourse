@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,10 +24,10 @@ import java.util.List;
 import Model.Room;
 
 /**
- * Created by Dana on 08-Jun-18.
+ * Created by Dana on 16-Jun-18.
  */
 
-public class RoomHistoryFragment extends Fragment {
+public class WishlistFragment extends Fragment {
 
     private ListView roomListView;
     private List<Room> roomList= new ArrayList<Room>();
@@ -44,7 +43,7 @@ public class RoomHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.room_history_fragment, container, false);
+        View view = inflater.inflate(R.layout.wishlist_fragment, container, false);
         roomList.add(new Room("123", "1", "1", "1", 4.1));
         roomList.add(new Room("234", "2", "2", "2", 5.2));
 
@@ -57,6 +56,6 @@ public class RoomHistoryFragment extends Fragment {
         roomListAdapter = new RoomListAdapter(view.getContext(), roomList);
         ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
-        ((MainActivity)getActivity()).showActionBar(R.string.nav_room_history);
+        ((MainActivity)getActivity()).showActionBar(R.string.nav_wish_list);
     }
 }
