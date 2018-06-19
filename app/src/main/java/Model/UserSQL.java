@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.kardana.androidcourse.Model.User;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
 
 public class UserSQL {
 
-    final static String TABLE_NAME = "users";
+    /*final static String TABLE_NAME = "users";
     final static String USER_ID = "id";
     final static String USER_NAME = "name";
     final static String USER_BIRTH_DATE = "birth_date";
@@ -42,7 +44,7 @@ public class UserSQL {
     }
 
     // This function add a new user to the table
-    static public void addUser(User us,SQLiteDatabase db){
+    static public void addUser(User us, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(USER_ID, us.getUser_id());
         values.put(USER_NAME, us.getName());
@@ -73,7 +75,7 @@ public class UserSQL {
             }while (cr.moveToNext());
         }
         return data;
-    }
+    }*/
 
 
 }

@@ -6,6 +6,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.webkit.URLUtil;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,12 +18,66 @@ import java.io.OutputStream;
 
 public class Model {
 
+    private ModelFirebaseUser modelFirebaseUser;
+    private ModelFirebase modelFirebase;
+
+    public static User user = null;
     public static Model instance = new Model();
-    ModelFirebase modelFirebase;
+
     private Model(){
+        modelFirebaseUser = new ModelFirebaseUser();
         modelFirebase = new ModelFirebase();
     }
 
+    // ******* Handle users *******
+
+    // Getting user - works with firebase
+    public interface IGetCurrentUserCallback {
+        void onComplete(User currentUser);
+    }
+    public void getCurrentUser(final IGetCurrentUserCallback callback) {
+        modelFirebaseUser.getCurrentUser(new ModelFirebaseUser.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                callback.onComplete(user);
+            }
+        });
+    }
+
+    public interface IGetUserByIdCallback {
+        void onComplete(User user);
+        void onCancel();
+    }
+    public void getUserById(String id, final IGetUserByIdCallback callback) {
+        modelFirebaseUser.getUserById(id, new ModelFirebaseUser.IGetUserByIdCallback() {
+            @Override
+            public void onComplete(User user) {
+                callback.onComplete(user);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
+    }
+
+    public interface IGetUserLoginCallback {
+        void onComplete(User user);
+    }
+    public void userLogin(String email, String password , final IGetUserLoginCallback callback) {
+        modelFirebaseUser.userLogin(email, password, new ModelFirebaseUser.IGetUserLoginCallback() {
+            @Override
+            public void onComplete(User user) {
+                Log.d("dev","onComplete Model userLogin");
+                callback.onComplete(user);
+            }
+        });
+    }
+
+
+
+    // ******* Handle images *******
     public interface SaveImageListener{
         void onDone(String url);
     }

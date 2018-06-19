@@ -18,6 +18,12 @@ public class ESC_Entrance extends AppCompatActivity {
     public void clickLogin (View view){
         DialogFragment newFragment = new LoginDialog();
         newFragment.show(getSupportFragmentManager(),"TAG");
+        boolean detached = newFragment.isDetached();
+        if (detached)
+        {
+
+        }
+
     }
 
     // This function opens the Add new member activity
