@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/name_field"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
@@ -38,10 +38,10 @@
         android:text="שם"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText"
+        app:layout_constraintBaseline_toBaselineOf="@+id/name_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText" />
+        app:layout_constraintStart_toEndOf="@+id/name_field" />
 
     <TextView
         android:id="@+id/textView3"
@@ -50,13 +50,13 @@
         android:layout_marginEnd="16dp"
         android:text="תאריך לידה"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/birthdate_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText2" />
+        app:layout_constraintStart_toEndOf="@+id/birthdate_field" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/birthdate_field"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginEnd="8dp"
@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/name_field" />
 
     <Switch
         android:id="@+id/switch3"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/birthdate_field" />
 
     <TextView
         android:id="@+id/textView4"
@@ -109,7 +109,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/switch3"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/birthdate_field" />
 
     <TextView
         android:id="@+id/textView6"
@@ -135,13 +135,13 @@
         android:text="טלפון"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText3"
+        app:layout_constraintBaseline_toBaselineOf="@+id/phone_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.732"
-        app:layout_constraintStart_toEndOf="@+id/editText3" />
+        app:layout_constraintStart_toEndOf="@+id/phone_field" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/phone_field"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginBottom="12dp"
@@ -149,7 +149,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
+        app:layout_constraintBottom_toTopOf="@+id/email_field"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch3"
@@ -164,13 +164,13 @@
         android:text="דואר אלקטרוני"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/email_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/editText4" />
+        app:layout_constraintStart_toEndOf="@+id/email_field" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/email_field"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
@@ -190,13 +190,13 @@
         android:text="סיסמא"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText5"
+        app:layout_constraintBaseline_toBaselineOf="@+id/password_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/editText5" />
+        app:layout_constraintStart_toEndOf="@+id/password_field" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/password_field"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"

@@ -1,5 +1,7 @@
 package com.example.kardana.androidcourse;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,12 +11,15 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
 
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.User;
 
 import java.io.IOException;
 
@@ -31,11 +36,13 @@ public class AddNewMemberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member);
         avatar = this.findViewById(R.id.new_member_image);
-
         FloatingActionButton save = this.findViewById(R.id.add_user_btn);
+        final AddNewMemberActivity v = this;
+        final User[] newUser = new User[1];
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(View view) {
                 //save image
                 if (imageBitmap != null) {
                     Model.instance.saveImage(imageBitmap, new Model.SaveImageListener() {
@@ -44,13 +51,25 @@ public class AddNewMemberActivity extends AppCompatActivity {
 
                         }
                     });
-                    Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
-                }
-                Intent main_intent = new Intent(view.getContext(), MainActivity.class);
-                startActivity(main_intent);
-            }
 
-            ;
+                    // Save new user to Firebase
+                    String email = ((EditText) v.findViewById(R.id.email_field)).getText().toString();
+                    String password = ((EditText) v.findViewById(R.id.password_field)).getText().toString();
+                    Model.instance.AddNewMember(email, password, new Model.IAddNewUser()
+                    {
+                        @Override
+                        public void onComplete(User user) {
+                            newUser[0] =user;
+                            if (newUser[0] != null)
+                            {
+                                Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                Intent main_intent = new Intent(v, MainActivity.class);
+                                startActivity(main_intent);
+                            }
+                        }
+                    });
+                }
+            }
         });
 
         // Edit image button- opens a dialog for picking image from gallery / camera

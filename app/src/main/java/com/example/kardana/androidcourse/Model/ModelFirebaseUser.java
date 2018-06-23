@@ -27,8 +27,6 @@ public class ModelFirebaseUser {
     public ModelFirebaseUser() {
         database = FirebaseDatabase.getInstance();
         usersReference = database.getReference(USERS_KEY);
-       // mAuth = FirebaseAuth.getInstance();
-        //mAuth.addAuthStateListener(mAuthStateListener);
     }
 
 
@@ -56,6 +54,32 @@ public class ModelFirebaseUser {
                 });
     }
 
+    // Login of user
+    interface IAddNewUser {
+        void onComplete(User user);
+    }
+    public void AddNewMember(final String email, final String password, final IAddNewUser callback) {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.createUserWithEmailAndPassword(email, password).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "createUserWithEmailAndPassword:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            currentUser = new User();
+                            currentUser.setUserid(1);
+                            currentUser.setEmail(email);
+                            currentUser.setPassword(password);
+                        } else {
+                            Log.w("TAG", "signInWithEmail:failure", task.getException());
+                        }
+                        callback.onComplete(currentUser);
+                    }
+                });
+    }
 
 /*
     public void userLogin(String email, String password, final IGetUserLoginCallback callback) {

@@ -75,7 +75,19 @@ public class Model {
         });
     }
 
-
+    // Add new member
+    public interface IAddNewUser {
+        void onComplete(User user);
+    }
+    public void AddNewMember(String email, String password , final IAddNewUser callback) {
+        modelFirebaseUser.AddNewMember(email, password, new ModelFirebaseUser.IAddNewUser() {
+            @Override
+            public void onComplete(User user) {
+                Log.d("dev","onComplete Model userLogin");
+                callback.onComplete(user);
+            }
+        });
+    }
 
     // ******* Handle images *******
     public interface SaveImageListener{
