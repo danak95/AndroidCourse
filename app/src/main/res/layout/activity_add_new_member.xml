@@ -149,7 +149,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/email_field"
+        app:layout_constraintBottom_toTopOf="@+id/email_field_login"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch3"
@@ -164,13 +164,13 @@
         android:text="דואר אלקטרוני"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/email_field"
+        app:layout_constraintBaseline_toBaselineOf="@+id/email_field_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/email_field" />
+        app:layout_constraintStart_toEndOf="@+id/email_field_login" />
 
     <EditText
-        android:id="@+id/email_field"
+        android:id="@+id/email_field_login"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
@@ -190,13 +190,13 @@
         android:text="סיסמא"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/password_field"
+        app:layout_constraintBaseline_toBaselineOf="@+id/password_field_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/password_field" />
+        app:layout_constraintStart_toEndOf="@+id/password_field_login" />
 
     <EditText
-        android:id="@+id/password_field"
+        android:id="@+id/password_field_login"
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"

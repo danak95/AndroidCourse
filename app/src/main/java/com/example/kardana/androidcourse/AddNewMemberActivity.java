@@ -1,7 +1,5 @@
 package com.example.kardana.androidcourse;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,8 +50,8 @@ public class AddNewMemberActivity extends AppCompatActivity {
                     });
 
                     // Save new user to Firebase
-                    String email = ((EditText) v.findViewById(R.id.email_field)).getText().toString();
-                    String password = ((EditText) v.findViewById(R.id.password_field)).getText().toString();
+                    String email = ((EditText) v.findViewById(R.id.email_field_login)).getText().toString();
+                    String password = ((EditText) v.findViewById(R.id.password_field_login)).getText().toString();
                     Model.instance.AddNewMember(email, password, new Model.IAddNewUser()
                     {
                         @Override

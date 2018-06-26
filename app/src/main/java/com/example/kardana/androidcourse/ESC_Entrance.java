@@ -1,10 +1,15 @@
 package com.example.kardana.androidcourse;
 
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.User;
 
 public class ESC_Entrance extends AppCompatActivity {
 
@@ -14,16 +19,25 @@ public class ESC_Entrance extends AppCompatActivity {
         setContentView(R.layout.activity_esc__entrance);
     }
 
-    // This function opens Dialog window of Login activity
+    // This function handles login of existing user
     public void clickLogin (View view){
-        DialogFragment newFragment = new LoginDialog();
-        newFragment.show(getSupportFragmentManager(),"TAG");
-        boolean detached = newFragment.isDetached();
-        if (detached)
-        {
-
-        }
-
+        String email = ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).getText().toString();
+        String password = ((EditText) this.findViewById(R.id.password_field_login)).getText().toString();
+        Model.instance.userLogin(email, password, new Model.IGetUserLoginCallback() {
+            @Override
+            public void onComplete(User user) {
+                // Check if the user exists in the Firebase
+                if (user != null)
+                {
+                    Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(main_intent);
+                }
+                else
+                {
+                    Toast.makeText(ESC_Entrance.this, "Invalid parameters for login", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // This function opens the Add new member activity
