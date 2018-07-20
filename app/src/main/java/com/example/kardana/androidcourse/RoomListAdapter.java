@@ -1,6 +1,9 @@
 package com.example.kardana.androidcourse;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.kardana.androidcourse.Fragments.RoomFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,12 +35,14 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
     private RoomFilter mFilter = new RoomFilter();
     private HashMap<FilterByType,List<String>> constraints;
     private FilterByType filterType;
+    private Context context;
 
     public RoomListAdapter(Context context, List<Room> data) {
         this.filteredData = data ;
         this.originalData = data ;
         inflater = LayoutInflater.from(context);
         this.constraints = new HashMap<FilterByType,List<String>>();
+        this.context = context;
     }
 
     public void setFilterType(FilterByType filterType)
@@ -82,13 +89,18 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
         holder.roomImage.setBackgroundResource(R.drawable.ic_menu_camera);
-//        holder.roomListItem.setOnClickListener(new OnClickListener() {
-//
-//            public void onClick(View v) {
-//
-//                Toast.makeText(MainActivity.this, mDisplayedValues.get(position).name, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
+        holder.roomListItem.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Fragment fragment = new RoomFragment();
+                FragmentManager fragmentManager = ((MainActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
+            }
+        });
 
         return convertView;
     }

@@ -30,4 +30,8 @@
     <string name="category">קטגוריה</string>
     <string name="rank">דירוג</string>
     <string name="location">מיקום</string>
+    <string name="main">ראשי</string>
+    <string name="reviews">ביקורות</string>
+    <string name="photos">תמונות</string>
+    <string name="orders">הזמנות</string>
 </resources>
