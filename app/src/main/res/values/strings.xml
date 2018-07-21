@@ -34,4 +34,10 @@
     <string name="reviews">ביקורות</string>
     <string name="photos">תמונות</string>
     <string name="orders">הזמנות</string>
+    <string name="image_edit_title">בחר תמונה</string>
+    <string-array name="image_array">
+    <item>גלריה</item>
+    <item>מצלמה</item>
+    <item>ביטול</item>
+    </string-array>
 </resources>
