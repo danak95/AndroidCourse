@@ -36,8 +36,11 @@
     <string name="orders">הזמנות</string>
     <string name="image_edit_title">בחר תמונה</string>
     <string-array name="image_array">
-    <item>גלריה</item>
-    <item>מצלמה</item>
-    <item>ביטול</item>
+        <item>גלריה</item>
+        <item>מצלמה</item>
+        <item>ביטול</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
