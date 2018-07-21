@@ -42,7 +42,8 @@ public class AddNewMemberActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //save image
                 if (imageBitmap != null) {
-                    Model.instance.saveImage(imageBitmap, new Model.SaveImageListener() {
+                    String userID =  ((EditText) v.findViewById(R.id.id_field)).getText().toString();
+                    Model.instance.saveImage(imageBitmap, userID, new Model.SaveImageListener() {
                         @Override
                         public void onDone(String url) {
 

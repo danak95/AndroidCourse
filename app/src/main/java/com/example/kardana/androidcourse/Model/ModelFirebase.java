@@ -21,12 +21,11 @@ public class ModelFirebase {
     ValueEventListener eventListener;
 
     //Managing Files
-    public void saveImage(Bitmap imageBitmap, final Model.SaveImageListener listener) {
+    public void saveImage(Bitmap imageBitmap, String userID, final Model.SaveImageListener listener) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        Date d = new Date();
-        String name = ""+ d.getTime();
-        StorageReference imagesRef = storage.getReference().child("images").child(name);
+        String name = "/" + userID;
+        StorageReference imagesRef = storage.getReference().child("UserImages").child(name);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

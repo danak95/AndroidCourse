@@ -37,8 +37,7 @@
         </activity>
         <provider android:name=".MySuggestionProvider"
             android:authorities="com.example.kardana.androidcourse.MySuggestionProvider" />
-        <activity android:name=".AddNewMemberActivity">
-        </activity>
+        <activity android:name=".AddNewMemberActivity"/>
     </application>
 
 </manifest>
