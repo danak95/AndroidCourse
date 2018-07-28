@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
+import com.example.kardana.androidcourse.Fragments.MemberProfileFragment;
 import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
 import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 
@@ -393,8 +394,8 @@ public class MainActivity extends AppCompatActivity
                 currFragment = homeFragment;
                 return homeFragment;
             case 1:
-//                ProfileFragment profileFragment = new ProfileFragment();
-//                return profileFragment;
+                MemberProfileFragment profileFragment = MemberProfileFragment.newInstance("1");
+                return profileFragment;
             case 2:
                 RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
                 return roomHistoryFragment;

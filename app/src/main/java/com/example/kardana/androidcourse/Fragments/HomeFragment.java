@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
         roomList.add(new Room("היוש", "6", "6", "6", 2.5));
         roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
         roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
+        roomList.add(new Room("קארין המלכה", "555", "7", "8", 10));
 
         roomListAdapter = new RoomListAdapter(view.getContext(), roomList);
         ListView listView = view.findViewById(R.id.room_list_view);
