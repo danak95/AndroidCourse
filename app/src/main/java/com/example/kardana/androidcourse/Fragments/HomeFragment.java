@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Model.Room;
+import com.example.kardana.androidcourse.Model.Room;
 
 /**
  * Created by Dana on 02-Jun-18.

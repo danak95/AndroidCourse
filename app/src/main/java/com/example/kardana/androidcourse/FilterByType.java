@@ -1,12 +1,10 @@
 package com.example.kardana.androidcourse;
 
-import android.content.res.Resources;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Model.Room;
+import com.example.kardana.androidcourse.Model.Room;
 
 /**
  * Created by Dana on 31-May-18.
