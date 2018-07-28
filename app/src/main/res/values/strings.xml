@@ -40,4 +40,13 @@
     <item>מצלמה</item>
     <item>ביטול</item>
     </string-array>
+
+    <string name="horror">אימה</string>
+    <string name="vr">מציאות מדומה</string>
+    <string name="role_playing">משחקי תפקידים</string>
+    <string name="performance">פרפורמנס</string>
+    <string name="comedy">קומדיה</string>
+    <string name="culinary">קולינרי</string>
+    <string name="with_actor">עם שחקן</string>
+    <string name="without_actor">בלי שחקן</string>
 </resources>
