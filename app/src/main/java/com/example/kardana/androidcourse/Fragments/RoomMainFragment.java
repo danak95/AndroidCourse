@@ -1,6 +1,8 @@
 package com.example.kardana.androidcourse.Fragments;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,11 @@ public class RoomMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_main_fragment, container, false);
+        ConstraintLayout constraintLayout = view.findViewById(R.id.tab_constraint_layout);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(constraintLayout);
+        constraintSet.connect(R.id.tab_constraint_layout,ConstraintSet.TOP,R.id.tab_layout,ConstraintSet.BOTTOM,10);
+        constraintSet.applyTo(constraintLayout);
         return view;
     }
 }
