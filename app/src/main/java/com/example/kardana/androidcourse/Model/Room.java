@@ -11,7 +11,7 @@ import java.util.List;
 public class Room
 {
 
-    private int id;
+    private String id;
     private String name;
     private String address;
     private String description;
@@ -25,7 +25,7 @@ public class Room
     private String roomSite;
     private List<RoomType> types;
 
-    public Room(int id, String name, String address, String description,
+    public Room(String id, String name, String address, String description,
                 String image_path, double rank, int company_id,
                 int owner_id, int min_num_of_people, int max_num_of_people,
                 String comments, String room_site, List<RoomType> types)
@@ -69,8 +69,12 @@ public class Room
         this.rank = rank;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<RoomType> getTypes() {
@@ -79,10 +83,6 @@ public class Room
 
     public void setTypes(List<RoomType> types) {
         this.types = types;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public double getRank() {
