@@ -37,7 +37,6 @@ public class User {
     public User(User copy)
     {
         super();
-        this.setUserid(copy.getUserid());
         this.setName(copy.getName());
         this.setBirthDate(copy.getBirthDate());
         this.setGender(copy.getGender());

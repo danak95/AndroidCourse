@@ -55,7 +55,6 @@ public class AddNewMemberActivity extends AppCompatActivity {
                     });
 
                     // Save new user to Firebase
-                    newMember.setUserid("2");
                     newMember.setName(((EditText) v.findViewById(R.id.name_field)).getText().toString());
                     newMember.setBirthDate(((EditText) v.findViewById(R.id.birthdate_field)).getText().toString());
                     if (((Switch)v.findViewById(R.id.newMember_gender)).isChecked())
