@@ -79,8 +79,8 @@ public class Model {
     public interface IAddNewUser {
         void onComplete(User user);
     }
-    public void AddNewMember(String email, String password , final IAddNewUser callback) {
-        modelFirebaseUser.AddNewMember(email, password, new ModelFirebaseUser.IAddNewUser() {
+    public void AddNewMember(User newUser , final IAddNewUser callback) {
+        modelFirebaseUser.AddNewMember(newUser, new ModelFirebaseUser.IAddNewUser() {
             @Override
             public void onComplete(User user) {
                 Log.d("dev","onComplete Model userLogin");

@@ -45,7 +45,7 @@ public class ModelFirebaseUser {
                             Log.d("TAG", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             currentUser = new User();
-                            currentUser.setUserid(1);
+                            currentUser.setUserid("1");
                         } else {
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
                         }
@@ -58,21 +58,18 @@ public class ModelFirebaseUser {
     interface IAddNewUser {
         void onComplete(User user);
     }
-    public void AddNewMember(final String email, final String password, final IAddNewUser callback) {
+    public void AddNewMember(final User newUser, final IAddNewUser callback) {
         mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(email, password).
+        mAuth.createUserWithEmailAndPassword(newUser.getEmail(), newUser.getPassword()).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>(){
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            currentUser = newUser;
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "createUserWithEmailAndPassword:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            currentUser = new User();
-                            currentUser.setUserid(1);
-                            currentUser.setEmail(email);
-                            currentUser.setPassword(password);
+                            usersReference.child(newUser.getUserid()).setValue(newUser);
                         } else {
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
                         }
@@ -140,7 +137,7 @@ public class ModelFirebaseUser {
                     @Override
                     public void onComplete(User user) {
                         currentUser = new User(user);
-                        currentUser.setUserid(Integer.parseInt(firebaseUser.getUid()));
+                        currentUser.setUserid(firebaseUser.getUid());
                         callback.onComplete(currentUser);
                     }
 
