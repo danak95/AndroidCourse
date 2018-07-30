@@ -136,4 +136,17 @@ public class ModelFirebaseUser {
             }
         });
     }
+
+    // Update user details
+    interface IUpdateUserCallback {
+        void onComplete(boolean success);
+    }
+    public void updateUser(User user,final IUpdateUserCallback callback){
+        usersReference.child(user.getUserid()).setValue(user, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
+    }
 }

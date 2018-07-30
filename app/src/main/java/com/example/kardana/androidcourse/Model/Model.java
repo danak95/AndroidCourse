@@ -30,34 +30,14 @@ public class Model {
     }
 
     // ******* Handle users *******
-
-    // Getting user - works with firebase
-    public interface IGetCurrentUserCallback {
-        void onComplete(User currentUser);
+    public interface IUpdateUserCallback{
+        void onComplete(boolean success);
     }
-    public void getCurrentUser(final IGetCurrentUserCallback callback) {
-        modelFirebaseUser.getCurrentUser(new ModelFirebaseUser.IGetCurrentUserCallback() {
+    public void updateUser(final User user, final IUpdateUserCallback callback){
+        modelFirebaseUser.updateUser(user, new ModelFirebaseUser.IUpdateUserCallback() {
             @Override
-            public void onComplete(User user) {
-                callback.onComplete(user);
-            }
-        });
-    }
-
-    public interface IGetUserByIdCallback {
-        void onComplete(User user);
-        void onCancel();
-    }
-    public void getUserById(String id, final IGetUserByIdCallback callback) {
-        modelFirebaseUser.getUserById(id, new ModelFirebaseUser.IGetUserByIdCallback() {
-            @Override
-            public void onComplete(User user) {
-                callback.onComplete(user);
-            }
-
-            @Override
-            public void onCancel() {
-                callback.onCancel();
+            public void onComplete(boolean success) {
+                callback.onComplete(success);
             }
         });
     }
