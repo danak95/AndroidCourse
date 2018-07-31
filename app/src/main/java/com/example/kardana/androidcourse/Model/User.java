@@ -8,11 +8,11 @@ package com.example.kardana.androidcourse.Model;
 
 public class User {
 
-    private int userid;
+    private String userid;
     private String name;
     private String birthDate;
     private String gender;
-    private int phone;
+    private String phone;
     private String email;
     private String password;
     private boolean isAdmin;
@@ -22,7 +22,7 @@ public class User {
         super();
     }
 
-    public User(int userid, String name, String birthDate, String gender, int phone, String email, String password, boolean isAdmin){
+    public User(String userid, String name, String birthDate, String gender, String phone, String email, String password, boolean isAdmin){
         super();
         this.setUserid(userid);
         this.setName(name);
@@ -37,7 +37,6 @@ public class User {
     public User(User copy)
     {
         super();
-        this.setUserid(copy.getUserid());
         this.setName(copy.getName());
         this.setBirthDate(copy.getBirthDate());
         this.setGender(copy.getGender());
@@ -48,11 +47,11 @@ public class User {
     }
 
     // Getters and Setters
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int user_id) {
+    public void setUserid(String user_id) {
         this.userid = user_id;
     }
 
@@ -80,11 +79,11 @@ public class User {
         this.gender = gender;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -92,7 +91,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String mail) {
+    public void setEmail(String email) {
         this.email = email;
     }
 

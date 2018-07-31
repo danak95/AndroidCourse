@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/name_field" />
 
     <Switch
-        android:id="@+id/switch3"
+        android:id="@+id/newMember_gender"
         android:layout_width="120dp"
         android:layout_height="29dp"
         android:layout_marginStart="16dp"
@@ -108,7 +108,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/switch3"
+        app:layout_constraintStart_toEndOf="@+id/newMember_gender"
         app:layout_constraintTop_toBottomOf="@+id/birthdate_field" />
 
     <TextView
@@ -152,7 +152,7 @@
         app:layout_constraintBottom_toTopOf="@+id/email_field_login"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch3"
+        app:layout_constraintTop_toBottomOf="@+id/newMember_gender"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

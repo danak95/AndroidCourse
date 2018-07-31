@@ -8,10 +8,13 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
 
@@ -26,6 +29,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
     static final int CAMERA_POSITION = 1;
     static final int REQUEST_IMAGE_GALLERY = 1;
     static final int REQUEST_IMAGE_CAMERA = 2;
+    private User newMember;
     private ImageView avatar;
     private Bitmap imageBitmap;
 
@@ -33,6 +37,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member);
         avatar = this.findViewById(R.id.new_member_image);
+        newMember = new User();
         FloatingActionButton save = this.findViewById(R.id.add_user_btn);
         final AddNewMemberActivity v = this;
         final User[] newUser = new User[1];
@@ -50,9 +55,20 @@ public class AddNewMemberActivity extends AppCompatActivity {
                     });
 
                     // Save new user to Firebase
-                    String email = ((EditText) v.findViewById(R.id.email_field_login)).getText().toString();
-                    String password = ((EditText) v.findViewById(R.id.password_field_login)).getText().toString();
-                    Model.instance.AddNewMember(email, password, new Model.IAddNewUser()
+                    newMember.setName(((EditText) v.findViewById(R.id.name_field)).getText().toString());
+                    newMember.setBirthDate(((EditText) v.findViewById(R.id.birthdate_field)).getText().toString());
+                    if (((Switch)v.findViewById(R.id.newMember_gender)).isChecked())
+                    {
+                        newMember.setGender("Male");
+                    }
+                    else
+                    {
+                        newMember.setGender("Female");
+                    }
+                    newMember.setPhone(((EditText)v.findViewById(R.id.phone_field)).getText().toString());
+                    newMember.setEmail(((EditText) v.findViewById(R.id.email_field_login)).getText().toString());
+                    newMember.setPassword(((EditText) v.findViewById(R.id.password_field_login)).getText().toString());
+                    Model.instance.AddNewMember(newMember, new Model.IAddNewUser()
                     {
                         @Override
                         public void onComplete(User user) {
