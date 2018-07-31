@@ -1,13 +1,19 @@
 package com.example.kardana.androidcourse.Model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 /**
  * Created by Dana Koren and Karin Wasenstein on 26/05/2018.
  *
  * This class represents a User of ESC application
  */
 
+@Entity
 public class User {
-
+    @PrimaryKey
+    @NonNull
     private String userid;
     private String name;
     private String birthDate;

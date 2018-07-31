@@ -1,5 +1,9 @@
 package com.example.kardana.androidcourse.Model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.example.kardana.androidcourse.RoomType;
 
 import java.util.List;
@@ -7,10 +11,11 @@ import java.util.List;
 /**
  * Created by Dana on 20-May-18.
  */
-
+@Entity
 public class Room
 {
-
+    @PrimaryKey
+    @NonNull
     private String id;
     private String name;
     private String address;
