@@ -6,8 +6,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.webkit.URLUtil;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,14 +17,14 @@ import java.io.OutputStream;
 public class Model {
 
     private ModelFirebaseUser modelFirebaseUser;
-    private ModelFirebase modelFirebase;
+    private ModelFirebaseStorage modelFirebase;
 
     public static User user = null;
     public static Model instance = new Model();
 
     private Model(){
         modelFirebaseUser = new ModelFirebaseUser();
-        modelFirebase = new ModelFirebase();
+        modelFirebase = new ModelFirebaseStorage();
     }
 
     // ******* Handle users *******

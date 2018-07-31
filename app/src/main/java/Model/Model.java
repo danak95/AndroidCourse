@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Model {
 /*    public static Model instance = new Model();
-    ModelFirebase modelFirebase;
+    ModelFirebaseStorage modelFirebase;
     private Model(){
-        modelFirebase = new ModelFirebase();
+        modelFirebase = new ModelFirebaseStorage();
     }
 
     ModelSql modelSql = new ModelSql();
@@ -24,7 +24,7 @@ public class Model {
         void onSuccess(List<Student> studentsList);
     }
     public void getAllStudents(final GetAllStudentsListener listener){
-        modelFirebase.getAllStudents(new ModelFirebase.GetAllStudentsListener() {
+        modelFirebase.getAllStudents(new ModelFirebaseStorage.GetAllStudentsListener() {
             @Override
             public void onSuccess(List<Student> studentslist) {
                 listener.onSuccess(studentslist);

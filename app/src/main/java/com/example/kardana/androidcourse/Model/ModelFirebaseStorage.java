@@ -17,7 +17,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
-public class ModelFirebase {
+public class ModelFirebaseStorage {
     ValueEventListener eventListener;
 
     //Managing Files
