@@ -55,7 +55,7 @@ public class ModelFirebaseUser {
                 });
     }
 
-    // Login of user
+    // Add new user
     interface IAddNewUser {
         void onComplete(User user);
     }
