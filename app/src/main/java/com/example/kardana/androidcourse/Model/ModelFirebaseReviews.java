@@ -69,7 +69,7 @@ public class ModelFirebaseReviews {
         void onCancel();
     }
 
-    public void getReviewForRoom(final String roomId, final IGetReviewsForRoom callback) {
+    public void getReviewsForRoom(final String roomId, final IGetReviewsForRoom callback) {
         // Run over all the reviews on DB
         reviewsReference.addValueEventListener(new ValueEventListener() {
             @Override
