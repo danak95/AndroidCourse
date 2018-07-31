@@ -5,4 +5,5 @@ package com.example.kardana.androidcourse.Model;
  */
 
 public class ModelFirebaseTop5 {
+
 }

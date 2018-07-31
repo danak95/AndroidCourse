@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.User;
 
-public class ESC_Entrance extends AppCompatActivity {
+public class ESCEntranceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class ESC_Entrance extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(ESC_Entrance.this, "Invalid parameters for login", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ESCEntranceActivity.this, "Invalid parameters for login", Toast.LENGTH_SHORT).show();
                 }
             }
         });
