@@ -14,7 +14,7 @@ import com.example.kardana.androidcourse.MainActivity;
 @Database(entities = {com.example.kardana.androidcourse.Model.Room.class, User.class}, version = 5)
 @TypeConverters({Converter.class})
 abstract class LocalDBRepository extends RoomDatabase {
-    public abstract RoomDAO recipeDao();
+    public abstract RoomDAO roomDao();
 
 }
 
