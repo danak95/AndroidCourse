@@ -1,10 +1,12 @@
 package com.example.kardana.androidcourse.Model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,14 +40,29 @@ public class ModelFirebaseRoom {
             public void getId(int id) {
                 room.setId(id + "");
                 id++;
-                setRoomId(id);
+
+                setRoomId(id, new ISetRoomIdCallback() {
+                    @Override
+                    public void onComplete(boolean success) {
+
+                    }
+                });
                 roomsReference.child(room.getId()).setValue(room);
             }
         });
     }
-    public void setRoomId(int id) {
+
+    interface ISetRoomIdCallback {
+        void onComplete(boolean success);
+    }
+
+    public void setRoomId(int id, final ISetRoomIdCallback callback) {
         DatabaseReference reference = database.getReference(ROOMS_ID);
-        reference.setValue(id);
+        reference.push().setValue(id, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }});
     }
 
     interface IGetRoomId {
@@ -56,7 +73,14 @@ public class ModelFirebaseRoom {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int id = dataSnapshot.getValue(int.class);
+                int id;
+
+                try {
+                    id = dataSnapshot.getValue(int.class);
+                } catch (NullPointerException e) {
+                    id = 0;
+                }
+
                 callback.getId(id);
             }
 
@@ -67,15 +91,15 @@ public class ModelFirebaseRoom {
         });
     }
 
-    interface IGetAllRoomsCallback {
+    public interface IGetAllRoomsCallback {
         void onComplete(ArrayList<Room> rooms);
         void onCancel();
     }
-    public void getAllPosts(final IGetAllRoomsCallback callback){
+    public void getAllRooms(final IGetAllRoomsCallback callback){
         roomsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Room> rooms = new ArrayList<>();
+                ArrayList<Room> rooms = new ArrayList<Room>();
 
                 for (DataSnapshot snap: dataSnapshot.getChildren()) {
                     Room room = snap.getValue(Room.class);

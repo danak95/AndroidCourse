@@ -45,6 +45,10 @@ public class Room
         this.types = types;
     }
 
+    public Room()
+    {
+
+    }
 
     public Room(String name, String address, String description, String imagePath, double rank)
     {
