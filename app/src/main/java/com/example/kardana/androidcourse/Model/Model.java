@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Model {
 
@@ -22,6 +23,7 @@ public class Model {
     private ModelFirebaseRoom modelFirebaseRoom;
     private ModelFirebaseStorage modelFirebase;
     private RoomsLiveData roomsLiveData = new RoomsLiveData();
+    private ModelFirebaseReviews modelFirebaseReviews;
 
     public static User user = null;
     public static Model instance = new Model();
@@ -30,6 +32,8 @@ public class Model {
         modelFirebaseUser = new ModelFirebaseUser();
         modelFirebaseRoom = new ModelFirebaseRoom();
         modelFirebase = new ModelFirebaseStorage();
+        modelFirebaseReviews = new ModelFirebaseReviews();
+
     }
 
     public static Model getInstance() {
@@ -195,4 +199,66 @@ public class Model {
         }
     }
 
+    // ******* Handle Reviews *******
+
+    // Add new review
+    public void AddReview(Review review)
+    {
+        modelFirebaseReviews.AddNewReview(review);
+        Log.d("dev","Model- Add new review");
+    }
+
+    // Update exist review
+    interface IUpdateReviewById {
+        void onComplete(boolean success);
+    }
+
+    public void updateReviewById(Review review , final IUpdateReviewById callback)
+    {
+        modelFirebaseReviews.updateReviewById(review, new ModelFirebaseReviews.IUpdateReviewById() {
+            @Override
+            public void onComplete(boolean success) {
+                Log.d("dev","Model- update review by ID success is " + success);
+                callback.onComplete(success);
+            }
+        });
+    }
+
+    // Delete Review
+    interface IDeleteReviewCallback{
+        void onComplete(boolean success);
+    }
+
+    public void deleteReview(Review review, final IDeleteReviewCallback callback)
+    {
+        modelFirebaseReviews.deleteReview(review, new ModelFirebaseReviews.IDeleteReviewCallback() {
+            @Override
+            public void onComplete(boolean success) {
+                Log.d("dev","Model- delete review success is " + success);
+                callback.onComplete(success);
+            }
+        });
+    }
+
+    // Get all reviews by roomId
+    interface IGetReviewsForRoom{
+        void onComplete(ArrayList<Review> reviews);
+        void onCancel();
+    }
+
+    public void getReviewsForRoom(final String roomId, final IGetReviewsForRoom callback)
+    {
+        modelFirebaseReviews.getReviewsForRoom(roomId, new ModelFirebaseReviews.IGetReviewsForRoom() {
+            @Override
+            public void onComplete(ArrayList<Review> reviews) {
+                Log.d("dev","Model- the reviews for room id " + roomId + " are " + reviews);
+                callback.onComplete(reviews);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
+    }
 }
