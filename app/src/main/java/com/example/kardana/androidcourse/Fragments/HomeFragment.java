@@ -1,6 +1,8 @@
 package com.example.kardana.androidcourse.Fragments;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import java.util.List;
 
 import com.example.kardana.androidcourse.Model.Room;
 
+import Model.Model;
+
 /**
  * Created by Dana on 02-Jun-18.
  */
@@ -29,6 +33,7 @@ public class HomeFragment extends Fragment {
     private List<Room> roomList= new ArrayList<Room>();
     private ModelFirebaseRoom modelFirebaseRoom = new ModelFirebaseRoom();
     private View view;
+    private com.example.kardana.androidcourse.Model.Model model = com.example.kardana.androidcourse.Model.Model.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +46,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.home_fragment, container, false);
-        modelFirebaseRoom.addRoom(new Room("123", "1", "1", "1", 4.1));
-        modelFirebaseRoom.addRoom(new Room("234", "2", "2", "2", 5.2));
+        model.addRoom(new Room("123", "1", "1", "1", 4.1));
+        model.addRoom(new Room("234", "2", "2", "2", 5.2));
+        //modelFirebaseRoom.addRoom(new Room("123", "1", "1", "1", 4.1));
+        //modelFirebaseRoom.addRoom(new Room("234", "2", "2", "2", 5.2));
 
 //        roomList.add(new Room("123", "1", "1", "1", 4.1));
 //        roomList.add(new Room("234", "2", "2", "2", 5.2));
@@ -52,19 +59,22 @@ public class HomeFragment extends Fragment {
 //        roomList.add(new Room("היוש", "6", "6", "6", 2.5));
 //        roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
 //        roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
-        modelFirebaseRoom.getAllRooms(new ModelFirebaseRoom.IGetAllRoomsCallback() {
+        model.getAllRooms().observe(this, new Observer<List<Room>>() {
             @Override
-            public void onComplete(ArrayList<Room> rooms) {
+            public void onChanged(@Nullable List<Room> rooms) {
                 roomListAdapter = new RoomListAdapter(view.getContext(), rooms);
-                ListView listView = view.findViewById(R.id.room_list_view);
-                listView.setAdapter(roomListAdapter);
+                roomListAdapter.notifyDataSetChanged();
             }
-
+        });
+        modelFirebaseRoom.getAllRooms(new ModelFirebaseRoom.IGetAllRooms() {
             @Override
-            public void onCancel() {
+            public void onSuccess(List<Room> rooms) {
 
             }
         });
+
+        ListView listView = view.findViewById(R.id.room_list_view);
+        listView.setAdapter(roomListAdapter);
 
         return view;
     }

@@ -4,6 +4,7 @@ import android.arch.persistence.room.TypeConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Dana on 31-Jul-18.
@@ -12,7 +13,7 @@ import java.util.Arrays;
 public class Converter {
     // Room converters
     @TypeConverter
-    public String roomTypeToString(ArrayList<RoomType> types) {
+    public String roomTypeToString(List<RoomType> types) {
         String value = "";
 
         for (RoomType type : types)
@@ -22,8 +23,8 @@ public class Converter {
     }
 
     @TypeConverter
-    public ArrayList<RoomType> stringToRoomType(String value) {
-        ArrayList<RoomType> types = new ArrayList<RoomType>();
+    public List<RoomType> stringToRoomType(String value) {
+        List<RoomType> types = new ArrayList<RoomType>();
 
         for (String typeName : Arrays.asList(value.split(";"))) {
             types.add(RoomType.valueOf(typeName));

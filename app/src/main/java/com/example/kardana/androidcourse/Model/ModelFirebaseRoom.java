@@ -1,6 +1,16 @@
 package com.example.kardana.androidcourse.Model;
 
 import android.os.AsyncTask;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,82 +20,42 @@ import java.util.List;
 public class ModelFirebaseRoom {
     public static final String ROOMS_KEY = "Rooms";
 
-    interface IGetAllRooms
+    ValueEventListener eventListener;
+    DatabaseReference roomsReference;
+
+    public ModelFirebaseRoom() {
+        roomsReference = FirebaseDatabase.getInstance().getReference().child(ROOMS_KEY);
+    }
+
+    public interface IGetAllRooms
     {
-        void onComplete(List<Room> room);
+        void onSuccess(List<Room> rooms);
     }
 
-    static public void getAllRooms(final IGetAllRooms callback) {
+    public void getAllRooms(final IGetAllRooms callback) {
+        eventListener = roomsReference.addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Room> roomList = new ArrayList<Room>();
 
-        class GetAllRoomsAsyncTask extends AsyncTask<String, String, List<Room>> {
-
-            @Override
-            protected List<Room> doInBackground(String... strings) {
-                List<Room> rooms = LocalDB.db.roomDao().getAllRooms();
-                return rooms;
-            }
-
-            @Override
-            protected void onPostExecute(List<Room> rooms) {
-                super.onPostExecute(rooms);
-                callback.onComplete(rooms);
-            }
-        }
-
-        GetAllRoomsAsyncTask task = new GetAllRoomsAsyncTask();
-        task.execute();
-    }
-
-    interface IInsertAllRooms
-    {
-        void onComplete(Boolean isSuccessfull);
-    }
-
-    static void insertAllRooms(final List<Room> rooms, final IInsertAllRooms callback) {
-
-        class InsertAllRoomsAsyncTask extends AsyncTask<List<Room>, String, Boolean> {
-            @Override
-            protected Boolean doInBackground(List<Room>... rooms) {
-                for (Room room : rooms[0]) {
-                    LocalDB.db.roomDao().insertAllRooms(room);
+                for (DataSnapshot roomSnapshot: dataSnapshot.getChildren()) {
+                    roomList.add(dataSnapshot.getValue(Room.class));
                 }
-                return true;
+
+                callback.onSuccess(roomList);
             }
 
             @Override
-            protected void onPostExecute(Boolean success) {
-                super.onPostExecute(success);
-                callback.onComplete(success);
-            }
-        }
-
-        InsertAllRoomsAsyncTask task = new InsertAllRoomsAsyncTask();
-        task.execute(rooms);
+            public void onCancelled(DatabaseError databaseError) { }
+        });
     }
 
-    interface IGetRoomById
-    {
-        void onComplete(Room room);
+    public void cancelGetAllRooms() {
+        roomsReference.removeEventListener(eventListener);
     }
 
-    static public void getRoomById(final IGetRoomById callback, final String id) {
-
-        class getRoomByIdAsyncTask extends AsyncTask<String, String, Room> {
-
-            @Override
-            protected Room doInBackground(String... strings) {
-                Room room = LocalDB.db.roomDao().getRoomById(id);
-                return room;
-            }
-
-            @Override
-            protected void onPostExecute(Room room) {
-                super.onPostExecute(room);
-                callback.onComplete(room);
-            }
-        }
-
-        getRoomByIdAsyncTask task = new getRoomByIdAsyncTask();
-        task.execute();
+    public void addRoom(Room room) {
+        String roomGeneratedKey = roomsReference.push().getKey();
+        room.setId(roomGeneratedKey);
+        roomsReference.child(roomGeneratedKey).setValue(room);
     }
 }

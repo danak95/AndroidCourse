@@ -1,5 +1,6 @@
 package com.example.kardana.androidcourse.Model;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -13,18 +14,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 public class Model {
 
     private ModelFirebaseUser modelFirebaseUser;
+    private ModelFirebaseRoom modelFirebaseRoom;
     private ModelFirebaseStorage modelFirebase;
+    private RoomsLiveData roomsLiveData = new RoomsLiveData();
 
     public static User user = null;
     public static Model instance = new Model();
 
     private Model(){
         modelFirebaseUser = new ModelFirebaseUser();
+        modelFirebaseRoom = new ModelFirebaseRoom();
         modelFirebase = new ModelFirebaseStorage();
+    }
+
+    public static Model getInstance() {
+        return instance;
     }
 
     // ******* Handle users *******
@@ -142,6 +151,48 @@ public class Model {
             e.printStackTrace();
         }
         return bitmap;
+    }
+    public RoomsLiveData getAllRooms(){
+        return roomsLiveData;
+    }
+
+    public void cancelGetAllRooms() {
+        modelFirebaseRoom.cancelGetAllRooms();
+    }
+
+    public void addRoom(Room room) {modelFirebaseRoom.addRoom(room);}
+
+    public class RoomsLiveData extends MutableLiveData<List<Room>> {
+
+        private RoomsLiveData(){
+            this.onActive();
+        }
+        @Override
+        protected void onActive() {
+            super.onActive();
+
+            RoomAsyncDao.getAllRooms(new RoomAsyncDao.IGetAllRooms() {
+
+                @Override
+                public void onComplete(List<Room> data) {
+                    setValue(data);
+
+                    modelFirebaseRoom.getAllRooms(new ModelFirebaseRoom.IGetAllRooms() {
+                        @Override
+                        public void onSuccess(List<Room> roomlist) {
+                            setValue(roomlist);
+
+                            RoomAsyncDao.insertAllRooms(roomlist, new RoomAsyncDao.IInsertAllRooms() {
+                                @Override
+                                public void onComplete(Boolean data) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
 
 }
