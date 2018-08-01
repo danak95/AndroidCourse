@@ -15,9 +15,10 @@ public class Converter {
     @TypeConverter
     public String roomTypeToString(List<RoomType> types) {
         String value = "";
-
-        for (RoomType type : types)
-            value += type.getName() + ";";
+        if (types != null) {
+            for (RoomType type : types)
+                value += type.getName() + ";";
+        }
 
         return value;
     }

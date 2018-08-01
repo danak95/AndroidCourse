@@ -164,7 +164,10 @@ public class Model {
         modelFirebaseRoom.cancelGetAllRooms();
     }
 
-    public void addRoom(Room room) {modelFirebaseRoom.addRoom(room);}
+    public void addRoom(Room room)
+    {
+        modelFirebaseRoom.addRoom(room);
+    }
 
     public class RoomsLiveData extends MutableLiveData<List<Room>> {
 

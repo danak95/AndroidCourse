@@ -12,11 +12,11 @@ import com.example.kardana.androidcourse.MainActivity;
 /**
  * Created by Dana on 31-Jul-18.
  */
-@Database(entities = {com.example.kardana.androidcourse.Model.Room.class}, version = 5)
+@Database(entities = {com.example.kardana.androidcourse.Model.Room.class, User.class}, version = 6)
 @TypeConverters({Converter.class})
 abstract class LocalDBRepository extends RoomDatabase {
     public abstract RoomDAO roomDao();
-
+    public abstract UserDAO userDao();
 }
 
 public class LocalDB {

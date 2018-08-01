@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class ModelFirebaseRoom {
-    public static final String ROOMS_KEY = "Rooms";
+    private static final String ROOMS_KEY = "Rooms";
 
     ValueEventListener eventListener;
     DatabaseReference roomsReference;

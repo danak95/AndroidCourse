@@ -46,8 +46,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.home_fragment, container, false);
-        model.addRoom(new Room("123", "1", "1", "1", 4.1));
-        model.addRoom(new Room("234", "2", "2", "2", 5.2));
+//        model.addRoom(new Room("123", "1", "1", "1", 4.1));
+//        model.addRoom(new Room("234", "2", "2", "2", 5.2));
         //modelFirebaseRoom.addRoom(new Room("123", "1", "1", "1", 4.1));
         //modelFirebaseRoom.addRoom(new Room("234", "2", "2", "2", 5.2));
 
