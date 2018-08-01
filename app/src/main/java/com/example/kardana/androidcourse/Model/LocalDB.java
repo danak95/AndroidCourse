@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
 import com.example.kardana.androidcourse.Converter;
+import com.example.kardana.androidcourse.ESCApplication;
 import com.example.kardana.androidcourse.MainActivity;
 
 /**
@@ -19,7 +20,7 @@ abstract class LocalDBRepository extends RoomDatabase {
 }
 
 public class LocalDB {
-    static public LocalDBRepository db = Room.databaseBuilder(MainActivity.context,
+    static public LocalDBRepository db = Room.databaseBuilder(ESCApplication.getContext(),
             LocalDBRepository.class,
             "ESC.db").fallbackToDestructiveMigration().build();
 }
