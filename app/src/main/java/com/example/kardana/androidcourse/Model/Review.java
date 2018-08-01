@@ -1,8 +1,10 @@
 package com.example.kardana.androidcourse.Model;
 
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+@Entity
 public class Review {
     @PrimaryKey
     @NonNull
