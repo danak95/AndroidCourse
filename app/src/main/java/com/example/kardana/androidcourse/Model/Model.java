@@ -23,6 +23,7 @@ public class Model {
     private ModelFirebaseRoom modelFirebaseRoom;
     private ModelFirebaseStorage modelFirebase;
     private RoomsLiveData roomsLiveData = new RoomsLiveData();
+    private UsersLiveData usersLiveData = new UsersLiveData();
     private ModelFirebaseReviews modelFirebaseReviews;
 
     public static User user = null;
@@ -190,6 +191,38 @@ public class Model {
                             setValue(roomlist);
 
                             RoomAsyncDao.insertAllRooms(roomlist, new RoomAsyncDao.IInsertAllRooms() {
+                                @Override
+                                public void onComplete(Boolean data) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+    public class UsersLiveData extends MutableLiveData<List<User>> {
+
+        private UsersLiveData(){
+            this.onActive();
+        }
+        @Override
+        protected void onActive() {
+            super.onActive();
+
+            UserAsyncDao.getAllUsers(new UserAsyncDao.IGetAllUsers() {
+
+                @Override
+                public void onComplete(List<User> data) {
+                    setValue(data);
+
+                    modelFirebaseUser.getAllUsers(new ModelFirebaseUser.IGetAllUsers() {
+                        @Override
+                        public void onSuccess(List<User> userList) {
+                            setValue(userList);
+
+                            UserAsyncDao.insertAllUsers(userList, new UserAsyncDao.IInsertAllUsers() {
                                 @Override
                                 public void onComplete(Boolean data) {
 

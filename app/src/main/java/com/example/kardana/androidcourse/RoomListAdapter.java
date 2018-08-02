@@ -105,6 +105,12 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         return convertView;
     }
 
+    public void updateRoomsList(List<Room> newlist) {
+        originalData.clear();
+        originalData.addAll(newlist);
+        this.notifyDataSetChanged();
+    }
+
     private class ViewHolder {
         LinearLayout roomListItem;
         TextView roomName;

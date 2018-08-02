@@ -26,11 +26,12 @@ public class User {
     // Ctors
     public User(){
         super();
+        this.setUserid("1");
     }
 
-    public User(String userid, String name, String birthDate, String gender, String phone, String email, String password, boolean isAdmin){
+    public User(String name, String birthDate, String gender, String phone, String email, String password, boolean isAdmin){
         super();
-        this.setUserid(userid);
+        this.setUserid("1");
         this.setName(name);
         this.setBirthDate(birthDate);
         this.setGender(gender);
@@ -43,6 +44,7 @@ public class User {
     public User(User copy)
     {
         super();
+        this.setUserid(copy.getUserid());
         this.setName(copy.getName());
         this.setBirthDate(copy.getBirthDate());
         this.setGender(copy.getGender());

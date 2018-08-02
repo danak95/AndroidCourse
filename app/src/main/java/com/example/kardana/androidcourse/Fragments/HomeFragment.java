@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
 
     private RoomListAdapter roomListAdapter;
     private ListView roomListView;
-    private List<Room> roomList= new ArrayList<Room>();
+    //private List<Room> roomList= new ArrayList<Room>();
     private ModelFirebaseRoom modelFirebaseRoom = new ModelFirebaseRoom();
     private View view;
     private com.example.kardana.androidcourse.Model.Model model = com.example.kardana.androidcourse.Model.Model.getInstance();
@@ -46,35 +46,19 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.home_fragment, container, false);
+        roomListAdapter = new RoomListAdapter(view.getContext(),  new ArrayList<Room>());
+        ListView listView = view.findViewById(R.id.room_list_view);
+        listView.setAdapter(roomListAdapter);
 //        model.addRoom(new Room("123", "1", "1", "1", 4.1));
 //        model.addRoom(new Room("234", "2", "2", "2", 5.2));
-        //modelFirebaseRoom.addRoom(new Room("123", "1", "1", "1", 4.1));
-        //modelFirebaseRoom.addRoom(new Room("234", "2", "2", "2", 5.2));
 
-//        roomList.add(new Room("123", "1", "1", "1", 4.1));
-//        roomList.add(new Room("234", "2", "2", "2", 5.2));
-//        roomList.add(new Room("fdsfsd", "3", "3", "3", 2));
-//        roomList.add(new Room("deadasr", "4", "4", "4", 3.5));
-//        roomList.add(new Room("dfds", "5", "5", "5", 1));
-//        roomList.add(new Room("היוש", "6", "6", "6", 2.5));
-//        roomList.add(new Room("כגדךכגד", "7", "7", "7", 4.5));
-//        roomList.add(new Room("פליז תעבוד", "8", "8", "8", 5.5));
         model.getAllRooms().observe(this, new Observer<List<Room>>() {
             @Override
             public void onChanged(@Nullable List<Room> rooms) {
-                roomListAdapter = new RoomListAdapter(view.getContext(), rooms);
+                roomListAdapter.updateRoomsList(rooms);
                 roomListAdapter.notifyDataSetChanged();
             }
         });
-        modelFirebaseRoom.getAllRooms(new ModelFirebaseRoom.IGetAllRooms() {
-            @Override
-            public void onSuccess(List<Room> rooms) {
-
-            }
-        });
-
-        ListView listView = view.findViewById(R.id.room_list_view);
-        listView.setAdapter(roomListAdapter);
 
         return view;
     }

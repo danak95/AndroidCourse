@@ -15,12 +15,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModelFirebaseUser {
     private static final String USERS_KEY = "Users";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseDatabase database;
     private DatabaseReference usersReference;
+    ValueEventListener eventListener;
 
     private User currentUser;
 
@@ -147,6 +151,27 @@ public class ModelFirebaseUser {
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 callback.onComplete(databaseError == null);
             }
+        });
+    }
+    public interface IGetAllUsers
+    {
+        void onSuccess(List<User> users);
+    }
+
+    public void getAllUsers(final ModelFirebaseUser.IGetAllUsers callback) {
+        eventListener = usersReference.addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<User> userList = new ArrayList<User>();
+
+                for (DataSnapshot roomSnapshot: dataSnapshot.getChildren()) {
+                    userList.add(dataSnapshot.getValue(User.class));
+                }
+
+                callback.onSuccess(userList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
         });
     }
 }

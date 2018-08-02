@@ -23,7 +23,7 @@ public class ESCEntranceActivity extends AppCompatActivity {
     public void clickLogin (View view){
         String email = ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).getText().toString();
         String password = ((EditText) this.findViewById(R.id.password_field_login)).getText().toString();
-        Model.instance.userLogin(email, password, new Model.IGetUserLoginCallback() {
+        Model.getInstance().userLogin(email, password, new Model.IGetUserLoginCallback() {
             @Override
             public void onComplete(User user) {
                 // Check if the user exists in the Firebase

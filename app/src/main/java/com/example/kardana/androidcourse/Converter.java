@@ -27,8 +27,10 @@ public class Converter {
     public List<RoomType> stringToRoomType(String value) {
         List<RoomType> types = new ArrayList<RoomType>();
 
-        for (String typeName : Arrays.asList(value.split(";"))) {
-            types.add(RoomType.valueOf(typeName));
+        if (!value.isEmpty()) {
+            for (String typeName : Arrays.asList(value.split(";"))) {
+                types.add(RoomType.valueOf(typeName));
+            }
         }
 
         return types;

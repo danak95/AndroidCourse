@@ -1,6 +1,7 @@
 package com.example.kardana.androidcourse.Model;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class RoomAsyncDao {
             @Override
             protected Boolean doInBackground(List<Room>... rooms) {
                 for (Room room : rooms[0]) {
+                    Log.d("ROOM",room.getId());
                     LocalDB.db.roomDao().insertAllRooms(room);
                 }
                 return true;
