@@ -163,8 +163,8 @@ public class ModelFirebaseUser {
             @Override public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<User> userList = new ArrayList<User>();
 
-                for (DataSnapshot roomSnapshot: dataSnapshot.getChildren()) {
-                    userList.add(dataSnapshot.getValue(User.class));
+                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                    userList.add(userSnapshot.getValue(User.class));
                 }
 
                 callback.onSuccess(userList);
