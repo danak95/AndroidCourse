@@ -18,6 +18,14 @@ public class ESCEntranceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esc__entrance);
     }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).setText("");
+        ((EditText) this.findViewById(R.id.password_field_login)).setText("");
+    }
 
     // This function handles login of existing user
     public void clickLogin (View view){

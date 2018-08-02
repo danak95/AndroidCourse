@@ -40,23 +40,30 @@ public class ModelFirebaseUser {
     }
     public void userLogin(String email, String password, final IGetUserLoginCallback callback) {
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            getCurrentUser(new IGetCurrentUserCallback() {
-                                @Override
-                                public void onComplete(User user) {
-                                    Log.d("TAG", "signInWithEmail:success");
-                                }
-                            });
-                        } else {
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
+        if (!email.isEmpty() && !password.isEmpty()) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                getCurrentUser(new IGetCurrentUserCallback() {
+                                    @Override
+                                    public void onComplete(User user) {
+                                        Log.d("TAG", "signInWithEmail:success");
+                                        callback.onComplete(currentUser);
+                                    }
+                                });
+                            } else {
+                                Log.w("TAG", "signInWithEmail:failure", task.getException());
+                                callback.onComplete(currentUser);
+                            }
                         }
-                        callback.onComplete(currentUser);
-                    }
-                });
+                    });
+        }
+        else
+        {
+            callback.onComplete(currentUser);
+        }
     }
 
     // Add new user

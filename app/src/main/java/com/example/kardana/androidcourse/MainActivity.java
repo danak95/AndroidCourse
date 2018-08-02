@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
 import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
 import com.example.kardana.androidcourse.Fragments.WishlistFragment;
+import com.example.kardana.androidcourse.Model.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().popBackStack();
             }
         }
+        // put the logout code here
     }
 
     @Override
