@@ -130,7 +130,7 @@ public class MemberProfileFragment extends Fragment {
                 {
                     user.setGender("Female");
                 }
-                user.setPhone(Integer.parseInt(memberPhone.getText().toString()));
+                user.setPhone(memberPhone.getText().toString());
                 user.setEmail(memberEmail.getText().toString());
                 user.setPassword(memberPassword.getText().toString());
                 Toast.makeText(view.getContext(), "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
