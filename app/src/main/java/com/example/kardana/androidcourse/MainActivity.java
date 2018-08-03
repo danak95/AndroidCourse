@@ -210,7 +210,8 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().popBackStack();
             }
         }
-        // put the logout code here
+        // logout
+        Model.getInstance().signOut();
     }
 
     @Override
