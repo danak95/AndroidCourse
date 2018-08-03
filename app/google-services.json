@@ -23,8 +23,12 @@
           }
         },
         {
-          "client_id": "146492360912-jjn90di9oejm46sliss4fd0sknakkcdi.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "146492360912-u4v46t7nosdeek6kqtn6dembs74f79ag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kardana.androidcourse",
+            "certificate_hash": "93bf0f2968d991b4a55b2ba0d2e2b1d42fdf579a"
+          }
         },
         {
           "client_id": "146492360912-jjn90di9oejm46sliss4fd0sknakkcdi.apps.googleusercontent.com",

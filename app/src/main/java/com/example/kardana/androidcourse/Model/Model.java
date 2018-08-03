@@ -1,12 +1,12 @@
 package com.example.kardana.androidcourse.Model;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.webkit.URLUtil;
-
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,49 +15,42 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Model {
 
     private ModelFirebaseUser modelFirebaseUser;
-    private ModelFirebase modelFirebase;
+    private ModelFirebaseRoom modelFirebaseRoom;
+    private ModelFirebaseStorage modelFirebase;
+    private RoomsLiveData roomsLiveData = new RoomsLiveData();
+    private UsersLiveData usersLiveData = new UsersLiveData();
+    private ModelFirebaseReviews modelFirebaseReviews;
 
     public static User user = null;
     public static Model instance = new Model();
 
     private Model(){
         modelFirebaseUser = new ModelFirebaseUser();
-        modelFirebase = new ModelFirebase();
+        modelFirebaseRoom = new ModelFirebaseRoom();
+        modelFirebase = new ModelFirebaseStorage();
+        modelFirebaseReviews = new ModelFirebaseReviews();
+
+    }
+
+    public static Model getInstance() {
+        return instance;
     }
 
     // ******* Handle users *******
-
-    // Getting user - works with firebase
-    public interface IGetCurrentUserCallback {
-        void onComplete(User currentUser);
+    public interface IUpdateUserCallback{
+        void onComplete(boolean success);
     }
-    public void getCurrentUser(final IGetCurrentUserCallback callback) {
-        modelFirebaseUser.getCurrentUser(new ModelFirebaseUser.IGetCurrentUserCallback() {
+    public void updateUser(final User user, final IUpdateUserCallback callback){
+        modelFirebaseUser.updateUser(user, new ModelFirebaseUser.IUpdateUserCallback() {
             @Override
-            public void onComplete(User user) {
-                callback.onComplete(user);
-            }
-        });
-    }
-
-    public interface IGetUserByIdCallback {
-        void onComplete(User user);
-        void onCancel();
-    }
-    public void getUserById(String id, final IGetUserByIdCallback callback) {
-        modelFirebaseUser.getUserById(id, new ModelFirebaseUser.IGetUserByIdCallback() {
-            @Override
-            public void onComplete(User user) {
-                callback.onComplete(user);
-            }
-
-            @Override
-            public void onCancel() {
-                callback.onCancel();
+            public void onComplete(boolean success) {
+                callback.onComplete(success);
             }
         });
     }
@@ -79,8 +72,8 @@ public class Model {
     public interface IAddNewUser {
         void onComplete(User user);
     }
-    public void AddNewMember(String email, String password , final IAddNewUser callback) {
-        modelFirebaseUser.AddNewMember(email, password, new ModelFirebaseUser.IAddNewUser() {
+    public void AddNewMember(User newUser , final IAddNewUser callback) {
+        modelFirebaseUser.AddNewMember(newUser, new ModelFirebaseUser.IAddNewUser() {
             @Override
             public void onComplete(User user) {
                 Log.d("dev","onComplete Model userLogin");
@@ -89,13 +82,36 @@ public class Model {
         });
     }
 
+    // Get current user
+    // Get current user
+    public interface IGetCurrentUserCallback {
+        void onComplete(User user);
+    }
+
+    public void getCurrentUser(final IGetCurrentUserCallback callback) {
+        modelFirebaseUser.getCurrentUser(new ModelFirebaseUser.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                callback.onComplete(user);
+            }
+        });
+    }
+
+    // User sign out
+    public void signOut()
+    {
+        modelFirebaseUser.signOut();
+        Log.d("dev","User signed out");
+    }
+
     // ******* Handle images *******
     public interface SaveImageListener{
         void onDone(String url);
     }
 
-    public void saveImage(Bitmap imageBitmap, String userID, SaveImageListener listener) {
-        modelFirebase.saveImage(imageBitmap, userID, listener);
+
+    public void saveImage(String path, String name, Bitmap imageBitmap, SaveImageListener listener) {
+        modelFirebase.saveImage(path, name, imageBitmap,listener);
     }
 
     public interface GetImageListener{
@@ -165,5 +181,144 @@ public class Model {
         }
         return bitmap;
     }
+    public RoomsLiveData getAllRooms(){
+        return roomsLiveData;
+    }
 
+    public void cancelGetAllRooms() {
+        modelFirebaseRoom.cancelGetAllRooms();
+    }
+
+    public void addRoom(Room room)
+    {
+        modelFirebaseRoom.addRoom(room);
+    }
+
+    public class RoomsLiveData extends MutableLiveData<List<Room>> {
+
+        private RoomsLiveData(){
+            this.onActive();
+        }
+        @Override
+        protected void onActive() {
+            super.onActive();
+
+            RoomAsyncDao.getAllRooms(new RoomAsyncDao.IGetAllRooms() {
+
+                @Override
+                public void onComplete(List<Room> data) {
+                    setValue(data);
+
+                    modelFirebaseRoom.getAllRooms(new ModelFirebaseRoom.IGetAllRooms() {
+                        @Override
+                        public void onSuccess(List<Room> roomlist) {
+                            setValue(roomlist);
+
+                            RoomAsyncDao.insertAllRooms(roomlist, new RoomAsyncDao.IInsertAllRooms() {
+                                @Override
+                                public void onComplete(Boolean data) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+    public class UsersLiveData extends MutableLiveData<List<User>> {
+
+        private UsersLiveData(){
+            this.onActive();
+        }
+        @Override
+        protected void onActive() {
+            super.onActive();
+
+            UserAsyncDao.getAllUsers(new UserAsyncDao.IGetAllUsers() {
+
+                @Override
+                public void onComplete(List<User> data) {
+                    setValue(data);
+
+                    modelFirebaseUser.getAllUsers(new ModelFirebaseUser.IGetAllUsers() {
+                        @Override
+                        public void onSuccess(List<User> userList) {
+                            setValue(userList);
+
+                            UserAsyncDao.insertAllUsers(userList, new UserAsyncDao.IInsertAllUsers() {
+                                @Override
+                                public void onComplete(Boolean data) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    // ******* Handle Reviews *******
+
+    // Add new review
+    public void AddReview(Review review)
+    {
+        modelFirebaseReviews.AddNewReview(review);
+        Log.d("dev","Model- Add new review");
+    }
+
+    // Update exist review
+    interface IUpdateReviewById {
+        void onComplete(boolean success);
+    }
+
+    public void updateReviewById(Review review , final IUpdateReviewById callback)
+    {
+        modelFirebaseReviews.updateReviewById(review, new ModelFirebaseReviews.IUpdateReviewById() {
+            @Override
+            public void onComplete(boolean success) {
+                Log.d("dev","Model- update review by ID success is " + success);
+                callback.onComplete(success);
+            }
+        });
+    }
+
+    // Delete Review
+    interface IDeleteReviewCallback{
+        void onComplete(boolean success);
+    }
+
+    public void deleteReview(Review review, final IDeleteReviewCallback callback)
+    {
+        modelFirebaseReviews.deleteReview(review, new ModelFirebaseReviews.IDeleteReviewCallback() {
+            @Override
+            public void onComplete(boolean success) {
+                Log.d("dev","Model- delete review success is " + success);
+                callback.onComplete(success);
+            }
+        });
+    }
+
+    // Get all reviews by roomId
+    interface IGetReviewsForRoom{
+        void onComplete(ArrayList<Review> reviews);
+        void onCancel();
+    }
+
+    public void getReviewsForRoom(final String roomId, final IGetReviewsForRoom callback)
+    {
+        modelFirebaseReviews.getReviewsForRoom(roomId, new ModelFirebaseReviews.IGetReviewsForRoom() {
+            @Override
+            public void onComplete(ArrayList<Review> reviews) {
+                Log.d("dev","Model- the reviews for room id " + roomId + " are " + reviews);
+                callback.onComplete(reviews);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
+    }
 }

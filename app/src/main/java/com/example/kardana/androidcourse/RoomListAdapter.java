@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Model.Room;
+import com.example.kardana.androidcourse.Model.Room;
 
 /**
  * Created by Dana on 20-May-18.
@@ -103,6 +103,12 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         });
 
         return convertView;
+    }
+
+    public void updateRoomsList(List<Room> newlist) {
+        originalData.clear();
+        originalData.addAll(newlist);
+        this.notifyDataSetChanged();
     }
 
     private class ViewHolder {

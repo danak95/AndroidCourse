@@ -25,8 +25,10 @@
     <string name="nav_settings">הגדרות</string>
     <string name="action_settings">Settings</string>
     <string name="five_stars">חמישה כוכבים</string>
-    <string name="four_stars">ארבעה כוכבים ומעלה</string>
-    <string name="three_stars">שלושה כוכבים ומעלה</string>
+    <string name="four_stars">ארבעה כוכבים</string>
+    <string name="three_stars">שלושה כוכבים</string>
+    <string name="two_stars">שתי כוכבים</string>
+    <string name="one_star">כוכב אחד</string>
     <string name="category">קטגוריה</string>
     <string name="rank">דירוג</string>
     <string name="location">מיקום</string>
@@ -41,6 +43,17 @@
         <item>ביטול</item>
     </string-array>
 
+<<<<<<< HEAD
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+=======
+    <string name="horror">אימה</string>
+    <string name="vr">מציאות מדומה</string>
+    <string name="role_playing">משחקי תפקידים</string>
+    <string name="performance">פרפורמנס</string>
+    <string name="comedy">קומדיה</string>
+    <string name="culinary">קולינרי</string>
+    <string name="with_actor">עם שחקן</string>
+    <string name="without_actor">בלי שחקן</string>
+>>>>>>> DB
 </resources>

@@ -15,16 +15,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModelFirebaseUser {
     private static final String USERS_KEY = "Users";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseDatabase database;
     private DatabaseReference usersReference;
+    ValueEventListener eventListener;
 
     private User currentUser;
 
     public ModelFirebaseUser() {
+        mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         usersReference = database.getReference(USERS_KEY);
     }
@@ -35,87 +40,57 @@ public class ModelFirebaseUser {
         void onComplete(User user);
     }
     public void userLogin(String email, String password, final IGetUserLoginCallback callback) {
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            currentUser = new User();
-                            currentUser.setUserid(1);
-                        } else {
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
+        if (!email.isEmpty() && !password.isEmpty()) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                getCurrentUser(new IGetCurrentUserCallback() {
+                                    @Override
+                                    public void onComplete(User user) {
+                                        Log.d("TAG", "signInWithEmail:success");
+                                        callback.onComplete(currentUser);
+                                    }
+                                });
+                            } else {
+                                Log.w("TAG", "signInWithEmail:failure", task.getException());
+                                callback.onComplete(currentUser);
+                            }
                         }
-                        callback.onComplete(currentUser);
-                    }
-                });
+                    });
+        }
+        else
+        {
+            callback.onComplete(currentUser);
+        }
     }
 
-    // Login of user
+    // Add new user
     interface IAddNewUser {
         void onComplete(User user);
     }
-    public void AddNewMember(final String email, final String password, final IAddNewUser callback) {
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(email, password).
+    public void AddNewMember(final User newUser, final IAddNewUser callback) {
+        mAuth.createUserWithEmailAndPassword(newUser.getEmail(), newUser.getPassword()).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>(){
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            newUser.setUserid(firebaseUser.getUid());
+                            currentUser = newUser;
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "createUserWithEmailAndPassword:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            currentUser = new User();
-                            currentUser.setUserid(1);
-                            currentUser.setEmail(email);
-                            currentUser.setPassword(password);
+                            usersReference.child(newUser.getUserid()).setValue(newUser);
+                            callback.onComplete(currentUser);
                         } else {
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
-                        }
-                        callback.onComplete(currentUser);
-                    }
-                });
-    }
-
-/*
-    public void userLogin(String email, String password, final IGetUserLoginCallback callback) {
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user == null)
-                {
-                    Log.d("TAG", "fail");
-                }
-            }
-        };
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            getCurrentUser(new IGetCurrentUserCallback() {
-                                // Sign in success, update UI with the signed-in user's information
-                                @Override
-                                public void onComplete(User user) {
-                                    Log.d("TAG", "createUserWithEmail:success");
-                                    callback.onComplete(user);
-                                }
-                            });
-                        }
-                        else {
-                            // If sign in fails, display a message to the user.
-                            Log.d("dev","onComplete userLogin ModelUserFirebase with null "+task.getException());
-                            callback.onComplete(null);
+                            callback.onComplete(currentUser);
                         }
                     }
                 });
     }
-*/
 
     // Get current user
     interface IGetCurrentUserCallback {
@@ -140,7 +115,7 @@ public class ModelFirebaseUser {
                     @Override
                     public void onComplete(User user) {
                         currentUser = new User(user);
-                        currentUser.setUserid(Integer.parseInt(firebaseUser.getUid()));
+                        currentUser.setUserid(firebaseUser.getUid());
                         callback.onComplete(currentUser);
                     }
 
@@ -152,7 +127,6 @@ public class ModelFirebaseUser {
             }
         }
     }
-
 
     // Get user by ID
     interface IGetUserByIdCallback {
@@ -168,9 +142,49 @@ public class ModelFirebaseUser {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onCancel();
             }
         });
+    }
+
+    // Update user details
+    interface IUpdateUserCallback {
+        void onComplete(boolean success);
+    }
+    public void updateUser(User user,final IUpdateUserCallback callback){
+        usersReference.child(user.getUserid()).setValue(user, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
+    }
+    public interface IGetAllUsers
+    {
+        void onSuccess(List<User> users);
+    }
+
+    public void getAllUsers(final ModelFirebaseUser.IGetAllUsers callback) {
+        eventListener = usersReference.addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<User> userList = new ArrayList<User>();
+
+                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                    userList.add(userSnapshot.getValue(User.class));
+                }
+
+                callback.onSuccess(userList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+    }
+
+    public void signOut()
+    {
+        mAuth.signOut();
+        currentUser = null;
     }
 }

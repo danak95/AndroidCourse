@@ -17,15 +17,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
-public class ModelFirebase {
+public class ModelFirebaseStorage {
     ValueEventListener eventListener;
 
     //Managing Files
-    public void saveImage(Bitmap imageBitmap, String userID, final Model.SaveImageListener listener) {
+    public void saveImage(String path, String imageName ,Bitmap imageBitmap, final Model.SaveImageListener listener) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        String name = "/" + userID;
-        StorageReference imagesRef = storage.getReference().child("UserImages").child(name);
+        StorageReference imagesRef = storage.getReference().child("images").child(path).child(imageName);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

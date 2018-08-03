@@ -6,35 +6,53 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.User;
 
-public class ESC_Entrance extends AppCompatActivity {
+public class ESCEntranceActivity extends AppCompatActivity {
+
+    public ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esc__entrance);
+        progress = this.findViewById(R.id.progressBar);
+        progress.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        progress.setVisibility(View.INVISIBLE);
+        ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).setText("");
+        ((EditText) this.findViewById(R.id.password_field_login)).setText("");
     }
 
     // This function handles login of existing user
     public void clickLogin (View view){
         String email = ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).getText().toString();
         String password = ((EditText) this.findViewById(R.id.password_field_login)).getText().toString();
-        Model.instance.userLogin(email, password, new Model.IGetUserLoginCallback() {
+        Model.getInstance().userLogin(email, password, new Model.IGetUserLoginCallback() {
             @Override
             public void onComplete(User user) {
                 // Check if the user exists in the Firebase
                 if (user != null)
                 {
+                    progress.setVisibility(View.VISIBLE);
                     Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
+                    main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(main_intent);
+                    finish();
                 }
                 else
                 {
-                    Toast.makeText(ESC_Entrance.this, "Invalid parameters for login", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ESCEntranceActivity.this, "Invalid parameters for login", Toast.LENGTH_SHORT).show();
                 }
             }
         });
