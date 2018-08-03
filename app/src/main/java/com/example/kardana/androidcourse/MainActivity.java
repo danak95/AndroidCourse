@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_TOP5 = "top5";
     private static final String TAG_WISH_LIST = "wish_list";
     private static final String TAG_MANAGE_ROOMS = "manage_rooms";
+    private static final String TAG_LOGOUT = "logout";
     public static String CURRENT_TAG = TAG_HOME;
     private Fragment currFragment;
 
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         // logout
-        Model.getInstance().signOut();
+        //Model.getInstance().signOut();
     }
 
     @Override
@@ -303,6 +304,10 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_settings:
                 return true;
+
+            case R.id.nav_logout:
+                return true;
+
             case R.id.action_filter:
                 drawer.openDrawer(GravityCompat.END);
 
@@ -347,6 +352,10 @@ public class MainActivity extends AppCompatActivity
                 navItemIndex = 5;
                 CURRENT_TAG = TAG_MANAGE_ROOMS;
                 break;
+            case R.id.nav_logout:
+                navItemIndex = 6;
+                CURRENT_TAG = TAG_LOGOUT;
+                break;
             default:
                 navItemIndex = 0;
         }
@@ -374,8 +383,17 @@ public class MainActivity extends AppCompatActivity
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG).addToBackStack(null).commit();
-
+                if (CURRENT_TAG == TAG_LOGOUT)
+                {
+                    Model.getInstance().signOut();
+                    Intent entrance = new Intent(getApplicationContext(), ESCEntranceActivity.class);
+                    entrance.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(entrance);
+                }
+                else
+                {
+                    fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG).addToBackStack(null).commit();
+                }
                 fragmentManager.executePendingTransactions();
 
                 //fragmentTransaction.commitAllowingStateLoss();

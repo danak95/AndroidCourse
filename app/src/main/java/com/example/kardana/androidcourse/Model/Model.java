@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.webkit.URLUtil;
 
@@ -76,6 +77,21 @@ public class Model {
             @Override
             public void onComplete(User user) {
                 Log.d("dev","onComplete Model userLogin");
+                callback.onComplete(user);
+            }
+        });
+    }
+
+    // Get current user
+    // Get current user
+    public interface IGetCurrentUserCallback {
+        void onComplete(User user);
+    }
+
+    public void getCurrentUser(final IGetCurrentUserCallback callback) {
+        modelFirebaseUser.getCurrentUser(new ModelFirebaseUser.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
                 callback.onComplete(user);
             }
         });

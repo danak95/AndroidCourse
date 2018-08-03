@@ -92,6 +92,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
                 public void onDone(String url) {
                     Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
                     Intent main_intent = new Intent(getApplicationContext(), MainActivity.class);
+                    main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(main_intent);
                 }
             });

@@ -22,12 +22,14 @@ public class ESCEntranceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_esc__entrance);
         progress = this.findViewById(R.id.progressBar);
         progress.setVisibility(View.INVISIBLE);
+
     }
+
     @Override
     public void onResume()
     {
         super.onResume();
-
+        progress.setVisibility(View.INVISIBLE);
         ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).setText("");
         ((EditText) this.findViewById(R.id.password_field_login)).setText("");
     }
@@ -44,7 +46,9 @@ public class ESCEntranceActivity extends AppCompatActivity {
                 {
                     progress.setVisibility(View.VISIBLE);
                     Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
+                    main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(main_intent);
+                    finish();
                 }
                 else
                 {

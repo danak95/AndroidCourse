@@ -68,7 +68,7 @@ public class UserAsyncDao {
         void onComplete(User user);
     }
 
-    static public void getUserById(final UserAsyncDao.IGetUserById callback, final String id) {
+    static public void getUserById(final String id, final UserAsyncDao.IGetUserById callback) {
 
         class getUserByIdAsyncTask extends AsyncTask<String, String, User> {
 
