@@ -81,13 +81,20 @@ public class Model {
         });
     }
 
+    // User sign out
+    public void signOut()
+    {
+        modelFirebaseUser.signOut();
+        Log.d("dev","User signed out");
+    }
+
     // ******* Handle images *******
     public interface SaveImageListener{
         void onDone(String url);
     }
 
-    public void saveImage(Bitmap imageBitmap, SaveImageListener listener) {
-        modelFirebase.saveImage(imageBitmap,listener);
+    public void saveImage(String path, String name, Bitmap imageBitmap, SaveImageListener listener) {
+        modelFirebase.saveImage(path, name, imageBitmap,listener);
     }
 
     public interface GetImageListener{

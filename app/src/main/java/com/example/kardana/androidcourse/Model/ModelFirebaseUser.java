@@ -29,6 +29,7 @@ public class ModelFirebaseUser {
     private User currentUser;
 
     public ModelFirebaseUser() {
+        mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         usersReference = database.getReference(USERS_KEY);
     }
@@ -39,7 +40,6 @@ public class ModelFirebaseUser {
         void onComplete(User user);
     }
     public void userLogin(String email, String password, final IGetUserLoginCallback callback) {
-        mAuth = FirebaseAuth.getInstance();
         if (!email.isEmpty() && !password.isEmpty()) {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -71,7 +71,6 @@ public class ModelFirebaseUser {
         void onComplete(User user);
     }
     public void AddNewMember(final User newUser, final IAddNewUser callback) {
-        mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(newUser.getEmail(), newUser.getPassword()).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>(){
 
@@ -84,10 +83,11 @@ public class ModelFirebaseUser {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "createUserWithEmailAndPassword:success");
                             usersReference.child(newUser.getUserid()).setValue(newUser);
+                            callback.onComplete(currentUser);
                         } else {
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
+                            callback.onComplete(currentUser);
                         }
-                        callback.onComplete(currentUser);
                     }
                 });
     }
@@ -180,5 +180,11 @@ public class ModelFirebaseUser {
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
+    }
+
+    public void signOut()
+    {
+        mAuth.signOut();
+        currentUser = null;
     }
 }

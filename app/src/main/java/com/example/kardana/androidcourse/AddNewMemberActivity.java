@@ -32,6 +32,8 @@ public class AddNewMemberActivity extends AppCompatActivity {
     private User newMember;
     private ImageView avatar;
     private Bitmap imageBitmap;
+    private String imagePath;
+    private String imageName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,48 +42,32 @@ public class AddNewMemberActivity extends AppCompatActivity {
         newMember = new User();
         FloatingActionButton save = this.findViewById(R.id.add_user_btn);
         final AddNewMemberActivity v = this;
-        final User[] newUser = new User[1];
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //save image
-                if (imageBitmap != null) {
-                    Model.instance.saveImage(imageBitmap, new Model.SaveImageListener() {
-                        @Override
-                        public void onDone(String url) {
-
-                        }
-                    });
-
-                    // Save new user to Firebase
-                    newMember.setName(((EditText) v.findViewById(R.id.name_field)).getText().toString());
-                    newMember.setBirthDate(((EditText) v.findViewById(R.id.birthdate_field)).getText().toString());
-                    if (((Switch)v.findViewById(R.id.newMember_gender)).isChecked())
-                    {
-                        newMember.setGender("Male");
-                    }
-                    else
-                    {
-                        newMember.setGender("Female");
-                    }
-                    newMember.setPhone(((EditText)v.findViewById(R.id.phone_field)).getText().toString());
-                    newMember.setEmail(((EditText) v.findViewById(R.id.email_field_login)).getText().toString());
-                    newMember.setPassword(((EditText) v.findViewById(R.id.password_field_login)).getText().toString());
-                    Model.instance.AddNewMember(newMember, new Model.IAddNewUser()
-                    {
-                        @Override
-                        public void onComplete(User user) {
-                            newUser[0] =user;
-                            if (newUser[0] != null)
-                            {
-                                Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
-                                Intent main_intent = new Intent(v, MainActivity.class);
-                                startActivity(main_intent);
-                            }
-                        }
-                    });
+                // Save new user to Firebase
+                newMember.setName(((EditText) v.findViewById(R.id.name_field)).getText().toString());
+                newMember.setBirthDate(((EditText) v.findViewById(R.id.birthdate_field)).getText().toString());
+                if (((Switch)v.findViewById(R.id.newMember_gender)).isChecked())
+                {
+                    newMember.setGender("Male");
                 }
+                else
+                {
+                    newMember.setGender("Female");
+                }
+                newMember.setPhone(((EditText)v.findViewById(R.id.phone_field)).getText().toString());
+                newMember.setEmail(((EditText) v.findViewById(R.id.email_field_login)).getText().toString());
+                newMember.setPassword(((EditText) v.findViewById(R.id.password_field_login)).getText().toString());
+                Model.getInstance().AddNewMember(newMember, new Model.IAddNewUser()
+                {
+                    @Override
+                    public void onComplete(User user) {
+                        newMember =user;
+                        handleSaveUserImage(newMember);
+                    }
+                });
             }
         });
 
@@ -93,6 +79,23 @@ public class AddNewMemberActivity extends AppCompatActivity {
                 ShowImageDialog();
             }
         });
+    }
+
+    // This function handles saving user's profile image by id
+    private void handleSaveUserImage(User user)
+    {
+        if (imageBitmap != null && user != null) {
+            imagePath = "Users";
+            imageName = user.getUserid();
+            Model.getInstance().saveImage(imagePath, imageName, imageBitmap, new Model.SaveImageListener() {
+                @Override
+                public void onDone(String url) {
+                    Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                    Intent main_intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(main_intent);
+                }
+            });
+        }
     }
 
     // This function manages the picking image - opens a dialog for choosing between

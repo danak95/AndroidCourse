@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.Model.Model;
@@ -13,10 +14,14 @@ import com.example.kardana.androidcourse.Model.User;
 
 public class ESCEntranceActivity extends AppCompatActivity {
 
+    public ProgressBar progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esc__entrance);
+        progress = this.findViewById(R.id.progressBar);
+        progress.setVisibility(View.INVISIBLE);
     }
     @Override
     public void onResume()
@@ -37,6 +42,7 @@ public class ESCEntranceActivity extends AppCompatActivity {
                 // Check if the user exists in the Firebase
                 if (user != null)
                 {
+                    progress.setVisibility(View.VISIBLE);
                     Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(main_intent);
                 }

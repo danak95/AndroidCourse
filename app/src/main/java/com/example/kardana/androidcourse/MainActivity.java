@@ -211,7 +211,8 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-        // put the logout code here
+        // logout
+        Model.getInstance().signOut();
     }
 
     @Override
