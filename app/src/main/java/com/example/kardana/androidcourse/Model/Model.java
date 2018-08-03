@@ -93,8 +93,8 @@ public class Model {
         void onDone(String url);
     }
 
-    public void saveImage(Bitmap imageBitmap, SaveImageListener listener) {
-        modelFirebase.saveImage(imageBitmap,listener);
+    public void saveImage(String path, String name, Bitmap imageBitmap, SaveImageListener listener) {
+        modelFirebase.saveImage(path, name, imageBitmap,listener);
     }
 
     public interface GetImageListener{

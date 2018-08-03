@@ -32,6 +32,8 @@ public class AddNewMemberActivity extends AppCompatActivity {
     private User newMember;
     private ImageView avatar;
     private Bitmap imageBitmap;
+    private String imagePath;
+    private String imageName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,19 +42,11 @@ public class AddNewMemberActivity extends AppCompatActivity {
         newMember = new User();
         FloatingActionButton save = this.findViewById(R.id.add_user_btn);
         final AddNewMemberActivity v = this;
-        final User[] newUser = new User[1];
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //save image
-                if (imageBitmap != null) {
-                    Model.instance.saveImage(imageBitmap, new Model.SaveImageListener() {
-                        @Override
-                        public void onDone(String url) {
 
-                        }
-                    });
 
                     // Save new user to Firebase
                     newMember.setName(((EditText) v.findViewById(R.id.name_field)).getText().toString());
@@ -72,16 +66,26 @@ public class AddNewMemberActivity extends AppCompatActivity {
                     {
                         @Override
                         public void onComplete(User user) {
-                            newUser[0] =user;
-                            if (newUser[0] != null)
+                            newMember =user;
+                            if (newMember != null)
                             {
+                                //save image
+                                if (imageBitmap != null) {
+                                    imagePath = "Users";
+                                    imageName = newMember.getUserid();
+                                    Model.instance.saveImage(imagePath, imageName, imageBitmap, new Model.SaveImageListener() {
+                                        @Override
+                                        public void onDone(String url) {
+
+                                        }
+                                    });
+                                }
                                 Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
                                 Intent main_intent = new Intent(v, MainActivity.class);
                                 startActivity(main_intent);
                             }
                         }
                     });
-                }
             }
         });
 
