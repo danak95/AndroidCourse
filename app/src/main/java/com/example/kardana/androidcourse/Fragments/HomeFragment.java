@@ -20,8 +20,6 @@ import java.util.List;
 
 import com.example.kardana.androidcourse.Model.Room;
 
-import Model.Model;
-
 /**
  * Created by Dana on 02-Jun-18.
  */
@@ -30,7 +28,6 @@ public class HomeFragment extends Fragment {
 
     private RoomListAdapter roomListAdapter;
     private ListView roomListView;
-    //private List<Room> roomList= new ArrayList<Room>();
     private ModelFirebaseRoom modelFirebaseRoom = new ModelFirebaseRoom();
     private View view;
     private com.example.kardana.androidcourse.Model.Model model = com.example.kardana.androidcourse.Model.Model.getInstance();

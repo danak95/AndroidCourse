@@ -44,9 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     public SearchView searchView;
     private MenuItem searchMenuItem;
-    //private RoomListAdapter roomListAdapter;
     private ListView roomListView;
-    //private List<Room> roomList= new ArrayList<Room>();
     private MenuItem filterMenuItem;
     private DrawerLayout drawer;
     ExpandableListAdapter mMenuAdapter;
@@ -196,19 +194,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (CURRENT_TAG == TAG_HOME && getCheckedChildren().size() > 0)
-        {
-            ((HomeFragment) currFragment).onBackPressed();
-            clearCheckedChildren();
+        if (drawer.isDrawerOpen(GravityCompat.START) || drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawers();
         }
         else {
-            if (count == 0) {
-                super.onBackPressed();
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+            if (CURRENT_TAG == TAG_HOME && getCheckedChildren().size() > 0) {
+                ((HomeFragment) currFragment).onBackPressed();
+                clearCheckedChildren();
             } else {
-                filterMenuItem.setVisible(true);
-                searchMenuItem.setVisible(true);
-                getSupportFragmentManager().popBackStack();
+                if (count == 0) {
+                    super.onBackPressed();
+                } else {
+                    filterMenuItem.setVisible(true);
+                    searchMenuItem.setVisible(true);
+                    getSupportFragmentManager().popBackStack();
+                }
             }
         }
         // logout
