@@ -83,10 +83,11 @@ public class ModelFirebaseUser {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "createUserWithEmailAndPassword:success");
                             usersReference.child(newUser.getUserid()).setValue(newUser);
+                            callback.onComplete(currentUser);
                         } else {
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
+                            callback.onComplete(currentUser);
                         }
-                        callback.onComplete(currentUser);
                     }
                 });
     }
