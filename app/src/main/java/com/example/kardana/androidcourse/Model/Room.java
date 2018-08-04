@@ -2,12 +2,14 @@ package com.example.kardana.androidcourse.Model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.example.kardana.androidcourse.RoomType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +52,34 @@ public class Room implements Parcelable
         this.comments = comments;
         this.roomSite = room_site;
         this.types = types;
+    }
+
+    public Room(Parcel p){
+        this.types = new ArrayList<>();
+        ArrayList<String> stringData = new ArrayList<>();
+        p.readStringList(stringData);
+        this.id = stringData.get(0);
+        this.name = stringData.get(1);
+        this.address = stringData.get(2);
+        this.description = stringData.get(3);
+        this.imagePath = stringData.get(4);
+        this.rank = p.readDouble();
+        int[] intData = new int[4];
+        p.readIntArray(intData);
+        this.companyId = Integer.valueOf(intData[0]);
+        this.ownerId = Integer.valueOf(intData[1]);
+        this.minNumOfPeople = Integer.valueOf(intData[2]);
+        this.maxNumOfPeople = Integer.valueOf(intData[3]);
+        stringData = new ArrayList<>();
+        p.readStringList(stringData);
+        this.comments = stringData.get(0);
+        this.roomSite = stringData.get(1);
+
+        int typesLength = p.readInt();
+
+        for(int i = 0; i < typesLength; i++){
+            this.types.add(RoomType.valueOf(p.readString()));
+        }
     }
 
     public Room()
@@ -219,7 +249,7 @@ public class Room implements Parcelable
         parcel.writeStringArray(new String []{
                 this.comments,
                 this.roomSite});
-
+        parcel.writeInt(this.types.size());
         for(RoomType type : this.types) {
             parcel.writeString(type.getName());
         }
