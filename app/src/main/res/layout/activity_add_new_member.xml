@@ -21,13 +21,13 @@
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_field" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
         android:id="@+id/textView2"
@@ -61,7 +61,7 @@
         android:layout_height="43dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
@@ -74,7 +74,7 @@
         android:layout_width="120dp"
         android:layout_height="29dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="    נקבה"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
@@ -87,7 +87,7 @@
         android:layout_width="0dp"
         android:layout_height="27dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="מין"
         android:textAlignment="center"
         android:textSize="18sp"
@@ -102,7 +102,7 @@
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:text="זכר"
         android:textAlignment="center"
         android:textSize="18sp"
@@ -115,17 +115,14 @@
         android:id="@+id/textView6"
         android:layout_width="223dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="72dp"
         android:text="משתמש חדש"
         android:textAlignment="center"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/id_field"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.981"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
@@ -154,7 +151,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newMember_gender"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <TextView
         android:id="@+id/textView9"
@@ -175,6 +172,7 @@
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toStartOf="@+id/textView9"
@@ -200,7 +198,7 @@
         android:layout_width="180dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toStartOf="@+id/textView10"
@@ -227,28 +225,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="94dp"
-        android:layout_height="27dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="76dp"
-        android:text="תעודת זהות"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <EditText
-        android:id="@+id/id_field"
-        android:layout_width="180dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
-        app:layout_constraintEnd_toStartOf="@+id/textView8"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

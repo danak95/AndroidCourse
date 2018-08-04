@@ -15,16 +15,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
+import java.net.URI;
 
 public class ModelFirebaseStorage {
+    private FirebaseStorage storage;
+
+    public ModelFirebaseStorage()
+    {
+        storage = FirebaseStorage.getInstance();
+    }
     ValueEventListener eventListener;
 
     //Managing Files
     public void saveImage(String path, String imageName ,Bitmap imageBitmap, final Model.SaveImageListener listener) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        StorageReference imagesRef = storage.getReference().child("images").child(path).child(imageName);
+        final StorageReference imagesRef = storage.getReference().child("images").child(path).child(imageName);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -39,8 +43,12 @@ public class ModelFirebaseStorage {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests") Task<Uri>  downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
-                listener.onDone(downloadUrl.toString());
+                @SuppressWarnings("VisibleForTests") Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.onDone(uri.toString());
+                    }
+                });
             }
         });
 
@@ -48,7 +56,6 @@ public class ModelFirebaseStorage {
 
 
     public void getImage(String url, final Model.GetImageListener listener){
-        FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference httpsReference = storage.getReferenceFromUrl(url);
         final long ONE_MEGABYTE = 1024 * 1024;
         httpsReference.getBytes(3* ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

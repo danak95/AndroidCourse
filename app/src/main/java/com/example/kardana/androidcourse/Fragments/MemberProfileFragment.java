@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.AddNewMemberActivity;
+import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.User;
 import com.example.kardana.androidcourse.R;
 
@@ -32,13 +35,15 @@ public class MemberProfileFragment extends Fragment {
     static final int REQUEST_IMAGE_GALLERY = 1;
     static final int REQUEST_IMAGE_CAMERA = 2;
     private ImageView memberImage;
-    private Bitmap imageBitmap;
+    private Bitmap imageCurrUser;
+    private String imagePath;
 
     private String memberID;
-    private User user;
+    private User currentUser;
     private OnFragmentInteractionListener mListener;
 
     public Switch memberGender;
+    public TextView memberName;
     public EditText memberPhone;
     public EditText memberEmail;
     public EditText memberPassword;
@@ -81,6 +86,7 @@ public class MemberProfileFragment extends Fragment {
         Log.d("dev", "OnCreateView");
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_member_profile_, container, false);
+        memberName = (TextView)view.findViewById(R.id.member_name);
         memberGender = (Switch) view.findViewById(R.id.gender_switch);
         memberPhone = view.findViewById(R.id.phone_field);
         memberEmail = view.findViewById(R.id.member_email_field);
@@ -91,19 +97,42 @@ public class MemberProfileFragment extends Fragment {
         cancelBtn = (ImageButton) view.findViewById(R.id.cancel_member_btn);
         changeImageBtn = (Button) view.findViewById(R.id.change_image_btn);
 
-        memberGender.setChecked(true);
-        memberPhone.setText("0501234567");
-        memberEmail.setText("Check1@gmail.com");
-        memberPassword.setText("HelloWorld");
+        // Get user's data
+        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                currentUser = user;
+            }
+        });
 
-        memberGender.setEnabled(false);
-        memberPhone.setEnabled(false);
-        memberEmail.setEnabled(false);
-        memberPassword.setEnabled(false);
-        saveBtn.setEnabled(false);
-        cancelBtn.setEnabled(false);
-        changeImageBtn.setEnabled(false);
+        // Get user's image from storage
+        imagePath = currentUser.getImagePath();
+        Model.getInstance().getImage(imagePath, new Model.GetImageListener() {
+            @Override
+            public void onDone(Bitmap imageBitmap) {
+                memberImage.setImageBitmap(imageBitmap);
+                imageCurrUser = imageBitmap;
+                memberName.setText(currentUser.getName());
+                // Set user data
+                if (currentUser.getGender() == "Female")
+                    memberGender.setChecked(false);
+                else
+                    memberGender.setChecked(true);
+                memberPhone.setText(currentUser.getPhone());
+                memberEmail.setText(currentUser.getEmail());
+                memberPassword.setText(currentUser.getPassword());
 
+                memberGender.setEnabled(false);
+                memberPhone.setEnabled(false);
+                memberEmail.setEnabled(false);
+                memberPassword.setEnabled(false);
+                saveBtn.setEnabled(false);
+                cancelBtn.setEnabled(false);
+                changeImageBtn.setEnabled(false);
+            }
+        });
+
+        // Set everything enabled while cliking on update button
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,32 +147,44 @@ public class MemberProfileFragment extends Fragment {
         }
         );
 
+        // Save user's changes
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user = new User();
                 if (memberGender.isChecked())
                 {
-                    user.setGender("Male");
+                    currentUser.setGender("Male");
                 }
                 else
                 {
-                    user.setGender("Female");
+                    currentUser.setGender("Female");
                 }
-                user.setPhone(memberPhone.getText().toString());
-                user.setEmail(memberEmail.getText().toString());
-                user.setPassword(memberPassword.getText().toString());
-                Toast.makeText(view.getContext(), "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                currentUser.setPhone(memberPhone.getText().toString());
+                currentUser.setEmail(memberEmail.getText().toString());
+                currentUser.setPassword(memberPassword.getText().toString());
+                Model.getInstance().updateUser(currentUser, new Model.IUpdateUserCallback() {
+                    @Override
+                    public void onComplete(boolean success) {
+                        if (success)
+                            Toast.makeText(getContext(), "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getContext(), "Error while saving changes!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
+        // Reset
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                memberGender.setChecked(true);
-                memberPhone.setText("0501234567");
-                memberEmail.setText("Check1@gmail.com");
-                memberPassword.setText("HelloWorld");
+                if (currentUser.getGender() == "Female")
+                    memberGender.setChecked(false);
+                else
+                    memberGender.setChecked(true);
+                memberPhone.setText(currentUser.getPhone());
+                memberEmail.setText(currentUser.getEmail());
+                memberPassword.setText(currentUser.getPassword());
             }
         });
 
@@ -203,8 +244,8 @@ public class MemberProfileFragment extends Fragment {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    imageBitmap = MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(), contentURI);
-                    memberImage.setImageBitmap(imageBitmap);
+                    imageCurrUser = MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(), contentURI);
+                    memberImage.setImageBitmap(imageCurrUser);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -213,8 +254,8 @@ public class MemberProfileFragment extends Fragment {
             }
 
         } else if (requestCode == REQUEST_IMAGE_CAMERA) {
-            imageBitmap = (Bitmap) data.getExtras().get("data");
-            memberImage.setImageBitmap(imageBitmap);
+            imageCurrUser = (Bitmap) data.getExtras().get("data");
+            memberImage.setImageBitmap(imageCurrUser);
         }
     }
 

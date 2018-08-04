@@ -47,6 +47,11 @@ public class ESCEntranceActivity extends AppCompatActivity {
                     progress.setVisibility(View.VISIBLE);
                     Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
                     main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                   /* Bundle b = new Bundle();
+                    b.putString("UserId", user.getUserid());
+                    main_intent.putExtras(b);*/
+
                     startActivity(main_intent);
                     finish();
                 }

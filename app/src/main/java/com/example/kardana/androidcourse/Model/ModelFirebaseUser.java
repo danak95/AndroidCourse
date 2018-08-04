@@ -71,6 +71,7 @@ public class ModelFirebaseUser {
         void onComplete(User user);
     }
     public void AddNewMember(final User newUser, final IAddNewUser callback) {
+        mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(newUser.getEmail(), newUser.getPassword()).
                 addOnCompleteListener(new OnCompleteListener<AuthResult>(){
 

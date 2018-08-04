@@ -22,6 +22,7 @@ public class User {
     private String email;
     private String password;
     private boolean isAdmin;
+    private String imagePath;
 
     // Ctors
     public User(){
@@ -29,7 +30,7 @@ public class User {
         this.setUserid("1");
     }
 
-    public User(String name, String birthDate, String gender, String phone, String email, String password, boolean isAdmin){
+    public User(String name, String birthDate, String gender, String phone, String email, String password, boolean isAdmin, String imagePath){
         super();
         this.setUserid("1");
         this.setName(name);
@@ -39,6 +40,7 @@ public class User {
         this.setEmail(email);
         this.setPassword(password);
         this.setIsAdmin(isAdmin);
+        this.setImagePath(imagePath);
     }
 
     public User(User copy)
@@ -52,6 +54,7 @@ public class User {
         this.setEmail(copy.getEmail());
         this.setPassword(copy.getPassword());
         this.setIsAdmin(copy.getIsAdmin());
+        this.setImagePath(copy.getImagePath());
     }
 
     // Getters and Setters
@@ -118,4 +121,8 @@ public class User {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+    public String getImagePath() { return imagePath; }
+
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }

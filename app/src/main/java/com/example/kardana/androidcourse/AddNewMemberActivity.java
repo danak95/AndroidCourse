@@ -60,6 +60,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
                 newMember.setPhone(((EditText)v.findViewById(R.id.phone_field)).getText().toString());
                 newMember.setEmail(((EditText) v.findViewById(R.id.email_field_login)).getText().toString());
                 newMember.setPassword(((EditText) v.findViewById(R.id.password_field_login)).getText().toString());
+                newMember.setImagePath("null");
                 Model.getInstance().AddNewMember(newMember, new Model.IAddNewUser()
                 {
                     @Override
@@ -82,7 +83,7 @@ public class AddNewMemberActivity extends AppCompatActivity {
     }
 
     // This function handles saving user's profile image by id
-    private void handleSaveUserImage(User user)
+    private void handleSaveUserImage(final User user)
     {
         if (imageBitmap != null && user != null) {
             imagePath = "Users";
@@ -90,10 +91,17 @@ public class AddNewMemberActivity extends AppCompatActivity {
             Model.getInstance().saveImage(imagePath, imageName, imageBitmap, new Model.SaveImageListener() {
                 @Override
                 public void onDone(String url) {
-                    Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
-                    Intent main_intent = new Intent(getApplicationContext(), MainActivity.class);
-                    main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(main_intent);
+                    user.setImagePath(url);
+                    Model.getInstance().updateUser(user, new Model.IUpdateUserCallback() {
+                        @Override
+                        public void onComplete(boolean success) {
+                            Toast.makeText(AddNewMemberActivity.this, "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                            Intent main_intent = new Intent(getApplicationContext(), MainActivity.class);
+                            main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            //main_intent.putExtra("UserId", user.getUserid());
+                            startActivity(main_intent);
+                        }
+                    });
                 }
             });
         }

@@ -35,6 +35,7 @@ import com.example.kardana.androidcourse.Fragments.MemberProfileFragment;
 import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
 import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,11 +66,21 @@ public class MainActivity extends AppCompatActivity
     public static String CURRENT_TAG = TAG_HOME;
     private Fragment currFragment;
 
+    private String UserId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                UserId = user.getUserid();
+            }
+        });
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -416,7 +427,7 @@ public class MainActivity extends AppCompatActivity
                 currFragment = homeFragment;
                 return homeFragment;
             case 1:
-                MemberProfileFragment profileFragment = MemberProfileFragment.newInstance("1");
+                MemberProfileFragment profileFragment = MemberProfileFragment.newInstance(UserId);
                 return profileFragment;
             case 2:
                 RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
