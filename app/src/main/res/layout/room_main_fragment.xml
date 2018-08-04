@@ -23,76 +23,31 @@
         android:id="@+id/roomImage"
         android:layout_width="162dp"
         android:layout_height="122dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
         android:src="@android:drawable/sym_def_app_icon"
-        app:layout_constraintTop_toBottomOf="@+id/roomName"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roomName" />
 
     <TextView
         android:id="@+id/roomName"
         android:layout_width="213dp"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="name"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/room_start1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/room_start"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
-
-    <ImageView
-        android:id="@+id/room_start3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintStart_toEndOf="@+id/room_start1"
-        tools:layout_editor_absoluteY="221dp" />
-
-    <ImageView
-        android:id="@+id/room_start2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/room_start3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
-
-    <ImageView
-        android:id="@+id/room_start4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/room_start2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
-
-    <ImageView
-        android:id="@+id/room_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:src="@android:drawable/btn_star_big_on"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomImage" />
 
     <TextView
         android:id="@+id/textview1"
         android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="4dp"
         android:text="חברה"
         app:layout_constraintBaseline_toBaselineOf="@+id/companyRoom"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -101,119 +56,96 @@
         android:id="@+id/companyRoom"
         android:layout_width="139dp"
         android:layout_height="36dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintEnd_toStartOf="@+id/textview1"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/roomImage"
-        tools:layout_editor_absoluteY="84dp" />
+        app:layout_constraintTop_toBottomOf="@+id/roomName" />
 
     <TextView
         android:id="@+id/textview2"
         android:layout_width="144dp"
         android:layout_height="35dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         android:text="קצת על החדר"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview1" />
+        app:layout_constraintTop_toBottomOf="@+id/companyRoom" />
 
     <EditText
         android:id="@+id/descriptionRoom"
-        android:layout_width="159dp"
-        android:layout_height="149dp"
+        android:layout_width="138dp"
+        android:layout_height="66dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview2" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="252dp"
-        android:layout_height="129dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="116dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/addressRoom"
-        android:layout_width="189dp"
-        android:layout_height="36dp"
+        android:layout_width="191dp"
+        android:layout_height="47dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/mapView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionRoom"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="114dp"
         android:layout_height="22dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="מספר משתתפים:"
         android:textAlignment="viewEnd"
-        app:layout_constraintEnd_toStartOf="@+id/descriptionRoom"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/room_start3" />
+        app:layout_constraintTop_toBottomOf="@+id/roomImage"
+        app:layout_constraintVertical_bias="0.52" />
 
     <EditText
         android:id="@+id/minNumValue_Room"
         android:layout_width="54dp"
-        android:layout_height="37dp"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="302dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/maxNumValue_Room"
         android:layout_width="61dp"
         android:layout_height="38dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="192dp"
+        android:layout_marginEnd="60dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintEnd_toStartOf="@+id/descriptionRoom"
-        tools:layout_editor_absoluteY="302dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/descriptionRoom" />
 
     <TextView
         android:id="@+id/textView15"
-        android:layout_width="22dp"
-        android:layout_height="32dp"
+        android:layout_width="42dp"
+        android:layout_height="37dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/maxNumValue_Room"
         app:layout_constraintEnd_toStartOf="@+id/maxNumValue_Room"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/minNumValue_Room"
-        tools:layout_editor_absoluteY="307dp" />
+        app:layout_constraintStart_toEndOf="@+id/minNumValue_Room" />
 
 </android.support.constraint.ConstraintLayout>

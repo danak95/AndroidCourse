@@ -297,6 +297,29 @@ public class MainActivity extends AppCompatActivity
 
         });
 
+        // Update navigation side bar- image, name and email
+
+        // Get current user
+        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                currUser = user;
+            }
+        });
+        // Get the fields
+        final ImageView currUserImage = this.findViewById(R.id.nav_imageView);
+        final TextView userNameView = this.findViewById(R.id.nav_nameView);
+        final TextView userEmailView = this.findViewById(R.id.nav_emailView);
+        Model.getInstance().getImage(currUser.getImagePath(), new Model.GetImageListener() {
+            @Override
+            public void onDone(Bitmap imageBitmap) {
+                // Update Data
+                currUserImage.setImageBitmap(imageBitmap);
+                userNameView.setText(currUser.getName());
+                userEmailView.setText(currUser.getEmail());
+            }
+        });
+
         return true;
     }
 

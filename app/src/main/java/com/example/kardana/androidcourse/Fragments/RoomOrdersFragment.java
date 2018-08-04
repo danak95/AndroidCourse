@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.example.kardana.androidcourse.R;
 
@@ -25,7 +27,9 @@ public class RoomOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_orders_fragment, container, false);
-
+        WebView roomWebView = (WebView) view.findViewById(R.id.room_WebView);
+        roomWebView.setWebViewClient(new WebViewClient());
+        roomWebView.loadUrl("https://www.google.com");
         return view;
     }
 }
