@@ -14,24 +14,46 @@ import com.example.kardana.androidcourse.Model.User;
 
 public class ESCEntranceActivity extends AppCompatActivity {
 
-    public ProgressBar progress;
+    private ProgressBar progress;
+    private boolean isViewLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user)
+            {
+                if (user != null)
+                {
+                    callMainActivity();
+                }
+                else
+                {
+                    loadview();
+                }
+            }
+        });
+
+
+    }
+
+    private void loadview(){
         setContentView(R.layout.activity_esc__entrance);
+        isViewLoaded = true;
         progress = this.findViewById(R.id.progressBar);
         progress.setVisibility(View.INVISIBLE);
-
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        progress.setVisibility(View.INVISIBLE);
-        ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).setText("");
-        ((EditText) this.findViewById(R.id.password_field_login)).setText("");
+        if (isViewLoaded) {
+            progress.setVisibility(View.INVISIBLE);
+            ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).setText("");
+            ((EditText) this.findViewById(R.id.password_field_login)).setText("");
+        }
     }
 
     // This function handles login of existing user
@@ -45,10 +67,7 @@ public class ESCEntranceActivity extends AppCompatActivity {
                 if (user != null)
                 {
                     progress.setVisibility(View.VISIBLE);
-                    Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
-                    main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(main_intent);
-                    finish();
+                    callMainActivity();
                 }
                 else
                 {
@@ -56,6 +75,14 @@ public class ESCEntranceActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void callMainActivity()
+    {
+        Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
+        main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(main_intent);
+        finish();
     }
 
     // This function opens the Add new member activity
