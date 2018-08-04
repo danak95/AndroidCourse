@@ -82,6 +82,7 @@ public class ESCEntranceActivity extends AppCompatActivity {
         Intent main_intent = new Intent(getBaseContext(), MainActivity.class);
         main_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(main_intent);
+        overridePendingTransition(0, 0);
         finish();
     }
 
