@@ -154,6 +154,11 @@ public class ModelFirebaseUser {
         void onComplete(boolean success);
     }
     public void updateUser(User user,final IUpdateUserCallback callback){
+        // Update Firebase authentication
+        mAuth.getCurrentUser().updateEmail(user.getEmail());
+        mAuth.getCurrentUser().updatePassword(user.getPassword());
+
+        // Update Firebase DB
         usersReference.child(user.getUserid()).setValue(user, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {

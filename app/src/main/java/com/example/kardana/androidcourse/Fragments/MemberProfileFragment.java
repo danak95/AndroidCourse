@@ -165,8 +165,16 @@ public class MemberProfileFragment extends Fragment {
                 Model.getInstance().updateUser(currentUser, new Model.IUpdateUserCallback() {
                     @Override
                     public void onComplete(boolean success) {
-                        if (success)
+                        if (success) {
                             Toast.makeText(getContext(), "Data Saved Successfully!", Toast.LENGTH_SHORT).show();
+                            Model.getInstance().saveImage("Users", currentUser.getUserid(), imageCurrUser, new Model.SaveImageListener() {
+                                @Override
+                                public void onDone(String url) {
+
+                                }
+                            });
+                            getActivity().onBackPressed();
+                        }
                         else
                             Toast.makeText(getContext(), "Error while saving changes!", Toast.LENGTH_SHORT).show();
                     }
@@ -185,6 +193,13 @@ public class MemberProfileFragment extends Fragment {
                 memberPhone.setText(currentUser.getPhone());
                 memberEmail.setText(currentUser.getEmail());
                 memberPassword.setText(currentUser.getPassword());
+                imagePath = currentUser.getImagePath();
+                Model.getInstance().getImage(imagePath, new Model.GetImageListener() {
+                    @Override
+                    public void onDone(Bitmap imageBitmap) {
+                        memberImage.setImageBitmap(imageBitmap);
+                    }
+                });
             }
         });
 
@@ -196,6 +211,11 @@ public class MemberProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void OnBack()
+    {
+
     }
 
     // This function manages the picking image - opens a dialog for choosing between
