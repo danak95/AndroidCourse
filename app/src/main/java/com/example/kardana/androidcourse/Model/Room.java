@@ -34,6 +34,8 @@ public class Room implements Parcelable
     private String roomSite;
     private List<RoomType> types;
 
+    public final static String IMAGE_PATH="Rooms";
+
     public Room(String name, String address, String description,
                 String image_path, double rank, int company_id,
                 int owner_id, int min_num_of_people, int max_num_of_people,
