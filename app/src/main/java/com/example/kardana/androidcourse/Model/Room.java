@@ -2,6 +2,8 @@ package com.example.kardana.androidcourse.Model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.example.kardana.androidcourse.RoomType;
@@ -12,7 +14,7 @@ import java.util.List;
  * Created by Dana on 20-May-18.
  */
 @Entity
-public class Room
+public class Room implements Parcelable
 {
     @PrimaryKey
     @NonNull
@@ -193,5 +195,33 @@ public class Room
     public void removeType(RoomType type)
     {
         this.types.remove(type);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(new String []{
+                this.id,
+                this.name,
+                this.address,
+                this.description,
+                this.imagePath});
+        parcel.writeDouble(this.rank);
+        parcel.writeIntArray(new int [] {
+                this.companyId,
+                this.ownerId,
+                this.minNumOfPeople,
+                this.maxNumOfPeople});
+        parcel.writeStringArray(new String []{
+                this.comments,
+                this.roomSite});
+
+        for(RoomType type : this.types) {
+            parcel.writeString(type.getName());
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.kardana.androidcourse;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.example.kardana.androidcourse.Model.Room;
+import com.example.kardana.androidcourse.Model.RoomsViewModel;
 
 /**
  * Created by Dana on 20-May-18.
@@ -89,18 +91,6 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
         holder.roomImage.setBackgroundResource(R.drawable.ic_menu_camera);
-
-        holder.roomListItem.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Fragment fragment = new RoomFragment();
-                FragmentManager fragmentManager = ((MainActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
-            }
-        });
 
         return convertView;
     }

@@ -5,12 +5,16 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kardana.androidcourse.FilterByType;
+import com.example.kardana.androidcourse.MainActivity;
 import com.example.kardana.androidcourse.Model.ModelFirebaseRoom;
 import com.example.kardana.androidcourse.Model.RoomsViewModel;
 import com.example.kardana.androidcourse.R;
@@ -47,6 +51,20 @@ public class HomeFragment extends Fragment {
         roomListAdapter = new RoomListAdapter(view.getContext(),  new ArrayList<Room>());
         ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Room room= (Room)parent.getAdapter().getItem(position);
+                Fragment fragment = new RoomFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("curr_room", room);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)(view.getContext())).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
+            }
+        });
         dataModel = ViewModelProviders.of(this).get(RoomsViewModel.class);
         dataModel.getData().observe(this, new Observer<List<Room>>() {
             @Override
