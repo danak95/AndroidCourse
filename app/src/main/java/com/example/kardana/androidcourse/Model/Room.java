@@ -224,4 +224,14 @@ public class Room implements Parcelable
             parcel.writeString(type.getName());
         }
     }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Room createFromParcel(Parcel in) {
+            return new Room(in);
+        }
+
+        public Room[] newArray(int size) {
+            return new Room[size];
+        }
+    };
 }
