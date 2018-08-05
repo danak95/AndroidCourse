@@ -22,18 +22,16 @@ public class Room
     private String description;
     private String imagePath;
     private double rank;
-    private int companyId;
-    private int ownerId;
+    private String ownerId;
     private int minNumOfPeople;
     private int maxNumOfPeople;
-    private String comments;
     private String roomSite;
     private List<RoomType> types;
 
     public Room(String name, String address, String description,
-                String image_path, double rank, int company_id,
-                int owner_id, int min_num_of_people, int max_num_of_people,
-                String comments, String room_site, List<RoomType> types)
+                String image_path, double rank, String owner_id,
+                int min_num_of_people, int max_num_of_people,
+                String room_site, List<RoomType> types)
     {
         this.id = "1";
         this.name = name;
@@ -41,11 +39,9 @@ public class Room
         this.description = description;
         this.imagePath = image_path;
         this.rank = rank;
-        this.companyId = company_id;
         this.ownerId = owner_id;
         this.minNumOfPeople = min_num_of_people;
         this.maxNumOfPeople = max_num_of_people;
-        this.comments = comments;
         this.roomSite = room_site;
         this.types = types;
     }
@@ -137,14 +133,6 @@ public class Room
         this.imagePath = imagePath;
     }
 
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-
     public int getMinNumOfPeople() {
         return minNumOfPeople;
     }
@@ -161,20 +149,12 @@ public class Room
         this.maxNumOfPeople = maxNumOfPeople;
     }
 
-    public int getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
     }
 
     public String getRoomSite() {

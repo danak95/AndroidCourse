@@ -35,7 +35,7 @@ public class ModelFirebaseRoom {
     public void getAllRooms(final IGetAllRooms callback) {
         eventListener = roomsReference.addValueEventListener(new ValueEventListener() {
             @Override public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Room> roomList = new ArrayList<Room>();
+                List<Room> roomList = new ArrayList<Room>();
 
                 for (DataSnapshot roomSnapshot: dataSnapshot.getChildren()) {
                     roomList.add(roomSnapshot.getValue(Room.class));

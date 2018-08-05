@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.kardana.androidcourse.Fragments.AddNewRoomFragment;
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
 import com.example.kardana.androidcourse.Fragments.MemberProfileFragment;
 import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
@@ -464,6 +465,9 @@ public class MainActivity extends AppCompatActivity
             case 4:
                 WishlistFragment wishlistFragment = new WishlistFragment();
                 return wishlistFragment;
+            case 5:
+                AddNewRoomFragment addNewRoom = new AddNewRoomFragment();
+                return  addNewRoom;
             default:
                 //return new HomeFragment();
         }

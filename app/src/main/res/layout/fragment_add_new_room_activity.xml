@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.AddNewRoomFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/add_new_room_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="180dp"
+            android:layout_height="68dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="24dp"
+            android:text="הוספת חדר"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.328"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="74dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="20dp"
+            android:text="שם החדר"
+            app:layout_constraintBaseline_toBaselineOf="@+id/addRoom_name_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.354"
+            app:layout_constraintStart_toEndOf="@+id/addRoom_name_field" />
+
+        <EditText
+            android:id="@+id/addRoom_name_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="53dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="48dp"
+            android:text="מיקום"
+            app:layout_constraintBaseline_toBaselineOf="@+id/addRoom_address_field"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/addRoom_address_field"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintEnd_toStartOf="@+id/textView12"
+            app:layout_constraintHorizontal_bias="0.634"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addRoom_name_field" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="66dp"
+            android:layout_height="27dp"
+            android:layout_marginEnd="48dp"
+            android:text="תיאור"
+            app:layout_constraintBaseline_toBaselineOf="@+id/addRoom_description_field"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/addRoom_description_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintEnd_toStartOf="@+id/textView13"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addRoom_address_field" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="99dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="מספר משתתפים מינימלי"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/addRoom_minNumPeople_field"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <EditText
+            android:id="@+id/addRoom_minNumPeople_field"
+            android:layout_width="51dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="20dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
+            app:layout_constraintStart_toEndOf="@+id/textView17" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="108dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="16dp"
+            android:text="מספר משתתפים מקסימלי"
+            app:layout_constraintStart_toEndOf="@+id/addRoom_maxNumPeople_field"
+            app:layout_constraintTop_toBottomOf="@+id/addRoom_description_field" />
+
+        <EditText
+            android:id="@+id/addRoom_maxNumPeople_field"
+            android:layout_width="64dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="28dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/addRoom_image_field"
+            android:layout_width="187dp"
+            android:layout_height="97dp"
+            android:layout_marginBottom="4dp"
+            android:src="@android:color/holo_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addRoom_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:clickable="true"
+            android:src="@android:drawable/ic_menu_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addRoom_image_field"
+            app:layout_constraintHorizontal_bias="0.444"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addRoom_addImage_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:src="@android:drawable/ic_menu_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addRoom_image_field" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:text="קישור לאתר"
+            app:layout_constraintBaseline_toBaselineOf="@+id/addRoom_URL_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addRoom_URL_field" />
+
+        <EditText
+            android:id="@+id/addRoom_URL_field"
+            android:layout_width="240dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <Button
+            android:id="@+id/addRoom_typesDialog_btn"
+            android:layout_width="142dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="8dp"
+            android:text="בחר סוגים"
+            app:layout_constraintBottom_toTopOf="@+id/addRoom_image_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addRoom_URL_field"
+            app:layout_constraintVertical_bias="0.75" />
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

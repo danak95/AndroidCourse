@@ -213,11 +213,6 @@ public class MemberProfileFragment extends Fragment {
         return view;
     }
 
-    public void OnBack()
-    {
-
-    }
-
     // This function manages the picking image - opens a dialog for choosing between
     // gallery and camera
     private void ShowImageDialog() {
