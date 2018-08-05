@@ -480,6 +480,7 @@ public class MainActivity extends AppCompatActivity
 
             case 4:
                 WishlistFragment wishlistFragment = new WishlistFragment();
+                currFragment = wishlistFragment;
                 return wishlistFragment;
             case 5:
                 RoomManagmentFragment roomManagmentFragment = new RoomManagmentFragment();
