@@ -1,6 +1,8 @@
 package com.example.kardana.androidcourse;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,7 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
+import com.example.kardana.androidcourse.Model.RoomsViewModel;
 
 /**
  * Created by Dana on 20-May-18.
@@ -36,6 +40,8 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
     private HashMap<FilterByType,List<String>> constraints;
     private FilterByType filterType;
     private Context context;
+    private ViewHolder holder;
+    private int currPosition;
 
     public RoomListAdapter(Context context, List<Room> data) {
         this.filteredData = data ;
@@ -70,7 +76,8 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
+        holder = null;
+        currPosition = position;
 
         if (convertView == null) {
 
@@ -89,18 +96,18 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
         holder.roomImage.setBackgroundResource(R.drawable.ic_menu_camera);
+//        Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
+//            @Override
+//            public void onDone(Bitmap imageBitmap) {
+//                // Update Data
+//                Room currRoom = filteredData.get(currPosition);
+//                //holder.roomImage.setImageBitmap(imageBitmap);
+//                holder.roomName.setText(currRoom.getName());
+//                holder.roomDescription.setText(currRoom.getDescription());
+//                holder.roomAddress.setText(currRoom.getAddress());
+//            }
+//        });
 
-        holder.roomListItem.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Fragment fragment = new RoomFragment();
-                FragmentManager fragmentManager = ((MainActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
-            }
-        });
 
         return convertView;
     }
