@@ -27,11 +27,6 @@ public class RoomMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_main_fragment, container, false);
-        ConstraintLayout constraintLayout = view.findViewById(R.id.tab_constraint_layout);
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(constraintLayout);
-        constraintSet.connect(R.id.tab_constraint_layout,ConstraintSet.TOP,R.id.tab_layout,ConstraintSet.BOTTOM,10);
-        constraintSet.applyTo(constraintLayout);
         return view;
     }
 }

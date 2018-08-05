@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
 import com.example.kardana.androidcourse.Fragments.MemberProfileFragment;
 import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
+import com.example.kardana.androidcourse.Fragments.RoomManagmentFragment;
 import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.User;
@@ -132,6 +133,10 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+    private void showMainToolbar()
+    {
+
+    }
 
     private void setChildChecked(ExpandedMenuItem child, CheckBox cbCheck)
     {
@@ -221,6 +226,15 @@ public class MainActivity extends AppCompatActivity
                 if (count == 0) {
                     super.onBackPressed();
                 } else {
+                    Toolbar toolbar = findViewById(R.id.toolbar);
+                    ActionBar actionBar = getSupportActionBar();
+                    actionBar.setDisplayShowCustomEnabled(false);
+                    actionBar.setDisplayShowTitleEnabled(true);
+                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                            MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open,
+                            R.string.navigation_drawer_close);
+                    toggle.syncState();
                     filterMenuItem.setVisible(true);
                     searchMenuItem.setVisible(true);
                     getSupportFragmentManager().popBackStack();
@@ -454,9 +468,11 @@ public class MainActivity extends AppCompatActivity
                 return homeFragment;
             case 1:
                 MemberProfileFragment profileFragment = MemberProfileFragment.newInstance(UserId);
+                currFragment = profileFragment;
                 return profileFragment;
             case 2:
                 RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
+                currFragment = roomHistoryFragment;
                 return roomHistoryFragment;
             case 3:
 
@@ -464,6 +480,10 @@ public class MainActivity extends AppCompatActivity
             case 4:
                 WishlistFragment wishlistFragment = new WishlistFragment();
                 return wishlistFragment;
+            case 5:
+                RoomManagmentFragment roomManagmentFragment = new RoomManagmentFragment();
+                currFragment = roomManagmentFragment;
+                return roomManagmentFragment;
             default:
                 //return new HomeFragment();
         }
@@ -496,16 +516,16 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     // reverse back the show
-                    actionBar.setDisplayShowCustomEnabled(false);
-                    actionBar.setDisplayShowTitleEnabled(true);
-                    //get the Drawer and DrawerToggle from Main Activity
-                    // set them back as normal
-                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                            MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open,
-                            R.string.navigation_drawer_close);
-                    // All that to re-synchronize the Drawer State
-                    toggle.syncState();
+//                    actionBar.setDisplayShowCustomEnabled(false);
+//                    actionBar.setDisplayShowTitleEnabled(true);
+//                    //get the Drawer and DrawerToggle from Main Activity
+//                    // set them back as normal
+//                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                            MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open,
+//                            R.string.navigation_drawer_close);
+//                    // All that to re-synchronize the Drawer State
+//                    toggle.syncState();
                     // Implement Back Arrow Icon
                     // so it goes back to previous Fragment
                     onBackPressed();

@@ -39,16 +39,13 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
     private RoomFilter mFilter = new RoomFilter();
     private HashMap<FilterByType,List<String>> constraints;
     private FilterByType filterType;
-    private Context context;
     private ViewHolder holder;
-    private int currPosition;
 
     public RoomListAdapter(Context context, List<Room> data) {
         this.filteredData = data ;
         this.originalData = data ;
         inflater = LayoutInflater.from(context);
         this.constraints = new HashMap<FilterByType,List<String>>();
-        this.context = context;
     }
 
     public void setFilterType(FilterByType filterType)
@@ -74,10 +71,9 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView( int position, View convertView, ViewGroup parent) {
 
         holder = null;
-        currPosition = position;
 
         if (convertView == null) {
 
@@ -96,6 +92,24 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
         holder.roomImage.setBackgroundResource(R.drawable.ic_menu_camera);
+        holder.roomListItem.setTag(position);
+
+        holder.roomListItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = (Integer)view.getTag();
+                Room currRoom = (Room)getItem(position);
+                Fragment fragment = new RoomFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("curr_room", currRoom);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)(view.getContext())).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
+            }
+        });
 //        Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
 //            @Override
 //            public void onDone(Bitmap imageBitmap) {

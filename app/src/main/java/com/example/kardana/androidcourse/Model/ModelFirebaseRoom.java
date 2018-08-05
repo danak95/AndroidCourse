@@ -38,7 +38,13 @@ public class ModelFirebaseRoom {
                 ArrayList<Room> roomList = new ArrayList<Room>();
 
                 for (DataSnapshot roomSnapshot: dataSnapshot.getChildren()) {
-                    roomList.add(roomSnapshot.getValue(Room.class));
+                    try {
+                        roomList.add(roomSnapshot.getValue(Room.class));
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
                 }
 
                 callback.onSuccess(roomList);

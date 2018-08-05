@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.AddNewMemberActivity;
+import com.example.kardana.androidcourse.MainActivity;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.User;
 import com.example.kardana.androidcourse.R;
@@ -86,6 +87,7 @@ public class MemberProfileFragment extends Fragment {
         Log.d("dev", "OnCreateView");
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_member_profile_, container, false);
+        ((MainActivity)getActivity()).showActionBar(R.string.nav_my_profile);
         memberName = (TextView)view.findViewById(R.id.member_name);
         memberGender = (Switch) view.findViewById(R.id.gender_switch);
         memberPhone = view.findViewById(R.id.phone_field);
