@@ -63,13 +63,13 @@ public class Room implements Parcelable
         this.ownerId = stringData.get(4);
         this.imagePath = stringData.get(5);
         this.rank = p.readDouble();
-        int[] intData = new int[4];
+        int[] intData = new int[2];
         p.readIntArray(intData);
-        this.minNumOfPeople = Integer.valueOf(intData[1]);
-        this.maxNumOfPeople = Integer.valueOf(intData[2]);
+        this.minNumOfPeople = Integer.valueOf(intData[0]);
+        this.maxNumOfPeople = Integer.valueOf(intData[1]);
         stringData = new ArrayList<>();
         p.readStringList(stringData);
-        this.roomSite = stringData.get(1);
+        this.roomSite = stringData.get(0);
 
         int typesLength = p.readInt();
 

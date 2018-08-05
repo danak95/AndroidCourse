@@ -37,8 +37,6 @@ public class WishlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.wishlist_fragment, container, false);
-        roomList.add(new Room("123", "1", "1", "1", 4.1));
-        roomList.add(new Room("234", "2", "2", "2", 5.2));
 
         return view;
     }
