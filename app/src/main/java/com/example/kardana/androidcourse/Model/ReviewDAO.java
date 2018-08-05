@@ -8,8 +8,11 @@ import android.arch.persistence.room.Query;
 
 @Dao
 public interface ReviewDAO {
-   @Query("select * from Review where rommId = :room_id")
+    @Query("select * from Review where rommId = :room_id")
     Review getReviewByRoomId(String room_id);
+
+    @Query("select * from Review")
+    Review getAllReview();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNewReview(Review... reviews);

@@ -26,20 +26,18 @@ public class Room implements Parcelable
     private String description;
     private String imagePath;
     private double rank;
-    private int companyId;
-    private int ownerId;
+    private String ownerId;
     private int minNumOfPeople;
     private int maxNumOfPeople;
-    private String comments;
     private String roomSite;
     private List<RoomType> types;
 
     public final static String IMAGE_PATH="Rooms";
 
     public Room(String name, String address, String description,
-                String image_path, double rank, int company_id,
-                int owner_id, int min_num_of_people, int max_num_of_people,
-                String comments, String room_site, List<RoomType> types)
+                String image_path, double rank, String owner_id,
+                int min_num_of_people, int max_num_of_people,
+                String room_site, List<RoomType> types)
     {
         this.id = "1";
         this.name = name;
@@ -47,11 +45,9 @@ public class Room implements Parcelable
         this.description = description;
         this.imagePath = image_path;
         this.rank = rank;
-        this.companyId = company_id;
         this.ownerId = owner_id;
         this.minNumOfPeople = min_num_of_people;
         this.maxNumOfPeople = max_num_of_people;
-        this.comments = comments;
         this.roomSite = room_site;
         this.types = types;
     }
@@ -64,17 +60,15 @@ public class Room implements Parcelable
         this.name = stringData.get(1);
         this.address = stringData.get(2);
         this.description = stringData.get(3);
-        this.imagePath = stringData.get(4);
+        this.ownerId = stringData.get(4);
+        this.imagePath = stringData.get(5);
         this.rank = p.readDouble();
         int[] intData = new int[4];
         p.readIntArray(intData);
-        this.companyId = Integer.valueOf(intData[0]);
-        this.ownerId = Integer.valueOf(intData[1]);
-        this.minNumOfPeople = Integer.valueOf(intData[2]);
-        this.maxNumOfPeople = Integer.valueOf(intData[3]);
+        this.minNumOfPeople = Integer.valueOf(intData[1]);
+        this.maxNumOfPeople = Integer.valueOf(intData[2]);
         stringData = new ArrayList<>();
         p.readStringList(stringData);
-        this.comments = stringData.get(0);
         this.roomSite = stringData.get(1);
 
         int typesLength = p.readInt();
@@ -171,14 +165,6 @@ public class Room implements Parcelable
         this.imagePath = imagePath;
     }
 
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-
     public int getMinNumOfPeople() {
         return minNumOfPeople;
     }
@@ -195,20 +181,12 @@ public class Room implements Parcelable
         this.maxNumOfPeople = maxNumOfPeople;
     }
 
-    public int getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
     }
 
     public String getRoomSite() {
@@ -241,15 +219,13 @@ public class Room implements Parcelable
                 this.name,
                 this.address,
                 this.description,
+                this.ownerId,
                 this.imagePath});
         parcel.writeDouble(this.rank);
         parcel.writeIntArray(new int [] {
-                this.companyId,
-                this.ownerId,
                 this.minNumOfPeople,
                 this.maxNumOfPeople});
         parcel.writeStringArray(new String []{
-                this.comments,
                 this.roomSite});
         parcel.writeInt(this.types.size());
         for(RoomType type : this.types) {
