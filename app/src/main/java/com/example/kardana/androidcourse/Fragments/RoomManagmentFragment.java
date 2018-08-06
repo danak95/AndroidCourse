@@ -1,7 +1,10 @@
 package com.example.kardana.androidcourse.Fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,18 @@ public class RoomManagmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_managment_fragment, container, false);
+        FloatingActionButton addRoomButton = view.findViewById(R.id.addRoomButton);
+        addRoomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new AddNewRoomFragment();
+                FragmentManager fragmentManager = ((MainActivity)(view.getContext())).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
+            }
+        });
         return view;
     }
 
