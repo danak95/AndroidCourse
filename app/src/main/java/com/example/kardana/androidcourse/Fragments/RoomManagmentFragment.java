@@ -82,7 +82,7 @@ public class RoomManagmentFragment extends Fragment {
 
                         for (Room currRoom : rooms)
                         {
-                            if (currRoom.getOwnerId() == currUser.getUserid())
+                            if (currRoom.getOwnerId().equals(currUser.getUserid()))
                             {
                                 roomsOfOwner.add(currRoom);
                             }

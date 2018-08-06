@@ -29,7 +29,7 @@ public class Converter {
 
         if (!value.isEmpty()) {
             for (String typeName : Arrays.asList(value.split(";"))) {
-                types.add(RoomType.valueOf(typeName));
+                types.add(RoomType.getRoomTypeByName(typeName));
             }
         }
 
