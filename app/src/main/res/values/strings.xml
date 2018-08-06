@@ -29,6 +29,8 @@
     <string name="three_stars">שלושה כוכבים</string>
     <string name="two_stars">שתי כוכבים</string>
     <string name="one_star">כוכב אחד</string>
+    <string name="three_stars_and_above">שלושה כוכבים ומעלה</string>
+    <string name="four_stars_and_above">ארבעה כוכבים ומעלה</string>
     <string name="category">קטגוריה</string>
     <string name="rank">דירוג</string>
     <string name="location">מיקום</string>

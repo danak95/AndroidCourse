@@ -12,9 +12,8 @@ import com.example.kardana.androidcourse.Model.Room;
 
 public enum FilterByType {
     NAME(""),
-    CATEGORY(MainActivity.context.getString(R.string.category)),
-    RANK(MainActivity.context.getString(R.string.rank)),
-    LOCATION(MainActivity.context.getString(R.string.location));
+    CATEGORY(ESCApplication.getContext().getString(R.string.category)),
+    RANK(ESCApplication.getContext().getString(R.string.rank));
 
     private String name;
     private static List<Room> originalData = null;
@@ -27,9 +26,9 @@ public enum FilterByType {
 
     private enum RankFilter
     {
-        FIVE_STARS(MainActivity.context.getString(R.string.five_stars)),
-        FOUR_STARS(MainActivity.context.getString(R.string.four_stars)),
-        THREE_STARS(MainActivity.context.getString(R.string.three_stars));
+        FIVE_STARS(ESCApplication.getContext().getString(R.string.five_stars)),
+        FOUR_STARS(ESCApplication.getContext().getString(R.string.four_stars_and_above)),
+        THREE_STARS(ESCApplication.getContext().getString(R.string.three_stars_and_above));
         private String filter;
 
         RankFilter(String filter)
@@ -84,15 +83,17 @@ public enum FilterByType {
                     }
                     break;
                 case CATEGORY:
-                    return null;
+                    for (String constraint : constraints.get(filterType)) {
+                        constraint = constraint.toLowerCase();
+                        roomsAfterFilters.putAll(filterByCategory(constraint));
+                    }
+                    break;
                 case RANK:
                     for (String constraint : constraints.get(filterType)) {
                         constraint = constraint.toLowerCase();
                         roomsAfterFilters.putAll(filterByRank(constraint));
                     }
                     break;
-                case LOCATION:
-                    return null;
             }
         }
 
@@ -110,10 +111,7 @@ public enum FilterByType {
             String data =  originalData.get(i).getName();
             if (data.toLowerCase().contains(constraint.toString())) {
                 String roomName=originalData.get(i).getName();
-                String roomAddress=originalData.get(i).getAddress();
-                String roomDescription=originalData.get(i).getDescription();
-                double roomRank=originalData.get(i).getRank();
-                filteredArrList.put(roomName,new Room(roomName,roomAddress,roomDescription,roomRank));
+                filteredArrList.put(roomName,originalData.get(i));
             }
         }
 
@@ -128,10 +126,23 @@ public enum FilterByType {
             double data =  originalData.get(i).getRank();
             if (data >= getRankByFilter(constraint.toString())) {
                 String roomName=originalData.get(i).getName();
-                String roomAddress=originalData.get(i).getAddress();
-                String roomDescription=originalData.get(i).getDescription();
-                double roomRank=originalData.get(i).getRank();
-                filteredArrList.put(roomName,new Room(roomName,roomAddress,roomDescription,roomRank));
+                filteredArrList.put(roomName,originalData.get(i));
+            }
+        }
+
+        return filteredArrList;
+    }
+
+    private static HashMap<String,Room> filterByCategory(String constraint)
+    {
+        HashMap<String,Room> filteredArrList = new HashMap<String,Room>();
+
+        for (int i = 0; i < originalData.size(); i++) {
+            for(RoomType roomType : originalData.get(i).getTypes()) {
+                if (roomType.getName().equals(constraint.toString())) {
+                    String roomName = originalData.get(i).getName();
+                    filteredArrList.put(roomName, originalData.get(i));
+                }
             }
         }
 
