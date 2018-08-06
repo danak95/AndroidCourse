@@ -87,22 +87,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-        Room newRoom = new Room();
-        newRoom.setName("escapeIt");
-        newRoom.setAddress("tzrifin");
-        newRoom.setDescription("nice");
-        newRoom.setImagePath("");
-        newRoom.setRank(4.5);
-        newRoom.setOwnerId("Z4CFwaxa6OUwsyZ5y2AXCAvFjGt2");
-        newRoom.setMinNumOfPeople(3);
-        newRoom.setMaxNumOfPeople(6);
-        newRoom.setRoomSite("https://www.google.com");
-        List <RoomType> l = new ArrayList<RoomType>();
-        newRoom.setTypes(l);
-        Model.getInstance().addRoom(newRoom);
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
