@@ -34,7 +34,7 @@ public class RoomMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_main_fragment, container, false);
-        currRoom = (Room) getArguments().getSerializable("curr_room");
+        currRoom = getParentFragment().getArguments().getParcelable("curr_room");
         return view;
     }
 }
