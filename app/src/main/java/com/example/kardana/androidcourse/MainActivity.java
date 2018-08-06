@@ -39,6 +39,7 @@ import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
 import com.example.kardana.androidcourse.Fragments.RoomManagmentFragment;
 import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
 
 import java.util.ArrayList;
@@ -85,6 +86,22 @@ public class MainActivity extends AppCompatActivity
                 UserId = user.getUserid();
             }
         });
+
+
+       /* Room newRoom = new Room();
+        newRoom.setName("escapeIt");
+        newRoom.setAddress("tzrifin");
+        newRoom.setDescription("nice");
+        newRoom.setImagePath("");
+        newRoom.setRank(4.3);
+        newRoom.setOwnerId("Z4CFwaxa6OUwsyZ5y2AXCAvFjGt2");
+        newRoom.setMinNumOfPeople(3);
+        newRoom.setMaxNumOfPeople(6);
+        newRoom.setRoomSite("https://www.google.com");
+        List <RoomType> l = new ArrayList<RoomType>();
+        newRoom.setTypes(l);
+        Model.getInstance().addRoom(newRoom);*/
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

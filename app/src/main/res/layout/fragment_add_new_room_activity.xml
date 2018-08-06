@@ -202,15 +202,31 @@
 
         <Button
             android:id="@+id/addRoom_typesDialog_btn"
-            android:layout_width="142dp"
-            android:layout_height="44dp"
+            android:layout_width="104dp"
+            android:layout_height="52dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="8dp"
             android:text="בחר סוגים"
             app:layout_constraintBottom_toTopOf="@+id/addRoom_image_field"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+        <TextView
+            android:id="@+id/addRoom_types_field"
+            android:layout_width="213dp"
+            android:layout_height="39dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="108dp"
+            android:layout_marginTop="28dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/addRoom_image_field"
+            app:layout_constraintEnd_toStartOf="@+id/addRoom_typesDialog_btn"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addRoom_URL_field"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

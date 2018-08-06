@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.R;
 
 /**
@@ -21,9 +23,7 @@ public class RoomFragment extends Fragment {
     private FragmentStatePagerAdapter adapterViewPager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
