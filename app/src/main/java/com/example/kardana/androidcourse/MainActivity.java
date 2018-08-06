@@ -202,27 +202,29 @@ public class MainActivity extends AppCompatActivity
         listDataHeader = new ArrayList<ExpandedMenuHeader>();
         listDataChild = new HashMap<ExpandedMenuHeader, List<ExpandedMenuItem>>();
 
-        ExpandedMenuHeader item1 = new ExpandedMenuHeader("קטגוריה");
+        ExpandedMenuHeader category = new ExpandedMenuHeader("קטגוריה");
         // Adding data header
-        listDataHeader.add(item1);
+        listDataHeader.add(category);
 
-        ExpandedMenuHeader item2 = new ExpandedMenuHeader("דירוג");
-        listDataHeader.add(item2);
+        ExpandedMenuHeader rank = new ExpandedMenuHeader("דירוג");
+        listDataHeader.add(rank);
 
-        ExpandedMenuHeader item3 = new ExpandedMenuHeader("מיקום");
-        listDataHeader.add(item3);
 
         // Adding child data
-        List<ExpandedMenuItem> heading1 = new ArrayList<ExpandedMenuItem>();
-        heading1.add(new ExpandedMenuItem("אימה",item1));
+        List<ExpandedMenuItem> categories = new ArrayList<ExpandedMenuItem>();
+        List<ExpandedMenuItem> ranks = new ArrayList<ExpandedMenuItem>();
 
-        List<ExpandedMenuItem> heading2 = new ArrayList<ExpandedMenuItem>();
-        heading2.add(new ExpandedMenuItem(getString(R.string.five_stars),item2));
-        heading2.add(new ExpandedMenuItem(getString(R.string.four_stars),item2));
-        heading2.add(new ExpandedMenuItem(getString(R.string.three_stars),item2));
+        for(RoomType currType : RoomType.values()) {
+            categories.add(new ExpandedMenuItem(currType.getName(), category));
+        }
 
-        listDataChild.put(listDataHeader.get(0), heading1);// Header, Child data
-        listDataChild.put(listDataHeader.get(1), heading2);
+        for(FilterByType.RankFilter currRank : FilterByType.RankFilter.values())
+        {
+            ranks.add(new ExpandedMenuItem(currRank.getName(),rank));
+        }
+
+        listDataChild.put(listDataHeader.get(0), categories);// Header, Child data
+        listDataChild.put(listDataHeader.get(1), ranks);
 
     }
 

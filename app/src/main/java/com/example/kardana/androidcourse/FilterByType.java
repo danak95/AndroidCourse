@@ -24,21 +24,21 @@ public enum FilterByType {
         this.name = name;
     }
 
-    private enum RankFilter
+    public enum RankFilter
     {
         FIVE_STARS(ESCApplication.getContext().getString(R.string.five_stars)),
         FOUR_STARS(ESCApplication.getContext().getString(R.string.four_stars_and_above)),
         THREE_STARS(ESCApplication.getContext().getString(R.string.three_stars_and_above));
-        private String filter;
+        private String name;
 
-        RankFilter(String filter)
+        RankFilter(String name)
         {
-            this.filter = filter;
+            this.name = name;
         }
 
         private String getString()
         {
-            return filter;
+            return name;
         }
 
         private double getDouble()
@@ -54,6 +54,10 @@ public enum FilterByType {
             }
 
             return 0;
+        }
+        public String getName()
+        {
+            return this.name;
         }
     }
 
@@ -138,10 +142,12 @@ public enum FilterByType {
         HashMap<String,Room> filteredArrList = new HashMap<String,Room>();
 
         for (int i = 0; i < originalData.size(); i++) {
-            for(RoomType roomType : originalData.get(i).getTypes()) {
-                if (roomType.getName().equals(constraint.toString())) {
-                    String roomName = originalData.get(i).getName();
-                    filteredArrList.put(roomName, originalData.get(i));
+            if (originalData.get(i).getTypes() != null) {
+                for (RoomType roomType : originalData.get(i).getTypes()) {
+                    if (roomType.getName().equals(constraint.toString())) {
+                        String roomName = originalData.get(i).getName();
+                        filteredArrList.put(roomName, originalData.get(i));
+                    }
                 }
             }
         }
