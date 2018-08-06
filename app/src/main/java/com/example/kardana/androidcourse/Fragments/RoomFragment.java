@@ -23,7 +23,9 @@ public class RoomFragment extends Fragment {
     private FragmentStatePagerAdapter adapterViewPager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
