@@ -1,6 +1,9 @@
 package com.example.kardana.androidcourse.Fragments;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.kardana.androidcourse.MainActivity;
+import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
+import com.example.kardana.androidcourse.Model.RoomsViewModel;
+import com.example.kardana.androidcourse.Model.User;
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomListAdapter;
 
@@ -24,9 +30,11 @@ import java.util.List;
 
 public class RoomManagmentFragment extends Fragment {
 
-    private ListView roomListView;
     private List<Room> roomList= new ArrayList<Room>();
     private RoomListAdapter roomListAdapter;
+    private User currUser;
+    private RoomsViewModel dataModel;
+    private RoomManagmentFragment roomManagmentFragment = this;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,5 +69,29 @@ public class RoomManagmentFragment extends Fragment {
         ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
         ((MainActivity)getActivity()).showActionBar(R.string.nav_manage_rooms);
+
+        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                currUser = user;
+                dataModel = ViewModelProviders.of(roomManagmentFragment).get(RoomsViewModel.class);
+                dataModel.getData().observe(roomManagmentFragment, new Observer<List<Room>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Room> rooms) {
+                        List<Room> roomsOfOwner = new ArrayList<Room>();
+
+                        for (Room currRoom : rooms)
+                        {
+                            if (currRoom.getOwnerId() == currUser.getUserid())
+                            {
+                                roomsOfOwner.add(currRoom);
+                            }
+                        }
+                        roomListAdapter.updateRoomsList(roomsOfOwner);
+                        roomListAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 }
