@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.R;
 
 /**
@@ -17,9 +18,16 @@ import com.example.kardana.androidcourse.R;
 
 public class RoomMainFragment extends Fragment {
 
+    private Room currRoom;
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -27,6 +35,7 @@ public class RoomMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_main_fragment, container, false);
+        //currRoom = savedInstanceState.getParcelable("curr_room");
         return view;
     }
 }

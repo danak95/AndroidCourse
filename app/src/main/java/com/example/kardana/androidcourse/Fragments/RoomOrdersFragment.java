@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.R;
 
 /**
@@ -15,6 +16,7 @@ import com.example.kardana.androidcourse.R;
  */
 
 public class RoomOrdersFragment extends Fragment {
+    private Room currRoom;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,8 @@ public class RoomOrdersFragment extends Fragment {
         View view = inflater.inflate(R.layout.room_orders_fragment, container, false);
         WebView roomWebView = (WebView) view.findViewById(R.id.room_WebView);
         roomWebView.setWebViewClient(new WebViewClient());
-        roomWebView.loadUrl("https://www.google.com");
+      //  currRoom = savedInstanceState.getParcelable("curr_room");
+        roomWebView.loadUrl(currRoom.getRoomSite());
         return view;
     }
 }

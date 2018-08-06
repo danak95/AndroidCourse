@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.Model.Model;
@@ -26,6 +27,7 @@ import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -58,6 +60,7 @@ public class AddNewRoomFragment extends Fragment {
     public EditText newRoomMaxNumPeople;
     public EditText newRoomUrl;
     public ImageView newRoomImage;
+    public TextView  newRoomTypes;
     public FloatingActionButton newRoomSaveBtn;
     public FloatingActionButton newRoomAddImageBtn;
     public Button    newRoomAddTypesBtn;
@@ -68,7 +71,7 @@ public class AddNewRoomFragment extends Fragment {
     boolean[] selected = new boolean[RoomType.values().length];
     String[] data = new String[RoomType.values().length];
     int index = 0;
-    public Dialog typesDialog() {
+    public void typesDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         for (RoomType type : RoomType.values())
@@ -95,10 +98,12 @@ public class AddNewRoomFragment extends Fragment {
             public void onClick(DialogInterface dialog, int id) {
                 String selects = "";
                 for (int i = 0; i < selected.length; i++) {
-                    if (selected[i]) selects = selects + " " + data[i];
+                    if (selected[i]) {
+                        selects = selects + " , " + data[i];
+                    }
                 }
-                Toast.makeText(getActivity(), "OK" + selects,
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "OK" , Toast.LENGTH_SHORT).show();
+                newRoomTypes.setText(selects);
             }
         });
         builder.setNegativeButton("CANCEL",
@@ -108,7 +113,7 @@ public class AddNewRoomFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                     }
                 });
-        return builder.create();
+        builder.show();
     }
 
     public AddNewRoomFragment() {
@@ -140,30 +145,23 @@ public class AddNewRoomFragment extends Fragment {
         newRoomMaxNumPeople = (EditText) view.findViewById(R.id.addRoom_maxNumPeople_field);
         newRoomUrl = (EditText) view.findViewById(R.id.addRoom_URL_field);
         newRoomImage = (ImageView) view.findViewById(R.id.addRoom_image_field);
+        newRoomTypes = (TextView) view.findViewById(R.id.addRoom_types_field);
         newRoomSaveBtn = (FloatingActionButton) view.findViewById(R.id.addRoom_save_btn);
         newRoomAddImageBtn = (FloatingActionButton) view.findViewById(R.id.addRoom_addImage_btn);
         newRoomAddTypesBtn = (Button) view.findViewById(R.id.addRoom_typesDialog_btn);
-
-        newRoom = new Room();
-        newRoom.setName(newRoomName.getText().toString());
-        newRoom.setAddress(newRoomAddress.getText().toString());
-        newRoom.setDescription(newRoomDescription.getText().toString());
-        newRoom.setMinNumOfPeople(Integer.parseInt(newRoomMinNumPeople.getText().toString()));
-        newRoom.setMaxNumOfPeople(Integer.parseInt(newRoomMaxNumPeople.getText().toString()));
-        newRoom.setRoomSite(newRoomUrl.getText().toString());
-        newRoom.setRoomSite("");
 
         Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
             @Override
             public void onComplete(User user) {
                 currUser = user;
-                newRoom.setOwnerId(currUser.getUserid());
             }
         });
 
         newRoomSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                types = new ArrayList<RoomType>();
+
                 if (!selected.equals(null))
                 {
                     int index = 0;
@@ -173,12 +171,25 @@ public class AddNewRoomFragment extends Fragment {
                             types.add(type);
                         index++;
                     }
-                    Model.getInstance().addRoom(newRoom);
 
-                    Model.getInstance().saveImage("Rooms", newRoom.getId(), imageBitmap, new Model.SaveImageListener() {
+                    newRoom = new Room();
+                    newRoom.setRank(0.0);
+                    newRoom.setName(newRoomName.getText().toString());
+                    newRoom.setAddress(newRoomAddress.getText().toString());
+                    newRoom.setDescription(newRoomDescription.getText().toString());
+                    newRoom.setMinNumOfPeople(Integer.parseInt(newRoomMinNumPeople.getText().toString()));
+                    newRoom.setMaxNumOfPeople(Integer.parseInt(newRoomMaxNumPeople.getText().toString()));
+                    newRoom.setRoomSite(newRoomUrl.getText().toString());
+                    newRoom.setOwnerId(currUser.getUserid());
+                    newRoom.setTypes(types);
+
+                    Model.getInstance().saveImage(Room.IMAGE_PATH, newRoom.getId(), imageBitmap, new Model.SaveImageListener() {
                         @Override
                         public void onDone(String url) {
-                            newRoom.setRoomSite(url);
+                            newRoom.setImagePath(url);
+                            Model.getInstance().addRoom(newRoom);
+                            Toast.makeText(getContext(), "Room was saved successfully!", Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
                         }
                     });
                 }
