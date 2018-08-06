@@ -91,7 +91,15 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomName.setText(filteredData.get(position).getName());
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
-        holder.roomImage.setBackgroundResource(R.drawable.ic_menu_camera);
+        holder.roomListItem.setTag(position);
+
+        Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
+            @Override
+            public void onDone(Bitmap imageBitmap) {
+                // Update Data
+                holder.roomImage.setImageBitmap(imageBitmap);
+            }
+        });
         holder.roomListItem.setTag(position);
 
         holder.roomListItem.setOnClickListener(new View.OnClickListener() {
@@ -110,17 +118,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
                 fragmentTransaction.replace(R.id.frame, fragment).addToBackStack(null).commit();
             }
         });
-//        Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
-//            @Override
-//            public void onDone(Bitmap imageBitmap) {
-//                // Update Data
-//                Room currRoom = filteredData.get(currPosition);
-//                //holder.roomImage.setImageBitmap(imageBitmap);
-//                holder.roomName.setText(currRoom.getName());
-//                holder.roomDescription.setText(currRoom.getDescription());
-//                holder.roomAddress.setText(currRoom.getAddress());
-//            }
-//        });
+
 
 
         return convertView;

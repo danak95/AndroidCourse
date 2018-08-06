@@ -118,27 +118,29 @@ public class Model {
         void onDone(Bitmap imageBitmap);
     }
     public void getImage(final String url, final GetImageListener listener ){
-        String localFileName = URLUtil.guessFileName(url, null, null);
-        final Bitmap image = loadImageFromFile(localFileName);
-        if (image == null) {                                      //if image not found - try downloading it from parse
-            modelFirebase.getImage(url, new GetImageListener() {
-                @Override
-                public void onDone(Bitmap imageBitmap) {
-                    if (imageBitmap == null) {
-                        listener.onDone(null);
-                    }else {
-                        //2.  save the image localy
-                        String localFileName = URLUtil.guessFileName(url, null, null);
-                        Log.d("TAG", "save image to cache: " + localFileName);
-                        saveImageToFile(imageBitmap, localFileName);
-                        //3. return the image using the listener
-                        listener.onDone(imageBitmap);
+        if(!url.isEmpty()) {
+            String localFileName = URLUtil.guessFileName(url, null, null);
+            final Bitmap image = loadImageFromFile(localFileName);
+            if (image == null) {                                      //if image not found - try downloading it from parse
+                modelFirebase.getImage(url, new GetImageListener() {
+                    @Override
+                    public void onDone(Bitmap imageBitmap) {
+                        if (imageBitmap == null) {
+                            listener.onDone(null);
+                        } else {
+                            //2.  save the image localy
+                            String localFileName = URLUtil.guessFileName(url, null, null);
+                            Log.d("TAG", "save image to cache: " + localFileName);
+                            saveImageToFile(imageBitmap, localFileName);
+                            //3. return the image using the listener
+                            listener.onDone(imageBitmap);
+                        }
                     }
-                }
-            });
-        }else {
-            Log.d("TAG","OK reading cache image: " + localFileName);
-            listener.onDone(image);
+                });
+            } else {
+                Log.d("TAG", "OK reading cache image: " + localFileName);
+                listener.onDone(image);
+            }
         }
     }
 
