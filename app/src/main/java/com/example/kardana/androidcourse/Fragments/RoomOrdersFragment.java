@@ -1,10 +1,12 @@
 package com.example.kardana.androidcourse.Fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -29,9 +31,26 @@ public class RoomOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_orders_fragment, container, false);
+        currRoom = getParentFragment().getArguments().getParcelable("curr_room");
         WebView roomWebView = (WebView) view.findViewById(R.id.room_WebView);
+        WebSettings settings = roomWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(false);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setDomStorageEnabled(true);
+        roomWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        roomWebView.setScrollbarFadingEnabled(true);
+        if (Build.VERSION.SDK_INT >= 19) {
+            roomWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }
+        else {
+            roomWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         roomWebView.setWebViewClient(new WebViewClient());
-      //  currRoom = savedInstanceState.getParcelable("curr_room");
         roomWebView.loadUrl(currRoom.getRoomSite());
         return view;
     }
