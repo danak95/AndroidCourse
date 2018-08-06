@@ -12,16 +12,15 @@ import android.widget.TextView;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.R;
 
+import java.io.Serializable;
+
 /**
  * Created by Dana on 16-Jun-18.
  */
 
 public class RoomMainFragment extends Fragment {
 
-    private Room currRoom;
-
-
-
+    private static Room currRoom;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
