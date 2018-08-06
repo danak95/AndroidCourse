@@ -9,7 +9,7 @@
     tools:context="com.example.kardana.androidcourse.Fragments.RoomMainFragment">
 
     <ImageButton
-        android:id="@+id/update_member_btn2"
+        android:id="@+id/update_room_btn"
         android:layout_width="41dp"
         android:layout_height="43dp"
         android:layout_marginBottom="16dp"
@@ -48,16 +48,16 @@
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_marginEnd="4dp"
-        android:text="חברה"
-        app:layout_constraintBaseline_toBaselineOf="@+id/companyRoom"
+        android:text="דירוג"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rankRoom"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/companyRoom"
+        android:id="@+id/rankRoom"
         android:layout_width="139dp"
         android:layout_height="36dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
@@ -68,16 +68,16 @@
         android:id="@+id/textview2"
         android:layout_width="144dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"
         android:text="קצת על החדר"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/companyRoom" />
+        app:layout_constraintTop_toBottomOf="@+id/roomAddress" />
 
     <EditText
         android:id="@+id/descriptionRoom"
-        android:layout_width="138dp"
-        android:layout_height="66dp"
+        android:layout_width="157dp"
+        android:layout_height="186dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
         android:ems="10"
@@ -86,18 +86,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textview2" />
 
     <EditText
-        android:id="@+id/addressRoom"
+        android:id="@+id/roomAddress"
         android:layout_width="191dp"
         android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionRoom"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/rankRoom" />
 
     <TextView
         android:id="@+id/textView14"
@@ -128,8 +126,8 @@
         android:id="@+id/maxNumValue_Room"
         android:layout_width="61dp"
         android:layout_height="38dp"
-        android:layout_marginBottom="192dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="184dp"
+        android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
@@ -147,5 +145,47 @@
         app:layout_constraintEnd_toStartOf="@+id/maxNumValue_Room"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/minNumValue_Room" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/pickImage_room_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="16dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/room_types_textView"
+        android:layout_width="128dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="409dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/room_types_btn"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toTopOf="@+id/update_room_btn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/room_SaveChanges_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="12dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/update_room_btn" />
 
 </android.support.constraint.ConstraintLayout>

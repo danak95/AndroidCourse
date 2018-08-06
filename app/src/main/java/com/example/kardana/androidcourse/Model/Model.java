@@ -68,6 +68,27 @@ public class Model {
         });
     }
 
+    // Get user by ID
+    interface IGetUserByIdCallback {
+        void onComplete(User user);
+        void onCancel();
+    }
+    public void getUserById(String id, final IGetUserByIdCallback callback) {
+        modelFirebaseUser.getUserById(id, new ModelFirebaseUser.IGetUserByIdCallback() {
+            @Override
+            public void onComplete(User user) {
+                Log.d("dev","onComplete Model getUserById");
+                callback.onComplete(user);
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("dev","onCancel Model getUserById");
+                callback.onCancel();
+            }
+        });
+    }
+
     // Add new member
     public interface IAddNewUser {
         void onComplete(User user);
@@ -82,7 +103,6 @@ public class Model {
         });
     }
 
-    // Get current user
     // Get current user
     public interface IGetCurrentUserCallback {
         void onComplete(User user);
