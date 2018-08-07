@@ -9,37 +9,40 @@ public class Review {
     @PrimaryKey
     @NonNull
     private String reviewId;
-    private String rommId;
+    private String roomId;
     private String userId;
     private String date;
     private int    rank;
     private String content;
+    private String imagePath;
 
     // Ctors
     public Review() {
         super();
     }
 
-    public Review (String reviewId, String roomId, String userId, String date, int rank, String content)
+    public Review (String reviewId, String roomId, String userId, String date, int rank, String content, String imagePath)
     {
         super();
         this.setReviewId(reviewId);
-        this.setRommId(roomId);
+        this.setRoomId(roomId);
         this.setUserId(userId);
         this.setDate(date);
         this.setRank(rank);
         this.setContent(content);
+        this.setImagePath(imagePath);
     }
 
     public Review(Review copy)
     {
         super();
         this.setReviewId(copy.getReviewId());
-        this.setRommId(copy.getRommId());
+        this.setRoomId(copy.getRoomId());
         this.setUserId(copy.getUserId());
         this.setDate(copy.getDate());
         this.setRank(copy.getRank());
         this.setContent(copy.getContent());
+        this.setImagePath(copy.imagePath);
     }
 
     // Getters and Setters
@@ -52,12 +55,12 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public String getRommId() {
-        return rommId;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setRommId(String rommId) {
-        this.rommId = rommId;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public String getUserId() {
@@ -90,6 +93,14 @@ public class Review {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
 }

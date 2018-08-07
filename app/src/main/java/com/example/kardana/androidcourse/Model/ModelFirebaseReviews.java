@@ -11,7 +11,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dana on 28-Jul-18.
@@ -79,7 +78,7 @@ public class ModelFirebaseReviews {
                 for (DataSnapshot snap: dataSnapshot.getChildren()){
                     Review reviewRoom = snap.getValue(Review.class);
                     // Check if the current roomId is equal to the parameter
-                    if (reviewRoom.getRommId() == roomId)
+                    if (reviewRoom.getRoomId() == roomId)
                     {
                         reviewsForRoom.add(reviewRoom);
                     }
