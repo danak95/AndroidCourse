@@ -50,6 +50,8 @@ public class ReviewsListAdapter extends BaseAdapter {
         if (view == null) {
 
             holder = new ReviewsListAdapter.ViewHolder();
+            final Review wantedReview =  data.get(i);
+            holder.item = wantedReview;
             view = inflater.inflate(R.layout.room_reviews_item, null);
             holder.reviewItem = view.findViewById(R.id.review_item);
             holder.reviewUserName = view.findViewById(R.id.review_user_name);
@@ -66,6 +68,7 @@ public class ReviewsListAdapter extends BaseAdapter {
         holder.reviewRank.setText("דירוג: 5/" + String.valueOf(data.get(i).getRank()));
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
+        holder.reviewImage.setTag(data.get(i).getImagePath());
         Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
             @Override
             public void onComplete(User user) {
@@ -86,7 +89,11 @@ public class ReviewsListAdapter extends BaseAdapter {
         Model.getInstance().getImage(data.get(i).getImagePath(), new Model.GetImageListener() {
             @Override
             public void onDone(Bitmap imageBitmap) {
-                holder.reviewImage.setImageBitmap(imageBitmap);
+                String url = holder.reviewImage.getTag().toString();
+
+                if(url.equals(holder.item.getImagePath())) {
+                    holder.reviewImage.setImageBitmap(imageBitmap);
+                }
             }
         });
 
@@ -107,6 +114,7 @@ public class ReviewsListAdapter extends BaseAdapter {
         ImageView reviewImage;
         ImageView reviewUserImage;
         TextView reviewRank;
+        Review item;
     }
 
 }
