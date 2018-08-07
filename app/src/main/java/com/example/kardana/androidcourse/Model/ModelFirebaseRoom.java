@@ -38,10 +38,26 @@ public class ModelFirebaseRoom {
                 List<Room> roomList = new ArrayList<Room>();
 
                 for (DataSnapshot roomSnapshot: dataSnapshot.getChildren()) {
-                        roomList.add(roomSnapshot.getValue(Room.class));
+                    roomList.add(roomSnapshot.getValue(Room.class));
                 }
 
                 callback.onSuccess(roomList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+    }
+    public interface IGetRoomById
+    {
+        void onComplete(Room room);
+    }
+
+    public void getRoomById(String id, final IGetRoomById callback) {
+        eventListener = roomsReference.child(id).addValueEventListener(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                Room room = dataSnapshot.getValue(Room.class);
+                callback.onComplete(room);
             }
 
             @Override
@@ -57,5 +73,18 @@ public class ModelFirebaseRoom {
         String roomGeneratedKey = roomsReference.push().getKey();
         room.setId(roomGeneratedKey);
         roomsReference.child(roomGeneratedKey).setValue(room);
+    }
+
+    interface IUpdateRoomCallback {
+        void onComplete(boolean success);
+    }
+
+    public void updateRoom(Room room, final IUpdateRoomCallback callback) {
+        roomsReference.child(room.getId()).setValue(room, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
     }
 }

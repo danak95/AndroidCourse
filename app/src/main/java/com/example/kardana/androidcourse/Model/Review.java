@@ -16,6 +16,8 @@ public class Review {
     private String content;
     private String imagePath;
 
+    public final static String IMAGE_PATH="Reviews";
+
     // Ctors
     public Review() {
         super();

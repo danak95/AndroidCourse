@@ -1,6 +1,7 @@
 package com.example.kardana.androidcourse;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Review;
+import com.example.kardana.androidcourse.Model.User;
+
 import java.util.List;
 
 public class ReviewsListAdapter extends BaseAdapter {
@@ -58,12 +63,31 @@ public class ReviewsListAdapter extends BaseAdapter {
         }
 
         holder.reviewRank.setText(holder.reviewRank.getText() + String.valueOf(data.get(i).getRank()));
-
-        holder.reviewUserName.setText(data.get(i).getUserId());
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
-        holder.reviewImage.setImageResource(R.drawable.ic_menu_camera);
-        holder.reviewUserImage.setImageResource(R.drawable.avatar);
+        Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
+            @Override
+            public void onComplete(User user) {
+                holder.reviewUserName.setText(user.getName());
+                Model.getInstance().getImage(user.getImagePath(), new Model.GetImageListener() {
+                    @Override
+                    public void onDone(Bitmap imageBitmap) {
+                        holder.reviewUserImage.setImageBitmap(imageBitmap);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+        Model.getInstance().getImage(data.get(i).getImagePath(), new Model.GetImageListener() {
+            @Override
+            public void onDone(Bitmap imageBitmap) {
+                holder.reviewImage.setImageBitmap(imageBitmap);
+            }
+        });
 
 
         return view;

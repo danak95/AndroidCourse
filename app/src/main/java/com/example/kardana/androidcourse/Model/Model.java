@@ -69,7 +69,7 @@ public class Model {
     }
 
     // Get user by ID
-    interface IGetUserByIdCallback {
+    public interface IGetUserByIdCallback {
         void onComplete(User user);
         void onCancel();
     }
@@ -214,6 +214,16 @@ public class Model {
     public void addRoom(Room room)
     {
         modelFirebaseRoom.addRoom(room);
+    }
+
+    public void updateRoom(Room room)
+    {
+        modelFirebaseRoom.updateRoom(room, new ModelFirebaseRoom.IUpdateRoomCallback() {
+            @Override
+            public void onComplete(boolean success) {
+
+            }
+        });
     }
 
     public class RoomsLiveData extends MutableLiveData<List<Room>> {
