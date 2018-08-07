@@ -27,6 +27,8 @@ import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Review;
 import com.example.kardana.androidcourse.Model.ReviewViewModel;
 import com.example.kardana.androidcourse.Model.Room;
+import com.example.kardana.androidcourse.Model.User;
+import com.example.kardana.androidcourse.Model.UserViewModel;
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.ReviewsListAdapter;
 
@@ -49,6 +51,7 @@ public class RoomReviewsFragment extends Fragment {
     private List<Review> reviewList= new ArrayList<Review>();
     private View view;
     private Review newReview;
+    private User currUser = null;
     private Room currRoom = null;
     private ReviewViewModel dataModel;
 
@@ -104,6 +107,22 @@ public class RoomReviewsFragment extends Fragment {
             }
         });
 
+        // Get current user
+        UserViewModel userDataModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userDataModel.getData().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                String userid = Model.getInstance().getCurrentUserId();
+
+                for (User user :  users) {
+                    if (user.getUserid().equals(userid)) {
+                        currUser = user;
+                        break;
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -113,7 +132,7 @@ public class RoomReviewsFragment extends Fragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.add_review_dialog, null);
         final EditText comment = v.findViewById(R.id.addReview_comment_field);
-        RadioGroup group = v.findViewById(R.id.)
+        //RadioGroup group = v.findViewById(R.id.)
         RadioButton star1 = v.findViewById(R.id.one_star_newReview);
         RadioButton star2 = v.findViewById(R.id.two_star_newReview);
         RadioButton star3 = v.findViewById(R.id.three_star_newReview);
