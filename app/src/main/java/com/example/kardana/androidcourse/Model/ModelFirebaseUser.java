@@ -26,7 +26,7 @@ public class ModelFirebaseUser {
     private DatabaseReference usersReference;
     ValueEventListener eventListener;
 
-    private User currentUser;
+    public User currentUser;
 
     public ModelFirebaseUser() {
         mAuth = FirebaseAuth.getInstance();
@@ -98,25 +98,37 @@ public class ModelFirebaseUser {
         void onComplete(User user);
     }
 
+    public String getCurrentUserId()
+    {
+        final FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+        if (firebaseUser == null)
+        {
+            return null;
+        }
+
+        return mAuth.getCurrentUser().getUid();
+    }
+
     public void getCurrentUser(final IGetCurrentUserCallback callback) {
         // singleton
         if (currentUser != null) {
             callback.onComplete(currentUser);
         }
         else {
-            final FirebaseUser firebaseUser = mAuth.getCurrentUser();
+            final String userId = getCurrentUserId();
             Log.d("dev","getCurrentUser ModelUserFirebase ");
 
-            if (firebaseUser == null) {
+            if (userId == null) {
                 callback.onComplete(null);
             }
             else {
-                Log.d("dev","getCurrentUser ModelUserFirebase "+ firebaseUser.getUid());
-                getUserById(firebaseUser.getUid(), new IGetUserByIdCallback() {
+                Log.d("dev","getCurrentUser ModelUserFirebase "+ userId);
+                getUserById(userId, new IGetUserByIdCallback() {
                     @Override
                     public void onComplete(User user) {
                         currentUser = new User(user);
-                        currentUser.setUserid(firebaseUser.getUid());
+                        currentUser.setUserid(userId);
                         callback.onComplete(currentUser);
                     }
 

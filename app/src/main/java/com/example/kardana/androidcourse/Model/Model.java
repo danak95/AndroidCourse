@@ -1,13 +1,18 @@
 package com.example.kardana.androidcourse.Model;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.URLUtil;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -260,8 +265,18 @@ public class Model {
             });
         }
     }
-    public class UsersLiveData extends MutableLiveData<List<User>> {
 
+    public UsersLiveData getAllUsers()
+    {
+        return usersLiveData;
+    }
+
+    public String getCurrentUserId()
+    {
+        return modelFirebaseUser.getCurrentUserId();
+    }
+
+    public class UsersLiveData extends MutableLiveData<List<User>> {
         private UsersLiveData(){
             this.onActive();
         }
@@ -393,4 +408,5 @@ public class Model {
             }
         });
     }
+
 }
