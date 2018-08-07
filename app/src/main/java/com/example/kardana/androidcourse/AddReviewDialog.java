@@ -14,7 +14,7 @@ public class AddReviewDialog extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View v = inflater.inflate(R.layout.add_review_dialog_activity, null);
+        final View v = inflater.inflate(R.layout.add_review_dialog, null);
         builder.setView(v);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

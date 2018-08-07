@@ -12,7 +12,7 @@ public class Review {
     private String roomId;
     private String userId;
     private String date;
-    private int    rank;
+    private double rank;
     private String content;
     private String imagePath;
 
@@ -23,7 +23,7 @@ public class Review {
         super();
     }
 
-    public Review (String reviewId, String roomId, String userId, String date, int rank, String content, String imagePath)
+    public Review (String reviewId, String roomId, String userId, String date, double rank, String content, String imagePath)
     {
         super();
         this.setReviewId(reviewId);
@@ -81,11 +81,11 @@ public class Review {
         this.date = date;
     }
 
-    public int getRank() {
+    public double getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(double rank) {
         this.rank = rank;
     }
 

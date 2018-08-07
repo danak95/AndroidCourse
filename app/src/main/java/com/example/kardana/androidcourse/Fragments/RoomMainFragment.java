@@ -179,7 +179,7 @@ public class RoomMainFragment extends Fragment {
                     Model.getInstance().saveImage(Room.IMAGE_PATH, currRoom.getId(), imageBitmap, new Model.SaveImageListener() {
                         @Override
                         public void onDone(String url) {
-                            Model.getInstance().addRoom(currRoom);
+                            Model.getInstance().updateRoom(currRoom);
                             Toast.makeText(getContext(), "Room's updates saved successfully!", Toast.LENGTH_SHORT).show();
                             getActivity().onBackPressed();
                         }
