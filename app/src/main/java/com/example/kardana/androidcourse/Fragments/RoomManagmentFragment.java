@@ -74,8 +74,8 @@ public class RoomManagmentFragment extends Fragment {
             @Override
             public void onComplete(User user) {
                 currUser = user;
-                dataModel = ViewModelProviders.of(roomManagmentFragment).get(RoomsViewModel.class);
-                dataModel.getData().observe(roomManagmentFragment, new Observer<List<Room>>() {
+                dataModel = ViewModelProviders.of(getActivity()).get(RoomsViewModel.class);
+                dataModel.getData().observe(getActivity(), new Observer<List<Room>>() {
                     @Override
                     public void onChanged(@Nullable List<Room> rooms) {
                         List<Room> roomsOfOwner = new ArrayList<Room>();

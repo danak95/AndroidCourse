@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -137,8 +138,18 @@ public class Model {
     }
 
 
-    public void saveImage(String path, String name, Bitmap imageBitmap, SaveImageListener listener) {
-        modelFirebase.saveImage(path, name, imageBitmap,listener);
+    public void saveImage(final String path, final String name, final Bitmap imageBitmap, final SaveImageListener listener) {
+        class ssaveImageAsyncTask extends AsyncTask<String, String, Bitmap> {
+            @Override
+            protected Bitmap doInBackground(String... strings) {
+                modelFirebase.saveImage(path, name, imageBitmap,listener);
+
+                return null;
+            }
+        }
+        ssaveImageAsyncTask task = new ssaveImageAsyncTask();
+        task.execute();
+
     }
 
     public interface GetImageListener{
@@ -148,22 +159,48 @@ public class Model {
         if(!url.isEmpty()) {
             String localFileName = URLUtil.guessFileName(url, null, null);
             final Bitmap image = loadImageFromFile(localFileName);
-            if (image == null) {                                      //if image not found - try downloading it from parse
-                modelFirebase.getImage(url, new GetImageListener() {
+            if (image == null) {
+                class getImageAsyncTask extends AsyncTask<String, String, Bitmap> {
                     @Override
-                    public void onDone(Bitmap imageBitmap) {
-                        if (imageBitmap == null) {
-                            listener.onDone(null);
-                        } else {
-                            //2.  save the image localy
-                            String localFileName = URLUtil.guessFileName(url, null, null);
-                            Log.d("TAG", "save image to cache: " + localFileName);
-                            saveImageToFile(imageBitmap, localFileName);
-                            //3. return the image using the listener
-                            listener.onDone(imageBitmap);
-                        }
+                    protected Bitmap doInBackground(String... strings) {
+
+                        modelFirebase.getImage(url, new GetImageListener() {
+                            @Override
+                            public void onDone(Bitmap imageBitmap) {
+                                if (imageBitmap == null) {
+                                    listener.onDone(null);
+                                } else {
+                                    //2.  save the image localy
+                                    String localFileName = URLUtil.guessFileName(url, null, null);
+                                    Log.d("TAG", "save image to cache: " + localFileName);
+                                    saveImageToFile(imageBitmap, localFileName);
+                                    //3. return the image using the listener
+                                    listener.onDone(imageBitmap);
+                                }
+                            }
+                        });
+
+                        return null;
                     }
-                });
+                }
+                getImageAsyncTask task = new getImageAsyncTask();
+                task.execute();
+                //if image not found - try downloading it from parse
+//                modelFirebase.getImage(url, new GetImageListener() {
+//                    @Override
+//                    public void onDone(Bitmap imageBitmap) {
+//                        if (imageBitmap == null) {
+//                            listener.onDone(null);
+//                        } else {
+//                            //2.  save the image localy
+//                            String localFileName = URLUtil.guessFileName(url, null, null);
+//                            Log.d("TAG", "save image to cache: " + localFileName);
+//                            saveImageToFile(imageBitmap, localFileName);
+//                            //3. return the image using the listener
+//                            listener.onDone(imageBitmap);
+//                        }
+//                    }
+//                });
             } else {
                 Log.d("TAG", "OK reading cache image: " + localFileName);
                 listener.onDone(image);

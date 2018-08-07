@@ -92,8 +92,8 @@ public class RoomReviewsFragment extends Fragment {
         listView.setAdapter(reviewsListAdapter);
         currRoom = this.getParentFragment().getArguments().getParcelable("curr_room");
 
-        dataModel = ViewModelProviders.of(this).get(ReviewViewModel.class);
-        dataModel.getData().observe(this, new Observer<List<Review>>() {
+        dataModel = ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
+        dataModel.getData().observe(getActivity(), new Observer<List<Review>>() {
             @Override
             public void onChanged(@Nullable List<Review> reviews) {
                 List<Review> filteredReviews = new ArrayList<>();

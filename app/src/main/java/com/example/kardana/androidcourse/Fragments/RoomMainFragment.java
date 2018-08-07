@@ -1,5 +1,6 @@
 package com.example.kardana.androidcourse.Fragments;
 
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
@@ -41,7 +42,7 @@ import java.util.List;
  * Created by Dana on 16-Jun-18.
  */
 
-public class RoomMainFragment extends Fragment {
+public class RoomMainFragment extends Fragment{
 
     //For image
     static final int GALLERY_POSITION = 0;
@@ -102,8 +103,8 @@ public class RoomMainFragment extends Fragment {
         roomMaxNumPeople.setEnabled(false);
 
         // Get current user
-        UserViewModel dataModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        dataModel.getData().observe(this, new Observer<List<User>>() {
+        UserViewModel dataModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
+        dataModel.getData().observe(getActivity(), new Observer<List<User>>() {
             @Override
             public void onChanged(@Nullable List<User> users) {
                 String userid = Model.getInstance().getCurrentUserId();

@@ -51,8 +51,8 @@ public class HomeFragment extends Fragment {
         roomListAdapter = new RoomListAdapter(view.getContext(),  new ArrayList<Room>());
         ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
-        dataModel = ViewModelProviders.of(this).get(RoomsViewModel.class);
-        dataModel.getData().observe(this, new Observer<List<Room>>() {
+        dataModel = ViewModelProviders.of(getActivity()).get(RoomsViewModel.class);
+        dataModel.getData().observe(getActivity(), new Observer<List<Room>>() {
             @Override
             public void onChanged(@Nullable List<Room> rooms) {
                 roomListAdapter.updateRoomsList(rooms);
