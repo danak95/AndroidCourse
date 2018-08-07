@@ -33,7 +33,10 @@ import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.ReviewsListAdapter;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,7 +78,7 @@ public class RoomReviewsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 newReview = new Review();
-                ShowAddReview(view);
+                ShowAddReview();
             }
         });
         return view;
@@ -126,18 +129,18 @@ public class RoomReviewsFragment extends Fragment {
 
     }
 
-    public void ShowAddReview(View view)
+    public void ShowAddReview()
     {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.add_review_dialog, null);
         final EditText comment = v.findViewById(R.id.addReview_comment_field);
-        //RadioGroup group = v.findViewById(R.id.)
-        RadioButton star1 = v.findViewById(R.id.one_star_newReview);
-        RadioButton star2 = v.findViewById(R.id.two_star_newReview);
-        RadioButton star3 = v.findViewById(R.id.three_star_newReview);
-        RadioButton star4 = v.findViewById(R.id.four_star_newReview);
-        RadioButton star5 = v.findViewById(R.id.five_star_newReview);
+        final RadioGroup group = (RadioGroup) v.findViewById(R.id.star_radio_group);
+        final RadioButton star1 = (RadioButton) v.findViewById(R.id.one_star_newReview);
+        final RadioButton star2 = (RadioButton) v.findViewById(R.id.two_star_newReview);
+        final RadioButton star3 = (RadioButton) v.findViewById(R.id.three_star_newReview);
+        final RadioButton star4 = (RadioButton) v.findViewById(R.id.four_star_newReview);
+        final  RadioButton star5 = (RadioButton) v.findViewById(R.id.five_star_newReview);
         image = v.findViewById(R.id.review_imageView);
         ImageButton imageButton = v.findViewById(R.id.addReview_image_btn);
         builder.setView(v);
@@ -145,14 +148,40 @@ public class RoomReviewsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ShowImageDialog();
-                newReview.setContent(comment.getText().toString());
-                //newReview
-
             }
         });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Review saved successfully", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                newReview.setUserId(currUser.getUserid());
+                newReview.setRoomId(currRoom.getId());
+                newReview.setDate(DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+                switch (group.getCheckedRadioButtonId()) {
+                    case 1:
+                        newReview.setRank(1.0);
+                        break;
+                    case 2:
+                        newReview.setRank(2.0);
+                        break;
+                    case 3:
+                        newReview.setRank(3.0);
+                        break;
+                    case 4:
+                        newReview.setRank(4.0);
+                        break;
+                    case 5:
+                        newReview.setRank(5.0);
+                        break;
+                    default:
+                        Toast.makeText(getContext(), "Please rank the room!", Toast.LENGTH_SHORT).show();
+                }
+                newReview.setContent(comment.getText().toString());
+                Model.getInstance().saveImage("Reviews", newReview.getReviewId(), reviewImageBitmap, new Model.SaveImageListener() {
+                    @Override
+                    public void onDone(String url) {
+                        newReview.setImagePath(url);
+                        Model.getInstance().AddReview(newReview);
+                    }
+                });
             }
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
