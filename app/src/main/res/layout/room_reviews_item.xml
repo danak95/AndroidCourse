@@ -53,7 +53,6 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textSize="16sp"
-                    android:text="דירוג: 5/"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/review_layout2" />
 

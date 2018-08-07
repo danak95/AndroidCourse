@@ -63,7 +63,7 @@ public class ReviewsListAdapter extends BaseAdapter {
             holder = (ReviewsListAdapter.ViewHolder) view.getTag();
         }
 
-        holder.reviewRank.setText(holder.reviewRank.getText() + String.valueOf(data.get(i).getRank()));
+        holder.reviewRank.setText("דירוג: 5/" + String.valueOf(data.get(i).getRank()));
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
         Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
