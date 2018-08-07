@@ -76,7 +76,7 @@ public class AddNewRoomFragment extends Fragment {
 
         for (RoomType type : RoomType.values())
         {
-            data[index] = type.toString();
+            data[index] = type.getName();
             index++;
         }
 

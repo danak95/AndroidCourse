@@ -9,11 +9,11 @@
     tools:context="com.example.kardana.androidcourse.Fragments.RoomMainFragment">
 
     <ImageButton
-        android:id="@+id/update_member_btn2"
+        android:id="@+id/update_room_btn"
         android:layout_width="41dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="72dp"
+        android:layout_marginStart="28dp"
         android:onClick="updateData"
         android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,8 +23,8 @@
         android:id="@+id/roomImage"
         android:layout_width="162dp"
         android:layout_height="122dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:src="@android:drawable/sym_def_app_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roomName" />
@@ -47,76 +47,65 @@
         android:id="@+id/textview1"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
-        android:layout_marginEnd="4dp"
-        android:text="חברה"
-        app:layout_constraintBaseline_toBaselineOf="@+id/companyRoom"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/companyRoom"
-        android:layout_width="139dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="64dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintStart_toEndOf="@+id/roomImage"
-        app:layout_constraintTop_toBottomOf="@+id/roomName" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:text="דירוג"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rankRoom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/rankRoom" />
 
     <TextView
         android:id="@+id/textview2"
         android:layout_width="144dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="20dp"
         android:text="קצת על החדר"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/companyRoom" />
+        app:layout_constraintTop_toBottomOf="@+id/roomAddress" />
 
     <EditText
         android:id="@+id/descriptionRoom"
-        android:layout_width="138dp"
-        android:layout_height="66dp"
+        android:layout_width="155dp"
+        android:layout_height="68dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview2" />
 
     <EditText
-        android:id="@+id/addressRoom"
+        android:id="@+id/roomAddress"
         android:layout_width="191dp"
         android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionRoom"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/rankRoom" />
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="114dp"
         android:layout_height="22dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="מספר משתתפים:"
         android:textAlignment="viewEnd"
         app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roomImage"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.593" />
 
     <EditText
         android:id="@+id/minNumValue_Room"
         android:layout_width="54dp"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -127,9 +116,9 @@
     <EditText
         android:id="@+id/maxNumValue_Room"
         android:layout_width="61dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="192dp"
-        android:layout_marginEnd="60dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="208dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
@@ -147,5 +136,70 @@
         app:layout_constraintEnd_toStartOf="@+id/maxNumValue_Room"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/minNumValue_Room" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/pickImage_room_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/roomImage"
+        app:layout_constraintVertical_bias="0.884" />
+
+    <TextView
+        android:id="@+id/room_types_textView"
+        android:layout_width="128dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="28dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionRoom"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/room_types_btn"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/room_types_textView"
+        app:layout_constraintTop_toTopOf="@+id/room_types_textView"
+        app:layout_constraintVertical_bias="0.032" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/room_SaveChanges_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:layout_marginStart="36dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rankRoom"
+        android:layout_width="116dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/roomImage"
+        app:layout_constraintTop_toBottomOf="@+id/roomName" />
 
 </android.support.constraint.ConstraintLayout>
