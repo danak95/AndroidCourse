@@ -151,7 +151,7 @@ public class Model {
         task.execute();
 
     }
-    
+
     public interface GetImageListener{
         void onDone(Bitmap imageBitmap);
     }

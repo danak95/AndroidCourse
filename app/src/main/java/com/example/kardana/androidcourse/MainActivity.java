@@ -1,6 +1,8 @@
 package com.example.kardana.androidcourse;
 
 import android.app.SearchManager;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;

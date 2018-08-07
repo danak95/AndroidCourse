@@ -105,8 +105,8 @@ public class MemberProfileFragment extends Fragment {
         changeImageBtn = (Button) view.findViewById(R.id.change_image_btn);
 
         // Get current user
-        UserViewModel dataModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        dataModel.getData().observe(this, new Observer<List<User>>() {
+        UserViewModel dataModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
+        dataModel.getData().observe(getActivity(), new Observer<List<User>>() {
             @Override
             public void onChanged(@Nullable List<User> users) {
                 String userid = Model.getInstance().getCurrentUserId();
