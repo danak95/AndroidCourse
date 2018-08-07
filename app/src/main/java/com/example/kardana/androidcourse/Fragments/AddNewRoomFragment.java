@@ -1,12 +1,15 @@
 package com.example.kardana.androidcourse.Fragments;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
+import com.example.kardana.androidcourse.Model.UserViewModel;
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomType;
 
@@ -150,10 +154,19 @@ public class AddNewRoomFragment extends Fragment {
         newRoomAddImageBtn = (FloatingActionButton) view.findViewById(R.id.addRoom_addImage_btn);
         newRoomAddTypesBtn = (Button) view.findViewById(R.id.addRoom_typesDialog_btn);
 
-        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+        // Get current user
+        UserViewModel dataModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        dataModel.getData().observe(this, new Observer<List<User>>() {
             @Override
-            public void onComplete(User user) {
-                currUser = user;
+            public void onChanged(@Nullable List<User> users) {
+                String userid = Model.getInstance().getCurrentUserId();
+
+                for (User user :  users) {
+                    if (user.getUserid().equals(userid)) {
+                        currUser = user;
+                        break;
+                    }
+                }
             }
         });
 

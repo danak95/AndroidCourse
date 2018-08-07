@@ -1,11 +1,14 @@
 package com.example.kardana.androidcourse.Fragments;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
+import com.example.kardana.androidcourse.Model.UserViewModel;
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomType;
 
@@ -97,12 +101,22 @@ public class RoomMainFragment extends Fragment {
         roomMinNumPeople.setEnabled(false);
         roomMaxNumPeople.setEnabled(false);
 
-        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+        // Get current user
+        UserViewModel dataModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        dataModel.getData().observe(this, new Observer<List<User>>() {
             @Override
-            public void onComplete(User user) {
-                currUser = user;
+            public void onChanged(@Nullable List<User> users) {
+                String userid = Model.getInstance().getCurrentUserId();
+
+                for (User user :  users) {
+                    if (user.getUserid().equals(userid)) {
+                        currUser = user;
+                        break;
+                    }
+                }
             }
         });
+
         String types = "";
 
         roomName.setText(currRoom.getName());
@@ -178,7 +192,7 @@ public class RoomMainFragment extends Fragment {
                     Model.getInstance().saveImage(Room.IMAGE_PATH, currRoom.getId(), imageBitmap, new Model.SaveImageListener() {
                         @Override
                         public void onDone(String url) {
-                            Model.getInstance().addRoom(currRoom);
+                            Model.getInstance().updateRoom(currRoom);
                             Toast.makeText(getContext(), "Room's updates saved successfully!", Toast.LENGTH_SHORT).show();
                             getActivity().onBackPressed();
                         }
