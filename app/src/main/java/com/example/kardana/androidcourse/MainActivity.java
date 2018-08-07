@@ -1,6 +1,8 @@
 package com.example.kardana.androidcourse;
 
 import android.app.SearchManager;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +44,7 @@ import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
+import com.example.kardana.androidcourse.Model.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -318,13 +322,29 @@ public class MainActivity extends AppCompatActivity
         // Update navigation side bar- image, name and email
 
         // Get current user
-        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
-            @Override
-            public void onComplete(User user) {
-                currUser = user;
-            }
-        });
-        // Get the fields
+//        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+//            @Override
+//            public void onComplete(User user) {
+//                currUser = user;
+//            }
+//        });
+        UserViewModel dataModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        dataModel.getData().observe(this, new Observer<List<User>>() {
+                    @Override
+                    public void onChanged(@Nullable List<User> users) {
+                        String userid = Model.getInstance().getCurrentUserId();
+
+                        for (User user :  users)
+                        {
+                            if (user.getUserid().equals(userid))
+                            {
+                                currUser = user;
+                                break;
+                            }
+                        }
+                    }
+                });
+                // Get the fields
         final ImageView currUserImage = this.findViewById(R.id.nav_imageView);
         final TextView userNameView = this.findViewById(R.id.nav_nameView);
         final TextView userEmailView = this.findViewById(R.id.nav_emailView);
