@@ -150,36 +150,50 @@ public class RoomReviewsFragment extends Fragment {
                 ShowImageDialog();
             }
         });
-        builder.setPositiveButton("Review saved successfully", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 newReview.setUserId(currUser.getUserid());
                 newReview.setRoomId(currRoom.getId());
                 newReview.setDate(DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
                 switch (group.getCheckedRadioButtonId()) {
-                    case 1:
+                    case R.id.one_star_newReview:
                         newReview.setRank(1.0);
                         break;
-                    case 2:
+                    case R.id.two_star_newReview:
                         newReview.setRank(2.0);
                         break;
-                    case 3:
+                    case R.id.three_star_newReview:
                         newReview.setRank(3.0);
                         break;
-                    case 4:
+                    case R.id.four_star_newReview:
                         newReview.setRank(4.0);
                         break;
-                    case 5:
+                    case R.id.five_star_newReview:
                         newReview.setRank(5.0);
                         break;
                     default:
                         Toast.makeText(getContext(), "Please rank the room!", Toast.LENGTH_SHORT).show();
                 }
                 newReview.setContent(comment.getText().toString());
+                newReview.setImagePath("");
+                Model.getInstance().AddReview(newReview);
                 Model.getInstance().saveImage("Reviews", newReview.getReviewId(), reviewImageBitmap, new Model.SaveImageListener() {
                     @Override
                     public void onDone(String url) {
                         newReview.setImagePath(url);
-                        Model.getInstance().AddReview(newReview);
+                        Model.getInstance().updateReviewById(newReview, new Model.IUpdateReviewById() {
+                            @Override
+                            public void onComplete(boolean success) {
+                                if (success)
+                                {
+                                    Toast.makeText(getContext(), "Review was saved successfully", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getContext(), "Error while saving the review", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 });
             }

@@ -388,7 +388,7 @@ public class Model {
     }
 
     // Update exist review
-    interface IUpdateReviewById {
+    public interface IUpdateReviewById {
         void onComplete(boolean success);
     }
 
