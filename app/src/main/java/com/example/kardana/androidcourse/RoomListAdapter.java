@@ -91,7 +91,6 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomName.setText(filteredData.get(position).getName());
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
-        holder.roomListItem.setTag(position);
 
         Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
             @Override

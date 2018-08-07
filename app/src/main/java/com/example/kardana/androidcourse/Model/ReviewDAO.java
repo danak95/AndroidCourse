@@ -6,16 +6,21 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface ReviewDAO {
-    @Query("select * from Review where rommId = :room_id")
-    Review getReviewByRoomId(String room_id);
+    @Query("select * from Review where roomId = :room_id")
+    List<Review> getReviewsByRoomId(String room_id);
+
+    @Query("select * from Review where reviewId = :review_id")
+    Review getReviewById(String review_id);
 
     @Query("select * from Review")
-    Review getAllReview();
+    List<Review> getAllReviews();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertNewReview(Review... reviews);
+    public void insertAllReviews(Review... reviews);
 
     @Delete
     public void deleteReview(Review reviews);
