@@ -3,12 +3,16 @@ package com.example.kardana.androidcourse.Model;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import java.util.List;
+
+
 public class UserViewModel extends ViewModel{
 
-   /* LiveData<User> userData;
+    LiveData<List<User>> data;
 
-    public LiveData<User> getUserData() {
-        data = Model.getInstance().getCurrentUser();
+    public LiveData<List<User>> getData() {
+        data = Model.instance.getAllUsers();
+        return data;
+    }
 
-    }*/
 }

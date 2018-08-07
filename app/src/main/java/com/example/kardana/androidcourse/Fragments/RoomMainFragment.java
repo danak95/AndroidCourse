@@ -103,40 +103,39 @@ public class RoomMainFragment extends Fragment {
                 currUser = user;
             }
         });
+        String types = "";
+
+        roomName.setText(currRoom.getName());
+        roomRank.setText(Double.toString(currRoom.getRank()));
+        roomAddress.setText(currRoom.getAddress());
+        roomDescription.setText(currRoom.getDescription());
+        roomMinNumPeople.setText(Integer.toString(currRoom.getMinNumOfPeople()));
+        roomMaxNumPeople.setText(Integer.toString(currRoom.getMaxNumOfPeople()));
+        for (RoomType type : currRoom.getTypes())
+        {
+            types = types + "," + type.toString();
+        }
+        roomTypes.setText(types);
+
+        // The user doesn't has the permissions
+        if (!currRoom.getOwnerId().equals(currUser.getUserid()))
+        {
+            roomSaveBtn.setVisibility(View.INVISIBLE);
+            roomAddTypesBtn.setVisibility(View.INVISIBLE);
+            roomEditImagrBtn.setVisibility(View.INVISIBLE);
+            roomEditBtn.setVisibility(View.INVISIBLE);
+        }
+        else {
+            roomEditBtn.setVisibility(View.VISIBLE);
+            roomSaveBtn.setVisibility(View.INVISIBLE);
+            roomAddTypesBtn.setVisibility(View.INVISIBLE);
+            roomEditImagrBtn.setVisibility(View.INVISIBLE);
+        }
 
         Model.getInstance().getImage(currRoom.getImagePath(), new Model.GetImageListener() {
             @Override
             public void onDone(Bitmap imageBitmap) {
-                String types = "";
-
-                roomName.setText(currRoom.getName());
-                roomRank.setText(Double.toString(currRoom.getRank()));
-                roomAddress.setText(currRoom.getAddress());
-                roomDescription.setText(currRoom.getDescription());
-                roomMinNumPeople.setText(Integer.toString(currRoom.getMinNumOfPeople()));
-                roomMaxNumPeople.setText(Integer.toString(currRoom.getMaxNumOfPeople()));
-                for (RoomType type : currRoom.getTypes())
-                {
-                    types = types + "," + type.toString();
-                }
-                roomTypes.setText(types);
                 roomImage.setImageBitmap(imageBitmap);
-
-                // The user doesn't has the permissions
-                if (!currRoom.getOwnerId().equals(currUser.getUserid()))
-                {
-                    roomSaveBtn.setVisibility(View.INVISIBLE);
-                    roomAddTypesBtn.setVisibility(View.INVISIBLE);
-                    roomEditImagrBtn.setVisibility(View.INVISIBLE);
-                    roomEditBtn.setVisibility(View.INVISIBLE);
-                }
-                else {
-                    roomEditBtn.setVisibility(View.VISIBLE);
-                    roomSaveBtn.setVisibility(View.INVISIBLE);
-                    roomAddTypesBtn.setVisibility(View.INVISIBLE);
-                    roomEditImagrBtn.setVisibility(View.INVISIBLE);
-                }
-
             }
         });
         
@@ -158,7 +157,7 @@ public class RoomMainFragment extends Fragment {
         roomSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                types = new ArrayList<RoomType>();
+                ArrayList<RoomType> types = new ArrayList<RoomType>();
 
                 if (!selected.equals(null))
                 {

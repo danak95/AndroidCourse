@@ -36,7 +36,7 @@ public class UserAsyncDao {
         task.execute();
     }
 
-    interface IInsertAllUsers
+    public interface IInsertAllUsers
     {
         void onComplete(Boolean isSuccessfull);
     }

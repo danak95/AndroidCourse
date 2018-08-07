@@ -1,6 +1,9 @@
 package com.example.kardana.androidcourse;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,32 +13,61 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.Room;
+import com.example.kardana.androidcourse.Model.RoomsViewModel;
 import com.example.kardana.androidcourse.Model.User;
+import com.example.kardana.androidcourse.Model.UserViewModel;
+
+import java.util.List;
 
 public class ESCEntranceActivity extends AppCompatActivity {
 
     private ProgressBar progress;
     private boolean isViewLoaded = false;
+    private User currUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
-            @Override
-            public void onComplete(User user)
-            {
-                if (user != null)
-                {
-                    callMainActivity();
-                }
-                else
-                {
-                    loadview();
-                }
-            }
-        });
+        UserViewModel dataModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        dataModel.getData().observe(this, new Observer<List<User>>() {
+                    @Override
+                    public void onChanged(@Nullable List<User> users) {
+                        String userid = Model.getInstance().getCurrentUserId();
 
+                        for (User user :  users)
+                        {
+                            if (user.getUserid().equals(userid))
+                            {
+                                currUser = user;
+                                break;
+                            }
+                        }
 
+                        if (currUser != null)
+                        {
+                            callMainActivity();
+                        }
+                        else
+                        {
+                            loadview();
+                        }
+                    }
+                });
+//        Model.getInstance().getCurrentUser(new Model.IGetCurrentUserCallback() {
+//            @Override
+//            public void onComplete(User user)
+//            {
+//                if (user != null)
+//                {
+//                    callMainActivity();
+//                }
+//                else
+//                {
+//                    loadview();
+//                }
+//            }
+//        });
     }
 
     private void loadview(){
