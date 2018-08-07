@@ -1,10 +1,11 @@
 package com.example.kardana.androidcourse.Model;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.URLUtil;
 
@@ -25,7 +26,8 @@ public class Model {
     private ModelFirebaseStorage modelFirebase;
     private RoomsLiveData roomsLiveData = new RoomsLiveData();
     private UsersLiveData usersLiveData = new UsersLiveData();
-    private ModelFirebaseReviews modelFirebaseReviews;
+    private ReviewsLiveData reviewsLiveData = new ReviewsLiveData();
+    private ModelFirebaseReview modelFirebaseReviews;
 
     public static User user = null;
     public static Model instance = new Model();
@@ -34,7 +36,7 @@ public class Model {
         modelFirebaseUser = new ModelFirebaseUser();
         modelFirebaseRoom = new ModelFirebaseRoom();
         modelFirebase = new ModelFirebaseStorage();
-        modelFirebaseReviews = new ModelFirebaseReviews();
+        modelFirebaseReviews = new ModelFirebaseReview();
 
     }
 
@@ -291,6 +293,39 @@ public class Model {
         }
     }
 
+    public class ReviewsLiveData extends MutableLiveData<List<Review>> {
+
+        private ReviewsLiveData(){
+            this.onActive();
+        }
+        @Override
+        protected void onActive() {
+            super.onActive();
+
+            ReviewAsyncDao.getAllReviews(new ReviewAsyncDao.IGetAllReviews() {
+
+                @Override
+                public void onComplete(List<Review> data) {
+                    setValue(data);
+
+                    modelFirebaseReviews.getAllReviews(new ModelFirebaseReview.IGetAllReviews() {
+                        @Override
+                        public void onSuccess(List<Review> reviewList) {
+                            setValue(reviewList);
+
+                            ReviewAsyncDao.insertAllReviews(reviewList, new ReviewAsyncDao.IInsertAllReviews() {
+                                @Override
+                                public void onComplete(Boolean data) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+
     // ******* Handle Reviews *******
 
     // Add new review
@@ -307,7 +342,7 @@ public class Model {
 
     public void updateReviewById(Review review , final IUpdateReviewById callback)
     {
-        modelFirebaseReviews.updateReviewById(review, new ModelFirebaseReviews.IUpdateReviewById() {
+        modelFirebaseReviews.updateReviewById(review, new ModelFirebaseReview.IUpdateReviewById() {
             @Override
             public void onComplete(boolean success) {
                 Log.d("dev","Model- update review by ID success is " + success);
@@ -323,7 +358,7 @@ public class Model {
 
     public void deleteReview(Review review, final IDeleteReviewCallback callback)
     {
-        modelFirebaseReviews.deleteReview(review, new ModelFirebaseReviews.IDeleteReviewCallback() {
+        modelFirebaseReviews.deleteReview(review, new ModelFirebaseReview.IDeleteReviewCallback() {
             @Override
             public void onComplete(boolean success) {
                 Log.d("dev","Model- delete review success is " + success);
@@ -332,17 +367,22 @@ public class Model {
         });
     }
 
+    public ReviewsLiveData getAllReviews()
+    {
+        return reviewsLiveData;
+    }
+
     // Get all reviews by roomId
     interface IGetReviewsForRoom{
-        void onComplete(ArrayList<Review> reviews);
+        void onComplete(List<Review> reviews);
         void onCancel();
     }
 
     public void getReviewsForRoom(final String roomId, final IGetReviewsForRoom callback)
     {
-        modelFirebaseReviews.getReviewsForRoom(roomId, new ModelFirebaseReviews.IGetReviewsForRoom() {
+        modelFirebaseReviews.getReviewsForRoom(roomId, new ModelFirebaseReview.IGetReviewsForRoom() {
             @Override
-            public void onComplete(ArrayList<Review> reviews) {
+            public void onComplete(List<Review> reviews) {
                 Log.d("dev","Model- the reviews for room id " + roomId + " are " + reviews);
                 callback.onComplete(reviews);
             }

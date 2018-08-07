@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Review;
+import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
 
 import java.util.List;
@@ -91,6 +92,11 @@ public class ReviewsListAdapter extends BaseAdapter {
 
 
         return view;
+    }
+    public void updateReviewsList(List<Review> newlist) {
+        data.clear();
+        data.addAll(newlist);
+        this.notifyDataSetChanged();
     }
 
     private class ViewHolder {

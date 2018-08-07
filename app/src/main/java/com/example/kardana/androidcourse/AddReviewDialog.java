@@ -29,4 +29,4 @@ public class AddReviewDialog extends DialogFragment {
         return builder.create();
     }
 }
-}
+

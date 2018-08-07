@@ -11,18 +11,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dana on 28-Jul-18.
  */
 
-public class ModelFirebaseReviews {
+public class ModelFirebaseReview {
 
     private static final String REVIEWS_KEY = "Reviews";
     private FirebaseDatabase database;
     private DatabaseReference reviewsReference;
 
-    public ModelFirebaseReviews() {
+    public ModelFirebaseReview() {
         database = FirebaseDatabase.getInstance();
         reviewsReference = database.getReference(REVIEWS_KEY);
     }
@@ -38,7 +39,7 @@ public class ModelFirebaseReviews {
     interface IUpdateReviewById {
         void onComplete(boolean success);
     }
-    public void updateReviewById(Review review, final ModelFirebaseReviews.IUpdateReviewById callback) {
+    public void updateReviewById(Review review, final ModelFirebaseReview.IUpdateReviewById callback) {
         reviewsReference.child(review.getReviewId()).setValue(review, new DatabaseReference.CompletionListener() {
 
             @Override
@@ -64,7 +65,7 @@ public class ModelFirebaseReviews {
 
     // Get all reviews by roomId
     interface IGetReviewsForRoom{
-        void onComplete(ArrayList<Review> reviews);
+        void onComplete(List<Review> reviews);
         void onCancel();
     }
 
@@ -74,12 +75,11 @@ public class ModelFirebaseReviews {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Create list of reviews that relevant only form roomId
-                ArrayList<Review> reviewsForRoom = new ArrayList<>();
-                for (DataSnapshot snap: dataSnapshot.getChildren()){
+                List<Review> reviewsForRoom = new ArrayList<>();
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     Review reviewRoom = snap.getValue(Review.class);
                     // Check if the current roomId is equal to the parameter
-                    if (reviewRoom.getRoomId() == roomId)
-                    {
+                    if (reviewRoom.getRoomId() == roomId) {
                         reviewsForRoom.add(reviewRoom);
                     }
                 }
@@ -91,6 +91,30 @@ public class ModelFirebaseReviews {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 callback.onCancel();
             }
+        });
+    }
+
+
+    interface IGetAllReviews{
+        void onSuccess(List<Review> reviews);
+    }
+
+    public void getAllReviews(final ModelFirebaseReview.IGetAllReviews callback) {
+        // Run over all the reviews on DB
+        reviewsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Create list of reviews that relevant only form roomId
+                List<Review> reviews = new ArrayList<>();
+                for (DataSnapshot snap: dataSnapshot.getChildren()){
+                    reviews.add(snap.getValue(Review.class));
+                }
+
+                callback.onSuccess(reviews);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
         });
     }
 }
