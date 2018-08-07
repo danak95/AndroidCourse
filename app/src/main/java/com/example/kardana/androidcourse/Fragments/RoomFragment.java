@@ -34,7 +34,7 @@ public class RoomFragment extends Fragment {
         View view = inflater.inflate(R.layout.room_fragment, container, false);
         final ViewPager vpPager = (ViewPager) view.findViewById(R.id.vpPager);
         adapterViewPager = new RoomPagerAdapter(getChildFragmentManager());
-        vpPager.setOffscreenPageLimit(4);
+        vpPager.setOffscreenPageLimit(3);
         vpPager.setAdapter(adapterViewPager);
         final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.post(new Runnable() {
@@ -63,15 +63,14 @@ public class RoomFragment extends Fragment {
     }
 
     private class RoomPagerAdapter extends FragmentStatePagerAdapter {
-        private static final int NUM_OF_TABS = 4;
+        private static final int NUM_OF_TABS = 3;
         private String[] titles = new String[NUM_OF_TABS];
 
         public RoomPagerAdapter(FragmentManager fm) {
             super(fm);
             titles[0] = getActivity().getString(R.string.main);
             titles[1] = getActivity().getString(R.string.reviews);
-            titles[2] = getActivity().getString(R.string.photos);
-            titles[3] = getActivity().getString(R.string.orders);
+            titles[2] = getActivity().getString(R.string.orders);
         }
 
         @Override
@@ -85,9 +84,6 @@ public class RoomFragment extends Fragment {
                     RoomReviewsFragment roomReviews = new RoomReviewsFragment();
                     return roomReviews;
                 case 2:
-                    RoomPhotosFragment roomPhotos = new RoomPhotosFragment();
-                    return roomPhotos;
-                case 3:
                     RoomOrdersFragment roomOrders = new RoomOrdersFragment();
                     return roomOrders;
                 default:

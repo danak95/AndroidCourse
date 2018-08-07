@@ -8,20 +8,10 @@
             android:id="@+id/nav_my_profile"
             android:title="@string/nav_my_profile" />
         <item
-            android:id="@+id/nav_room_history"
-            android:title="@string/nav_room_history" />
-        <item
-            android:id="@+id/nav_top5"
-            android:title="@string/nav_top5" />
-        <item
-            android:id="@+id/nav_wishlist"
-            android:title="@string/nav_wish_list" />
-        <item
             android:id="@+id/nav_manage_rooms"
             android:title="@string/nav_manage_rooms" />
-        <item
-            android:id="@+id/nav_settings"
-            android:title="@string/nav_settings" />
+    </group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
             android:title="התנתק" />

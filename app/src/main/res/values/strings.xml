@@ -18,9 +18,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_my_profile">הפרופיל שלי</string>
-    <string name="nav_room_history">היסטוריית חדרים</string>
-    <string name="nav_top5">TOP 5</string>
-    <string name="nav_wish_list">Wishlist</string>
     <string name="nav_manage_rooms">ניהול חדרים בבעלותי</string>
     <string name="nav_settings">הגדרות</string>
     <string name="action_settings">Settings</string>

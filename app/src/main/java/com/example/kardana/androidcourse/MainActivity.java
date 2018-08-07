@@ -1,8 +1,6 @@
 package com.example.kardana.androidcourse;
 
 import android.app.SearchManager;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -37,14 +35,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.kardana.androidcourse.Fragments.AddNewRoomFragment;
 import com.example.kardana.androidcourse.Fragments.HomeFragment;
 import com.example.kardana.androidcourse.Fragments.MemberProfileFragment;
-import com.example.kardana.androidcourse.Fragments.RoomHistoryFragment;
 import com.example.kardana.androidcourse.Fragments.RoomManagmentFragment;
-import com.example.kardana.androidcourse.Fragments.WishlistFragment;
 import com.example.kardana.androidcourse.Model.Model;
-import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
 import com.example.kardana.androidcourse.Model.UserViewModel;
 
@@ -69,9 +63,6 @@ public class MainActivity extends AppCompatActivity
     public static int navItemIndex = 0;
     private static final String TAG_HOME = "home";
     private static final String TAG_MY_PROFILE = "my_profile";
-    private static final String TAG_ROOM_HISTORY = "room_history";
-    private static final String TAG_TOP5 = "top5";
-    private static final String TAG_WISH_LIST = "wish_list";
     private static final String TAG_MANAGE_ROOMS = "manage_rooms";
     private static final String TAG_LOGOUT = "logout";
     public static String CURRENT_TAG = TAG_HOME;
@@ -369,19 +360,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_my_profile:
                 return true;
 
-            case R.id.nav_room_history:
-                return true;
-
-            case R.id.nav_top5:
-                return true;
-
-            case R.id.nav_wishlist:
-                return true;
-
             case R.id.nav_manage_rooms:
-                return true;
-
-            case R.id.nav_settings:
                 return true;
 
             case R.id.nav_logout:
@@ -415,24 +394,12 @@ public class MainActivity extends AppCompatActivity
                 navItemIndex = 1;
                 CURRENT_TAG = TAG_MY_PROFILE;
                 break;
-            case R.id.nav_room_history:
-                navItemIndex = 2;
-                CURRENT_TAG = TAG_ROOM_HISTORY;
-                break;
-            case R.id.nav_top5:
-                navItemIndex = 3;
-                CURRENT_TAG = TAG_TOP5;
-                break;
-            case R.id.nav_wishlist:
-                navItemIndex = 4;
-                CURRENT_TAG = TAG_WISH_LIST;
-                break;
             case R.id.nav_manage_rooms:
-                navItemIndex = 5;
+                navItemIndex = 2;
                 CURRENT_TAG = TAG_MANAGE_ROOMS;
                 break;
             case R.id.nav_logout:
-                navItemIndex = 6;
+                navItemIndex = 3;
                 CURRENT_TAG = TAG_LOGOUT;
                 break;
             default:
@@ -497,22 +464,10 @@ public class MainActivity extends AppCompatActivity
                 currFragment = profileFragment;
                 return profileFragment;
             case 2:
-                RoomHistoryFragment roomHistoryFragment = new RoomHistoryFragment();
-                currFragment = roomHistoryFragment;
-                return roomHistoryFragment;
-            case 3:
-
-
-            case 4:
-                WishlistFragment wishlistFragment = new WishlistFragment();
-                currFragment = wishlistFragment;
-                return wishlistFragment;
-            case 5:
                 RoomManagmentFragment roomManagmentFragment = new RoomManagmentFragment();
                 currFragment = roomManagmentFragment;
                 return roomManagmentFragment;
             default:
-                //return new HomeFragment();
         }
 
         return null;
