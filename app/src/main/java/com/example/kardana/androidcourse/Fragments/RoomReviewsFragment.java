@@ -87,7 +87,7 @@ public class RoomReviewsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        reviewsListAdapter = new ReviewsListAdapter(view.getContext(), reviewList);
+        reviewsListAdapter = new ReviewsListAdapter(getActivity(),view.getContext(), reviewList);
         ListView listView = view.findViewById(R.id.reviews_list);
         listView.setAdapter(reviewsListAdapter);
         currRoom = this.getParentFragment().getArguments().getParcelable("curr_room");

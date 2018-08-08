@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.example.kardana.androidcourse.Model.GlobalListener;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
-import com.example.kardana.androidcourse.Model.RoomsViewModel;
 
 /**
  * Created by Dana on 20-May-18.
@@ -98,7 +98,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
                 // Update Data
                 holder.roomImage.setImageBitmap(imageBitmap);
             }
-        });
+        }, null);
         holder.roomListItem.setTag(position);
 
         holder.roomListItem.setOnClickListener(new View.OnClickListener() {

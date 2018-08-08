@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity
                 userNameView.setText(currUser.getName());
                 userEmailView.setText(currUser.getEmail());
             }
-        });
+        }, null);
 
         return true;
     }

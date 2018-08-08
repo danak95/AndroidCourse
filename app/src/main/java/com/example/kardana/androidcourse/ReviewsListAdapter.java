@@ -1,8 +1,13 @@
 package com.example.kardana.androidcourse;
 
+import android.app.Activity;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +15,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kardana.androidcourse.Fragments.RoomMainFragment;
+import com.example.kardana.androidcourse.Model.GlobalListener;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Review;
-import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
+import com.example.kardana.androidcourse.Model.UserAsyncDao;
+import com.example.kardana.androidcourse.Model.UserViewModel;
 
 import java.util.List;
 
 public class ReviewsListAdapter extends BaseAdapter {
 
-    private List<Review> data = null;
+    private List<Review> data;
     private LayoutInflater inflater;
     private ReviewsListAdapter.ViewHolder holder;
+    private FragmentActivity fragmentActivity;
 
-    public ReviewsListAdapter(Context context, List<Review> data) {
+    public ReviewsListAdapter(FragmentActivity activity, Context context, List<Review> data) {
         this.data = data ;
         inflater = LayoutInflater.from(context);
+        fragmentActivity = activity;
     }
 
     @Override
@@ -45,12 +55,14 @@ public class ReviewsListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        final User[] userReview = {new User()};
+        Review wantedReview = new Review();
         holder = null;
 
         if (view == null) {
 
             holder = new ReviewsListAdapter.ViewHolder();
-            final Review wantedReview =  data.get(i);
+            wantedReview =  data.get(i);
             holder.item = wantedReview;
             view = inflater.inflate(R.layout.room_reviews_item, null);
             holder.reviewItem = view.findViewById(R.id.review_item);
@@ -60,6 +72,23 @@ public class ReviewsListAdapter extends BaseAdapter {
             holder.reviewImage = view.findViewById(R.id.review_RoomImage);
             holder.reviewUserImage = view.findViewById(R.id.review_user_image);
             holder.reviewRank = view.findViewById(R.id.review_rank);
+
+            // Get user data
+            UserViewModel dataModel = ViewModelProviders.of(fragmentActivity).get(UserViewModel.class);
+            dataModel.getData().observe(fragmentActivity, new Observer<List<User>>() {
+                @Override
+                public void onChanged(@Nullable List<User> users) {
+                    String userid = Model.getInstance().getCurrentUserId();
+
+                    for (User user :  users) {
+                        if (user.getUserid().equals(holder.item.getUserId())) {
+                            userReview[0] = user;
+                            break;
+                        }
+                    }
+                }
+            });
+
             view.setTag(holder);
         } else {
             holder = (ReviewsListAdapter.ViewHolder) view.getTag();
@@ -68,8 +97,21 @@ public class ReviewsListAdapter extends BaseAdapter {
         holder.reviewRank.setText("דירוג: 5/" + String.valueOf(data.get(i).getRank()));
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
-        holder.reviewImage.setTag(data.get(i).getImagePath());
-        Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
+
+        Model.getInstance().putImageViewUser(userReview[0].getUserid(), userReview[0].getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
+            @Override
+            public void onComplete(Bitmap bitmap) {
+                Model.getInstance().displayImageView(holder.reviewUserImage, bitmap, 1);
+            }
+        });
+
+        Model.getInstance().putImageViewReview(wantedReview.getReviewId(), wantedReview.getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
+            @Override
+            public void onComplete(Bitmap bitmap) {
+                Model.getInstance().displayImageView(holder.reviewImage, bitmap, 1);
+            }
+        });
+        /*Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
             @Override
             public void onComplete(User user) {
                 holder.reviewUserName.setText(user.getName());
@@ -78,7 +120,7 @@ public class ReviewsListAdapter extends BaseAdapter {
                     public void onDone(Bitmap imageBitmap) {
                         holder.reviewUserImage.setImageBitmap(imageBitmap);
                     }
-                });
+                }, null);
             }
 
             @Override
@@ -95,7 +137,7 @@ public class ReviewsListAdapter extends BaseAdapter {
                     holder.reviewImage.setImageBitmap(imageBitmap);
                 }
             }
-        });
+        }, null);*/
 
 
         return view;

@@ -1,19 +1,15 @@
 package com.example.kardana.androidcourse.Model;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.LruCache;
 import android.webkit.URLUtil;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.ArrayList;
 
 public class Model {
 
@@ -35,6 +30,9 @@ public class Model {
     private ReviewsLiveData reviewsLiveData = new ReviewsLiveData();
     private ModelFirebaseReview modelFirebaseReviews;
 
+    // Memory cache
+    public static LruCache<String, Bitmap> mCache;
+
     public static User user = null;
     public static Model instance = new Model();
 
@@ -43,6 +41,18 @@ public class Model {
         modelFirebaseRoom = new ModelFirebaseRoom();
         modelFirebase = new ModelFirebaseStorage();
         modelFirebaseReviews = new ModelFirebaseReview();
+
+        // Handle cache
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory * 3 / 4;
+        mCache = new LruCache<String, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
+                // The cache size will be measured in kilobytes rather than
+                // number of items.
+                return bitmap.getByteCount() / 1024;
+            }
+        };
 
     }
 
@@ -155,7 +165,7 @@ public class Model {
     public interface GetImageListener{
         void onDone(Bitmap imageBitmap);
     }
-    public void getImage(final String url, final GetImageListener listener ){
+    public void getImage(final String url, final GetImageListener listener, Context context){
         if(!url.isEmpty()) {
             String localFileName = URLUtil.guessFileName(url, null, null);
             final Bitmap image = loadImageFromFile(localFileName);
@@ -222,6 +232,131 @@ public class Model {
         }
         return bitmap;
     }
+
+    // Handle cache
+    static public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemCache(key) == null) {
+            mCache.put(key, bitmap);
+        }
+    }
+
+    static public Bitmap getBitmapFromMemCache(String key) {
+        return mCache.get(key);
+    }
+
+    // Handle display imageView
+    static public void displayImageView(final ImageView ImageView, final Bitmap imageBitmap, final double scale) {
+
+        class DisplayPictureAsyncTask extends AsyncTask<String, String, Bitmap> {
+            @Override
+            protected Bitmap doInBackground(String... strings) {
+                Bitmap newImageBitmap = imageBitmap;
+                if (scale < 1) {
+                    newImageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int) (imageBitmap.getWidth() * scale), (int) (imageBitmap.getHeight() * scale), false);
+                }
+                return newImageBitmap;
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap result) {
+                ImageView.setImageBitmap(result);
+            }
+        }
+
+        DisplayPictureAsyncTask task = new DisplayPictureAsyncTask();
+        task.execute();
+    }
+
+
+    static public void putImageViewReview(final String imageName, final String imageURL, final Context context, final GlobalListener<Bitmap> listener) {
+        Bitmap bitmap = getBitmapFromMemCache(imageName);
+
+        if (bitmap == null) {
+            class PutPictureAsyncTask extends AsyncTask<String, String, Review> {
+                @Override
+                protected Review doInBackground(String... strings) {
+                    Model.getInstance().getImage(imageURL, new GetImageListener() {
+                        @Override
+                        public void onDone(Bitmap imageBitmap) {
+                            if (imageBitmap != null) {
+                                addBitmapToMemoryCache(imageName,imageBitmap);
+                                listener.onComplete(imageBitmap);
+                            }
+                        }
+                    }, context);
+
+                    return null;
+                }
+            }
+
+            PutPictureAsyncTask task = new PutPictureAsyncTask();
+            task.execute();
+        }
+        else {
+            listener.onComplete(bitmap);
+        }
+    }
+
+
+    static public void putImageViewUser(final String imageName, final String imageURL, final Context context, final GlobalListener<Bitmap> listener) {
+        Bitmap bitmap = getBitmapFromMemCache(imageName);
+
+        if (bitmap == null) {
+            class PutPictureAsyncTask extends AsyncTask<String, String, User> {
+                @Override
+                protected User doInBackground(String... strings) {
+                    Model.getInstance().getImage(imageURL, new GetImageListener() {
+                        @Override
+                        public void onDone(Bitmap imageBitmap) {
+                            if (imageBitmap != null) {
+                                addBitmapToMemoryCache(imageName,imageBitmap);
+                                listener.onComplete(imageBitmap);
+                            }
+                        }
+                    }, context);
+
+                    return null;
+                }
+            }
+
+            PutPictureAsyncTask task = new PutPictureAsyncTask();
+            task.execute();
+        }
+        else {
+            listener.onComplete(bitmap);
+        }
+    }
+
+    static public void putImageViewRoom(final String imageName, final String imageURL, final Context context, final GlobalListener<Bitmap> listener) {
+        Bitmap bitmap = getBitmapFromMemCache(imageName);
+
+        if (bitmap == null) {
+            class PutPictureAsyncTask extends AsyncTask<String, String, Room> {
+                @Override
+                protected Room doInBackground(String... strings) {
+                    Model.getInstance().getImage(imageURL, new GetImageListener() {
+                        @Override
+                        public void onDone(Bitmap imageBitmap) {
+                            if (imageBitmap != null) {
+                                addBitmapToMemoryCache(imageName,imageBitmap);
+                                listener.onComplete(imageBitmap);
+                            }
+                        }
+                    }, context);
+
+                    return null;
+                }
+            }
+
+            PutPictureAsyncTask task = new PutPictureAsyncTask();
+            task.execute();
+        }
+        else {
+            listener.onComplete(bitmap);
+        }
+    }
+
+    // ******* Live Data *******
     public RoomsLiveData getAllRooms(){
         return roomsLiveData;
     }

@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kardana.androidcourse.AddNewMemberActivity;
 import com.example.kardana.androidcourse.MainActivity;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.User;
@@ -147,7 +145,7 @@ public class MemberProfileFragment extends Fragment {
                 imageCurrUser = imageBitmap;
 
             }
-        });
+        }, null);
 
         // Set everything enabled while cliking on update button
         updateBtn.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +214,7 @@ public class MemberProfileFragment extends Fragment {
                     public void onDone(Bitmap imageBitmap) {
                         memberImage.setImageBitmap(imageBitmap);
                     }
-                });
+                }, null);
             }
         });
 

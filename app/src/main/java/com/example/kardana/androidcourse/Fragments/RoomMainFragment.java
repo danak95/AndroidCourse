@@ -1,6 +1,5 @@
 package com.example.kardana.androidcourse.Fragments;
 
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
@@ -10,19 +9,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +29,6 @@ import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomType;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,7 +146,7 @@ public class RoomMainFragment extends Fragment{
             public void onDone(Bitmap imageBitmap) {
                 roomImage.setImageBitmap(imageBitmap);
             }
-        });
+        }, null);
         
 
         roomEditBtn.setOnClickListener(new View.OnClickListener() {
