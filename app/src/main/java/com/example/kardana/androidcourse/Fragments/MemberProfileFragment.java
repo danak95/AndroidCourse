@@ -120,6 +120,24 @@ public class MemberProfileFragment extends Fragment {
             }
         });
 
+        memberName.setText(currentUser.getName());
+        // Set user data
+        if (currentUser.getGender() == "Female")
+            memberGender.setChecked(false);
+        else
+            memberGender.setChecked(true);
+        memberPhone.setText(currentUser.getPhone());
+        memberEmail.setText(currentUser.getEmail());
+        memberPassword.setText(currentUser.getPassword());
+
+        memberGender.setEnabled(false);
+        memberPhone.setEnabled(false);
+        memberEmail.setEnabled(false);
+        memberPassword.setEnabled(false);
+        saveBtn.setEnabled(false);
+        cancelBtn.setEnabled(false);
+        changeImageBtn.setEnabled(false);
+
         // Get user's image from storage
         imagePath = currentUser.getImagePath();
         Model.getInstance().getImage(imagePath, new Model.GetImageListener() {
@@ -127,23 +145,7 @@ public class MemberProfileFragment extends Fragment {
             public void onDone(Bitmap imageBitmap) {
                 memberImage.setImageBitmap(imageBitmap);
                 imageCurrUser = imageBitmap;
-                memberName.setText(currentUser.getName());
-                // Set user data
-                if (currentUser.getGender() == "Female")
-                    memberGender.setChecked(false);
-                else
-                    memberGender.setChecked(true);
-                memberPhone.setText(currentUser.getPhone());
-                memberEmail.setText(currentUser.getEmail());
-                memberPassword.setText(currentUser.getPassword());
 
-                memberGender.setEnabled(false);
-                memberPhone.setEnabled(false);
-                memberEmail.setEnabled(false);
-                memberPassword.setEnabled(false);
-                saveBtn.setEnabled(false);
-                cancelBtn.setEnabled(false);
-                changeImageBtn.setEnabled(false);
             }
         });
 
