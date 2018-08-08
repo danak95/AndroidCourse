@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import static com.example.kardana.androidcourse.MainActivity.context;
+
 public class Model {
 
     private ModelFirebaseUser modelFirebaseUser;
@@ -157,7 +159,7 @@ public class Model {
     }
 
     public void getImage(final String url, final GetImageListener listener, Context context){
-        if(!url.isEmpty()) {
+        if(!url.isEmpty() || url != null) {
             String localFileName = URLUtil.guessFileName(url, null, null);
             final Bitmap image = loadImageFromFile(localFileName);
             if (image == null) {
@@ -182,14 +184,19 @@ public class Model {
                 listener.onDone(image);
             }
         }
+        else
+        {
+            listener.onDone(null);
+        }
     }
 
     // Store / Get from local memory
     private void saveImageToFile(Bitmap imageBitmap, String imageFileName){
         if (imageBitmap == null) return;
         try {
-            File dir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES);
+            File dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    /*Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);*/
             if (!dir.exists()) {
                 dir.mkdir();
             }
@@ -209,7 +216,7 @@ public class Model {
     }
 
     private Bitmap loadImageFromFile(String imageFileName){
-        Bitmap bitmap = null;
+       /* Bitmap bitmap = null;
         try {
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File imageFile = new File(dir,imageFileName);
@@ -221,6 +228,21 @@ public class Model {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return bitmap;*/
+
+
+        Bitmap bitmap = null;
+
+        try {
+            File dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File imageFile = new File(dir,imageFileName);
+            InputStream inputStream = new FileInputStream(imageFile);
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         return bitmap;
     }
 

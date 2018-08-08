@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kardana.androidcourse.Model.GlobalListener;
 import com.example.kardana.androidcourse.Model.Model;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
@@ -154,13 +155,19 @@ public class RoomMainFragment extends Fragment{
             roomEditImageBtn.setVisibility(View.INVISIBLE);
         }
 
-        Model.getInstance().getImage(currRoom.getImagePath(), new Model.GetImageListener() {
+        Model.getInstance().putImageViewUser(currRoom.getId(), currRoom.getRoomSite(), view.getContext(), new GlobalListener<Bitmap>() {
+            @Override
+            public void onComplete(Bitmap bitmap) {
+               Model.getInstance().displayImageView(roomImage, bitmap, 1);
+            }
+        });
+        /*Model.getInstance().getImage(currRoom.getImagePath(), new Model.GetImageListener() {
             @Override
             public void onDone(Bitmap imageBitmap) {
                 roomImage.setImageBitmap(imageBitmap);
             }
         }, null);
-        
+        */
 
         roomEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override

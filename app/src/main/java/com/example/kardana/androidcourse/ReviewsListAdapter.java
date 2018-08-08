@@ -90,27 +90,38 @@ public class ReviewsListAdapter extends BaseAdapter {
             });
 
             view.setTag(holder);
+
         } else {
             holder = (ReviewsListAdapter.ViewHolder) view.getTag();
         }
+
+        if (!wantedReview.equals((view.getTag()))){
+            holder.reviewUserImage.setImageBitmap(null);
+            holder.reviewImage.setImageBitmap(null);
+        }
+
 
         holder.reviewRank.setText("דירוג: 5/" + String.valueOf(data.get(i).getRank()));
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
 
-        Model.getInstance().putImageViewUser(userReview[0].getUserid(), userReview[0].getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
-            @Override
-            public void onComplete(Bitmap bitmap) {
-                Model.getInstance().displayImageView(holder.reviewUserImage, bitmap, 1);
-            }
-        });
+        if (userReview[0].getUserid() != null) {
+            Model.getInstance().putImageViewUser(userReview[0].getUserid(), userReview[0].getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
+                @Override
+                public void onComplete(Bitmap bitmap) {
+                    Model.getInstance().displayImageView(holder.reviewUserImage, bitmap, 1);
+                }
+            });
+        }
 
-        Model.getInstance().putImageViewReview(wantedReview.getReviewId(), wantedReview.getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
-            @Override
-            public void onComplete(Bitmap bitmap) {
-                Model.getInstance().displayImageView(holder.reviewImage, bitmap, 1);
-            }
-        });
+        if (wantedReview.getReviewId() != null) {
+            Model.getInstance().putImageViewReview(wantedReview.getReviewId(), wantedReview.getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
+                @Override
+                public void onComplete(Bitmap bitmap) {
+                    Model.getInstance().displayImageView(holder.reviewImage, bitmap, 1);
+                }
+            });
+        }
         /*Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
             @Override
             public void onComplete(User user) {

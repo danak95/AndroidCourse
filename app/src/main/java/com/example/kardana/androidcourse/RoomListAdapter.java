@@ -73,13 +73,13 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
     }
 
     public View getView( int position, View convertView, ViewGroup parent) {
-
+        Room wantedRoom = new Room();
         holder = null;
 
         if (convertView == null) {
 
             holder = new ViewHolder();
-            final Room wantedRoom =  originalData.get(position);
+            wantedRoom =  originalData.get(position);
             convertView = inflater.inflate(R.layout.room_list_item, null);
             holder.roomListItem = convertView.findViewById(R.id.room_list_item);
             holder.roomName = convertView.findViewById(R.id.room_name);
@@ -94,13 +94,22 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
 
-       Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
+        if (wantedRoom.getId() != null) {
+            Model.getInstance().putImageViewRoom(wantedRoom.getId(), wantedRoom.getImagePath(), convertView.getContext(), new GlobalListener<Bitmap>() {
+                @Override
+                public void onComplete(Bitmap bitmap) {
+                    Model.getInstance().displayImageView(holder.roomImage, bitmap, 1);
+                }
+            });
+        }
+
+       /*Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
             @Override
             public void onDone(Bitmap imageBitmap) {
                 // Update Data
                 holder.roomImage.setImageBitmap(imageBitmap);
             }
-        }, null);
+        }, null);*/
         holder.roomListItem.setTag(position);
 
         holder.roomListItem.setOnClickListener(new View.OnClickListener() {
