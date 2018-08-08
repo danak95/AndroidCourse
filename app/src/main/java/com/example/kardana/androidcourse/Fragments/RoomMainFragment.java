@@ -63,6 +63,7 @@ public class RoomMainFragment extends Fragment{
     public FloatingActionButton roomEditImageBtn;
     public FloatingActionButton roomEditBtn;
     private boolean isImageChanged;
+    private String typesString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class RoomMainFragment extends Fragment{
             }
         });
 
-        String types = "";
+        typesString = "";
 
         roomName.setText(currRoom.getName());
         roomRank.setText(Double.toString(currRoom.getRank()));
@@ -129,14 +130,14 @@ public class RoomMainFragment extends Fragment{
 
         for (RoomType type : currRoom.getTypes())
         {
-            if(types.isEmpty()) {
-                types = type.getName();
+            if(typesString.isEmpty()) {
+                typesString = type.getName();
             }
             else {
-                types = types + "," + type.getName();
+                typesString = typesString + "," + type.getName();
             }
         }
-        roomTypes.setText(types);
+        roomTypes.setText(typesString);
 
         // The user doesn't has the permissions
         if (!currRoom.getOwnerId().equals(currUser.getUserid()))
@@ -268,7 +269,7 @@ public class RoomMainFragment extends Fragment{
                 });
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                String selects = "";
+                String selects = typesString;
                 for (int i = 0; i < selected.length; i++) {
                     if (selected[i]) {
                         selects = selects + " , " + data[i];

@@ -149,17 +149,7 @@ public class Model {
 
 
     public void saveImage(final String path, final String name, final Bitmap imageBitmap, final SaveImageListener listener) {
-        class ssaveImageAsyncTask extends AsyncTask<String, String, Bitmap> {
-            @Override
-            protected Bitmap doInBackground(String... strings) {
-                modelFirebase.saveImage(path, name, imageBitmap,listener);
-
-                return null;
-            }
-        }
-        ssaveImageAsyncTask task = new ssaveImageAsyncTask();
-        task.execute();
-
+        modelFirebase.saveImage(path, name, imageBitmap,listener);
     }
 
     public interface GetImageListener{
