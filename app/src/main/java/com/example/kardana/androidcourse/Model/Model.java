@@ -165,7 +165,7 @@ public class Model {
     public interface GetImageListener{
         void onDone(Bitmap imageBitmap);
     }
-    
+
     public void getImage(final String url, final GetImageListener listener, Context context){
         if(!url.isEmpty()) {
             String localFileName = URLUtil.guessFileName(url, null, null);
@@ -242,7 +242,10 @@ public class Model {
     }
 
     static public Bitmap getBitmapFromMemCache(String key) {
-        return mCache.get(key);
+        if (mCache.get(key) != null) {
+            return mCache.get(key);
+        }
+        return  null;
     }
 
     // Handle display imageView
