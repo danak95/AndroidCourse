@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.kardana.androidcourse.MainActivity;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.R;
 
@@ -32,6 +33,7 @@ public class RoomFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_fragment, container, false);
+        ((MainActivity)getActivity()).showActionBar(R.string.room_details);
         final ViewPager vpPager = (ViewPager) view.findViewById(R.id.vpPager);
         adapterViewPager = new RoomPagerAdapter(getChildFragmentManager());
         vpPager.setOffscreenPageLimit(3);
@@ -60,6 +62,11 @@ public class RoomFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
     }
 
     private class RoomPagerAdapter extends FragmentStatePagerAdapter {
