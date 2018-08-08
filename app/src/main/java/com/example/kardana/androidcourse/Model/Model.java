@@ -165,6 +165,7 @@ public class Model {
     public interface GetImageListener{
         void onDone(Bitmap imageBitmap);
     }
+    
     public void getImage(final String url, final GetImageListener listener, Context context){
         if(!url.isEmpty()) {
             String localFileName = URLUtil.guessFileName(url, null, null);

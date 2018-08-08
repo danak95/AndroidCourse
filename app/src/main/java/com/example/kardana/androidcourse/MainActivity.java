@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity
 
     public SearchView searchView;
     private MenuItem searchMenuItem;
-    private ListView roomListView;
     private MenuItem filterMenuItem;
     private DrawerLayout drawer;
     ExpandableListAdapter mMenuAdapter;
@@ -492,24 +491,15 @@ public class MainActivity extends AppCompatActivity
             actionBar.setCustomView(view);
             // remove Burger Icon
             toolbar.setNavigationIcon(null);
+            searchMenuItem.setVisible(false);
+            filterMenuItem.setVisible(false);
 
             // add click listener to the back arrow icon
             view.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // reverse back the show
-//                    actionBar.setDisplayShowCustomEnabled(false);
-//                    actionBar.setDisplayShowTitleEnabled(true);
-//                    //get the Drawer and DrawerToggle from Main Activity
-//                    // set them back as normal
-//                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                            MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open,
-//                            R.string.navigation_drawer_close);
-//                    // All that to re-synchronize the Drawer State
-//                    toggle.syncState();
-                    // Implement Back Arrow Icon
-                    // so it goes back to previous Fragment
+                    searchMenuItem.setVisible(true);
+                    filterMenuItem.setVisible(true);
                     onBackPressed();
                 }
             });

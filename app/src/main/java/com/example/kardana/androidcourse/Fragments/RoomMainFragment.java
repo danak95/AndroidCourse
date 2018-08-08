@@ -60,8 +60,9 @@ public class RoomMainFragment extends Fragment{
     public TextView  roomTypes;
     public FloatingActionButton roomSaveBtn;
     public FloatingActionButton roomAddTypesBtn;
-    public FloatingActionButton roomEditImagrBtn;
-    public ImageButton roomEditBtn;
+    public FloatingActionButton roomEditImageBtn;
+    public FloatingActionButton roomEditBtn;
+    private boolean isImageChanged;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class RoomMainFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.room_main_fragment, container, false);
         currRoom = getParentFragment().getArguments().getParcelable("curr_room");
+        isImageChanged = false;
 
         roomName = (TextView) view.findViewById(R.id.roomName);
         roomRank = (TextView) view.findViewById(R.id.rankRoom);
@@ -88,8 +90,8 @@ public class RoomMainFragment extends Fragment{
         roomTypes = (TextView) view.findViewById(R.id.room_types_textView);
         roomSaveBtn = (FloatingActionButton) view.findViewById(R.id.room_SaveChanges_Btn);
         roomAddTypesBtn = (FloatingActionButton) view.findViewById(R.id.room_types_btn);
-        roomEditImagrBtn = (FloatingActionButton) view.findViewById(R.id.pickImage_room_btn);
-        roomEditBtn = (ImageButton) view.findViewById(R.id.update_room_btn);
+        roomEditImageBtn = (FloatingActionButton) view.findViewById(R.id.pickImage_room_btn);
+        roomEditBtn = (FloatingActionButton) view.findViewById(R.id.update_room_btn);
 
         roomAddress.setEnabled(false);
         roomDescription.setEnabled(false);
@@ -120,9 +122,19 @@ public class RoomMainFragment extends Fragment{
         roomDescription.setText(currRoom.getDescription());
         roomMinNumPeople.setText(Integer.toString(currRoom.getMinNumOfPeople()));
         roomMaxNumPeople.setText(Integer.toString(currRoom.getMaxNumOfPeople()));
+
+        if (currRoom.getTypes() == null) {
+            currRoom.setTypes(new ArrayList<RoomType>());
+        }
+
         for (RoomType type : currRoom.getTypes())
         {
-            types = types + "," + type.toString();
+            if(types.isEmpty()) {
+                types = type.getName();
+            }
+            else {
+                types = types + "," + type.getName();
+            }
         }
         roomTypes.setText(types);
 
@@ -131,14 +143,14 @@ public class RoomMainFragment extends Fragment{
         {
             roomSaveBtn.setVisibility(View.INVISIBLE);
             roomAddTypesBtn.setVisibility(View.INVISIBLE);
-            roomEditImagrBtn.setVisibility(View.INVISIBLE);
+            roomEditImageBtn.setVisibility(View.INVISIBLE);
             roomEditBtn.setVisibility(View.INVISIBLE);
         }
         else {
             roomEditBtn.setVisibility(View.VISIBLE);
             roomSaveBtn.setVisibility(View.INVISIBLE);
             roomAddTypesBtn.setVisibility(View.INVISIBLE);
-            roomEditImagrBtn.setVisibility(View.INVISIBLE);
+            roomEditImageBtn.setVisibility(View.INVISIBLE);
         }
 
         Model.getInstance().getImage(currRoom.getImagePath(), new Model.GetImageListener() {
@@ -155,7 +167,7 @@ public class RoomMainFragment extends Fragment{
                 roomEditBtn.setVisibility(View.INVISIBLE);
                 roomSaveBtn.setVisibility(View.VISIBLE);
                 roomAddTypesBtn.setVisibility(View.VISIBLE);
-                roomEditImagrBtn.setVisibility(View.VISIBLE);
+                roomEditImageBtn.setVisibility(View.VISIBLE);
                 roomAddress.setEnabled(true);
                 roomDescription.setEnabled(true);
                 roomMinNumPeople.setEnabled(true);
@@ -166,7 +178,7 @@ public class RoomMainFragment extends Fragment{
         roomSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<RoomType> types = new ArrayList<RoomType>();
+                List<RoomType> types = currRoom.getTypes();
 
                 if (!selected.equals(null))
                 {
@@ -184,14 +196,23 @@ public class RoomMainFragment extends Fragment{
                     currRoom.setMaxNumOfPeople(Integer.parseInt(roomMaxNumPeople.getText().toString()));
                     currRoom.setTypes(types);
 
-                    Model.getInstance().saveImage(Room.IMAGE_PATH, currRoom.getId(), imageBitmap, new Model.SaveImageListener() {
-                        @Override
-                        public void onDone(String url) {
-                            Model.getInstance().updateRoom(currRoom);
-                            Toast.makeText(getContext(), "Room's updates saved successfully!", Toast.LENGTH_SHORT).show();
-                            getActivity().onBackPressed();
-                        }
-                    });
+                    if(isImageChanged) {
+                        Model.getInstance().saveImage(Room.IMAGE_PATH, currRoom.getId(), imageBitmap, new Model.SaveImageListener() {
+                            @Override
+                            public void onDone(String url) {
+                                currRoom.setImagePath(url);
+                                Model.getInstance().updateRoom(currRoom);
+                                Toast.makeText(getContext(), "Room's updates saved successfully!", Toast.LENGTH_SHORT).show();
+                                getActivity().onBackPressed();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Model.getInstance().updateRoom(currRoom);
+                        Toast.makeText(getContext(), "Room's updates saved successfully!", Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
+                    }
                 }
                 else
                 {
@@ -207,7 +228,7 @@ public class RoomMainFragment extends Fragment{
             }
         });
 
-        roomEditImagrBtn.setOnClickListener(new View.OnClickListener() {
+        roomEditImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowImageDialog();
@@ -285,6 +306,7 @@ public class RoomMainFragment extends Fragment{
                 });
 
         builder.show();
+        isImageChanged = true;
     }
 
     // This function creates an intent for taking picture by camera

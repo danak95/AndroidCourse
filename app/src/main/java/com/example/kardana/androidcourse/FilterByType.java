@@ -114,8 +114,8 @@ public enum FilterByType {
         for (int i = 0; i < originalData.size(); i++) {
             String data =  originalData.get(i).getName();
             if (data.toLowerCase().contains(constraint.toString())) {
-                String roomName=originalData.get(i).getName();
-                filteredArrList.put(roomName,originalData.get(i));
+                String roomId=originalData.get(i).getId();
+                filteredArrList.put(roomId,originalData.get(i));
             }
         }
 
@@ -129,8 +129,8 @@ public enum FilterByType {
         for (int i = 0; i < originalData.size(); i++) {
             double data =  originalData.get(i).getRank();
             if (data >= getRankByFilter(constraint.toString())) {
-                String roomName=originalData.get(i).getName();
-                filteredArrList.put(roomName,originalData.get(i));
+                String roomId=originalData.get(i).getId();
+                filteredArrList.put(roomId,originalData.get(i));
             }
         }
 
@@ -145,8 +145,8 @@ public enum FilterByType {
             if (originalData.get(i).getTypes() != null) {
                 for (RoomType roomType : originalData.get(i).getTypes()) {
                     if (roomType.getName().equals(constraint.toString())) {
-                        String roomName = originalData.get(i).getName();
-                        filteredArrList.put(roomName, originalData.get(i));
+                        String roomId = originalData.get(i).getId();
+                        filteredArrList.put(roomId, originalData.get(i));
                     }
                 }
             }
