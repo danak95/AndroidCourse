@@ -159,7 +159,7 @@ public class Model {
     }
 
     public void getImage(final String url, final GetImageListener listener, Context context){
-        if(!url.isEmpty() || url != null) {
+        if(url != null && !url.isEmpty() ) {
             String localFileName = URLUtil.guessFileName(url, null, null);
             final Bitmap image = loadImageFromFile(localFileName);
             if (image == null) {
@@ -275,7 +275,9 @@ public class Model {
 
             @Override
             protected void onPostExecute(Bitmap result) {
-                ImageView.setImageBitmap(result);
+                if (ImageView != null) {
+                    ImageView.setImageBitmap(result);
+                }
             }
         }
 
