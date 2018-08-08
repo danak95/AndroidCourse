@@ -50,119 +50,96 @@
 
         <TextView
             android:id="@+id/textView23"
-            android:layout_width="0dp"
-            android:layout_height="27dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
             android:text="מין"
-            android:textAlignment="center"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView24" />
+            app:layout_constraintTop_toBottomOf="@id/change_image_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" />
 
         <Switch
             android:id="@+id/gender_switch"
-            android:layout_width="120dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="112dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:checked="false"
             android:text="  נקבה"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/member_name"
+            app:layout_constraintRight_toLeftOf="@id/textView23"
+            app:layout_constraintBaseline_toBaselineOf="@id/textView23"
             tools:checked="false" />
 
         <TextView
             android:id="@+id/textView24"
             android:layout_width="70dp"
             android:layout_height="32dp"
-            android:layout_marginStart="8dp"
             android:text="זכר"
-            android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/gender_switch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/gender_switch" />
+            app:layout_constraintBaseline_toBaselineOf="@id/textView23"
+            app:layout_constraintRight_toLeftOf="@id/gender_switch" />
 
         <TextView
             android:id="@+id/textView25"
-            android:layout_width="97dp"
-            android:layout_height="38dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"
             android:text="טלפון"
-            android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/phone_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.68"
-            app:layout_constraintStart_toEndOf="@+id/phone_field" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView23"/>
 
         <EditText
             android:id="@+id/phone_field"
-            android:layout_width="180dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:editable="false"
-            android:ems="10"
             android:inputType="phone"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+            app:layout_constraintRight_toLeftOf="@id/textView25"
+            app:layout_constraintBaseline_toBaselineOf="@id/textView25"/>
 
         <TextView
             android:id="@+id/textView26"
-            android:layout_width="123dp"
-            android:layout_height="29dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
             android:text="דואר אלקטרוני"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/member_email_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.666"
-            app:layout_constraintStart_toEndOf="@+id/member_email_field" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView25" />
 
         <EditText
             android:id="@+id/member_email_field"
-            android:layout_width="180dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:editable="false"
-            android:ems="10"
             android:inputType="textEmailAddress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView25" />
+            app:layout_constraintRight_toLeftOf="@id/textView26"
+            app:layout_constraintBaseline_toBaselineOf="@id/textView26"/>
 
         <TextView
             android:id="@+id/textView27"
-            android:layout_width="94dp"
-            android:layout_height="27dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="52dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
             android:text="סיסמא"
-            android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/member_password_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/member_password_field" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView26" />
 
         <EditText
             android:id="@+id/member_password_field"
-            android:layout_width="180dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:editable="false"
-            android:ems="10"
             android:inputType="textPassword"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView26" />
+            app:layout_constraintRight_toLeftOf="@id/textView27"
+            app:layout_constraintBaseline_toBaselineOf="@id/textView27"/>
 
         <ImageButton
             android:id="@+id/update_member_btn"
