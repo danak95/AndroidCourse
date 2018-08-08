@@ -156,7 +156,7 @@ public class Model {
         void onDone(Bitmap imageBitmap);
     }
     public void getImage(final String url, final GetImageListener listener ){
-        if(!url.isEmpty()) {
+        if(url != null && !url.isEmpty()) {
             String localFileName = URLUtil.guessFileName(url, null, null);
             final Bitmap image = loadImageFromFile(localFileName);
             if (image == null) {

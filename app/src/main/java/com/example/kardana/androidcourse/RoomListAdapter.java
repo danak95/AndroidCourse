@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.Review;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.RoomsViewModel;
 
@@ -78,6 +79,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         if (convertView == null) {
 
             holder = new ViewHolder();
+            final Room wantedRoom =  originalData.get(position);
             convertView = inflater.inflate(R.layout.room_list_item, null);
             holder.roomListItem = convertView.findViewById(R.id.room_list_item);
             holder.roomName = convertView.findViewById(R.id.room_name);
@@ -135,6 +137,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         TextView roomAddress;
         TextView roomDescription;
         ImageView roomImage;
+        Room item;
     }
 
     public Filter getFilter() {

@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:text="דירוג: "
         android:padding="5dp"
-        android:textSize="16dp"
+        android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roomImage"/>
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="16dp"
+        android:textSize="10dp"
         app:layout_constraintBaseline_toBaselineOf="@id/textview1"
         app:layout_constraintRight_toLeftOf="@id/textview1"/>
 
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:inputType="textPersonName"
-        android:textSize="16dp"
+        android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rankRoom"/>
@@ -127,8 +127,7 @@
         android:id="@+id/room_types_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="10dp"
-        android:textDirection="rtl"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16"/>
 
@@ -136,43 +135,51 @@
         android:id="@+id/pickImage_room_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
-        android:padding="10dp"
         android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintTop_toTopOf="@id/roomImage"
-        app:layout_constraintRight_toRightOf="@id/roomImage"/>
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/roomImage"
+        app:layout_constraintVertical_bias="0.884" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/room_types_btn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
         android:clickable="true"
-        android:layout_marginRight="10dp"
         android:src="@android:drawable/ic_input_add"
-        app:layout_constraintRight_toLeftOf="@id/textView16"
-        app:layout_constraintBottom_toBottomOf="@id/textView16"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/room_types_textView"
+        app:layout_constraintTop_toTopOf="@+id/room_types_textView"
+        app:layout_constraintVertical_bias="0.032" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/room_SaveChanges_Btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="72dp"
+        android:layout_marginStart="36dp"
         android:clickable="true"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageButton
         android:id="@+id/update_room_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_width="41dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="72dp"
+        android:layout_marginStart="28dp"
         android:onClick="updateData"
         android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
