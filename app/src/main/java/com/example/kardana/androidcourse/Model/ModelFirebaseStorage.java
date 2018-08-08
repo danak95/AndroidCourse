@@ -53,7 +53,7 @@ public class ModelFirebaseStorage {
                 }
             });
         }
-        listener.onDone(null);
+        //listener.onDone(null);
 
     }
 
