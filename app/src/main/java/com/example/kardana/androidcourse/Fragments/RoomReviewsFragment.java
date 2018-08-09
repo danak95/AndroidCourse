@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,6 +25,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.ModelFirebaseReview;
 import com.example.kardana.androidcourse.Model.Review;
 import com.example.kardana.androidcourse.Model.ReviewViewModel;
 import com.example.kardana.androidcourse.Model.Room;
@@ -32,6 +34,7 @@ import com.example.kardana.androidcourse.Model.UserViewModel;
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.ReviewsListAdapter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class RoomReviewsFragment extends Fragment {
 
     private ImageView image;
     private Bitmap    reviewImageBitmap;
+    private boolean isNewReview = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -176,7 +180,17 @@ public class RoomReviewsFragment extends Fragment {
                 }
                 newReview.setContent(comment.getText().toString());
                 newReview.setImagePath("");
-                Model.getInstance().AddReview(newReview);
+                Model.getInstance().AddReview(isNewReview, newReview, getDataFromImageView(image), new ModelFirebaseReview.IAddReview() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFail(String error) {
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Model.getInstance().saveImage("Reviews", newReview.getReviewId(), reviewImageBitmap, new Model.SaveImageListener() {
                     @Override
                     public void onDone(String url) {
@@ -204,6 +218,15 @@ public class RoomReviewsFragment extends Fragment {
         });
         // Create the AlertDialog object and return it
         builder.show();
+    }
+
+    public static byte[] getDataFromImageView(ImageView imageView) {
+        imageView.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        bitmap = Bitmap.createScaledBitmap(bitmap,(int)(bitmap.getWidth()*0.2),(int)(bitmap.getHeight()*0.2),false);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+        return (baos.toByteArray());
     }
 
 

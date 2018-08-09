@@ -497,9 +497,9 @@ public class Model {
     // ******* Handle Reviews *******
 
     // Add new review
-    public void AddReview(Review review)
+    public void AddReview(boolean uploadImage, Review review, byte[] imageByteData, ModelFirebaseReview.IAddReview callback)
     {
-        modelFirebaseReviews.AddNewReview(review);
+        modelFirebaseReviews.AddNewReview(uploadImage,review,imageByteData, callback);
         Log.d("dev","Model- Add new review");
     }
 

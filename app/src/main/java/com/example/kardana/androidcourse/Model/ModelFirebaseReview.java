@@ -4,11 +4,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +27,49 @@ public class ModelFirebaseReview {
     private static final String REVIEWS_KEY = "Reviews";
     private FirebaseDatabase database;
     private DatabaseReference reviewsReference;
+    private StorageReference storageReference;
 
     public ModelFirebaseReview() {
         database = FirebaseDatabase.getInstance();
         reviewsReference = database.getReference(REVIEWS_KEY);
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
+    public interface IAddReview
+    {
+        public void onSuccess();
+        public void onFail(String error);
+    }
     // Add new Review
-    public void AddNewReview(final Review review) {
+    public void AddNewReview(boolean uploadImage, final Review review, byte[] imageByteData, final IAddReview callback) {
         Log.d("TAG", "AddNewReview");
-        review.setReviewId(reviewsReference.push().getKey());
-        reviewsReference.child(review.getReviewId()).setValue(review);
+        final String reviewGeneratedKey;
+
+        reviewGeneratedKey = reviewsReference.push().getKey();
+        review.setReviewId(reviewGeneratedKey);
+        reviewsReference.child(reviewGeneratedKey).setValue(review);
+
+        if (uploadImage) {
+            storageReference.child(reviewGeneratedKey).putBytes(imageByteData).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        callback.onSuccess();
+                        reviewsReference.child(reviewGeneratedKey).setValue(review);
+                    } else
+                        callback.onFail(task.getException().getMessage().toString());
+                }
+            });
+        }
+        else {
+            reviewsReference.child(reviewGeneratedKey).setValue(review).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onSuccess();
+                }
+            });
+
+        }
     }
 
     // Update review
