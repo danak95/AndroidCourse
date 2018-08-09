@@ -82,7 +82,6 @@ public class ESCEntranceActivity extends AppCompatActivity {
     {
         super.onResume();
         if (isViewLoaded) {
-            progress.setVisibility(View.INVISIBLE);
             ((AutoCompleteTextView) this.findViewById(R.id.email_field_login)).setText("");
             ((EditText) this.findViewById(R.id.password_field_login)).setText("");
         }
