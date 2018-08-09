@@ -155,19 +155,12 @@ public class RoomMainFragment extends Fragment{
             roomEditImageBtn.setVisibility(View.INVISIBLE);
         }
 
-        Model.getInstance().putImageViewUser(currRoom.getId(), currRoom.getRoomSite(), view.getContext(), new GlobalListener<Bitmap>() {
+        Model.getInstance().putImageViewRoom(currRoom.getId(), currRoom.getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
             @Override
             public void onComplete(Bitmap bitmap) {
                Model.getInstance().displayImageView(roomImage, bitmap, 1);
             }
         });
-        /*Model.getInstance().getImage(currRoom.getImagePath(), new Model.GetImageListener() {
-            @Override
-            public void onDone(Bitmap imageBitmap) {
-                roomImage.setImageBitmap(imageBitmap);
-            }
-        }, null);
-        */
 
         roomEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override

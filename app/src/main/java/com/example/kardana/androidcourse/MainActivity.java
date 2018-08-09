@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.support.design.widget.NavigationView;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_LOGOUT = "logout";
     public static String CURRENT_TAG = TAG_HOME;
     private Fragment currFragment;
+    // Memory cache
+    public static LruCache<String, Bitmap> mCache;
 
     private String UserId;
     private User   currUser;
@@ -129,6 +132,18 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
+
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory * 3 / 4;
+
+        mCache = new LruCache<String, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
+                // The cache size will be measured in kilobytes rather than
+                // number of items.
+                return bitmap.getByteCount() / 1024;
+            }
+        };
 
     }
     private void showMainToolbar()

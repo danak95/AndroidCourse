@@ -81,6 +81,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
             holder = new ViewHolder();
             wantedRoom =  originalData.get(position);
             convertView = inflater.inflate(R.layout.room_list_item, null);
+            holder.item = wantedRoom;
             holder.roomListItem = convertView.findViewById(R.id.room_list_item);
             holder.roomName = convertView.findViewById(R.id.room_name);
             holder.roomAddress = convertView.findViewById(R.id.room_address);
@@ -100,18 +101,15 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
                 @Override
                 public void onComplete(Bitmap bitmap) {
                     Model.getInstance().displayImageView(holder.roomImage, bitmap, 1);
-
                 }
             });
         }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-       /*Model.getInstance().getImage(filteredData.get(position).getImagePath(), new Model.GetImageListener() {
-            @Override
-            public void onDone(Bitmap imageBitmap) {
-                // Update Data
-                holder.roomImage.setImageBitmap(imageBitmap);
-            }
-        }, null);*/
         holder.roomListItem.setTag(position);
 
         holder.roomListItem.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +130,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         });
 
 
-
+        notifyDataSetChanged();
         return convertView;
     }
 

@@ -2,6 +2,7 @@ package com.example.kardana.androidcourse.Fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -51,6 +52,7 @@ public class HomeFragment extends Fragment {
         roomListAdapter = new RoomListAdapter(view.getContext(),  new ArrayList<Room>());
         ListView listView = view.findViewById(R.id.room_list_view);
         listView.setAdapter(roomListAdapter);
+
         dataModel = ViewModelProviders.of(getActivity()).get(RoomsViewModel.class);
         dataModel.getData().observe(getActivity(), new Observer<List<Room>>() {
             @Override

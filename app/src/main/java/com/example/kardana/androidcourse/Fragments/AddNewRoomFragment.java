@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,12 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kardana.androidcourse.Model.Model;
+import com.example.kardana.androidcourse.Model.ModelFirebaseRoom;
 import com.example.kardana.androidcourse.Model.Room;
 import com.example.kardana.androidcourse.Model.User;
 import com.example.kardana.androidcourse.Model.UserViewModel;
 import com.example.kardana.androidcourse.R;
 import com.example.kardana.androidcourse.RoomType;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,7 @@ public class AddNewRoomFragment extends Fragment {
     public FloatingActionButton newRoomSaveBtn;
     public FloatingActionButton newRoomAddImageBtn;
     public Button    newRoomAddTypesBtn;
+    private boolean isNewRoom = true;
 
     private OnFragmentInteractionListener mListener;
 
@@ -134,6 +138,7 @@ public class AddNewRoomFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -195,7 +200,17 @@ public class AddNewRoomFragment extends Fragment {
                     newRoom.setRoomSite(newRoomUrl.getText().toString());
                     newRoom.setOwnerId(currUser.getUserid());
                     newRoom.setTypes(types);
-                    Model.getInstance().addRoom(newRoom);
+                    Model.getInstance().addRoom(isNewRoom, newRoom, getDataFromImageView(newRoomImage), new ModelFirebaseRoom.IAddRoom() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFail(String error) {
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                     Model.getInstance().saveImage(Room.IMAGE_PATH, newRoom.getId(), imageBitmap, new Model.SaveImageListener() {
                         @Override
@@ -229,6 +244,15 @@ public class AddNewRoomFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public static byte[] getDataFromImageView(ImageView imageView) {
+        imageView.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        bitmap = Bitmap.createScaledBitmap(bitmap,(int)(bitmap.getWidth()*0.2),(int)(bitmap.getHeight()*0.2),false);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+        return (baos.toByteArray());
     }
 
 

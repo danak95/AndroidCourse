@@ -1,7 +1,10 @@
 package com.example.kardana.androidcourse.Model;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -9,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +26,11 @@ public class ModelFirebaseRoom {
 
     ValueEventListener eventListener;
     DatabaseReference roomsReference;
+    private StorageReference storageReference;
 
     public ModelFirebaseRoom() {
         roomsReference = FirebaseDatabase.getInstance().getReference().child(ROOMS_KEY);
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public interface IGetAllRooms
@@ -69,10 +75,47 @@ public class ModelFirebaseRoom {
         roomsReference.removeEventListener(eventListener);
     }
 
-    public void addRoom(Room room) {
-        String roomGeneratedKey = roomsReference.push().getKey();
-        room.setId(roomGeneratedKey);
-        roomsReference.child(roomGeneratedKey).setValue(room);
+    public interface IAddRoom
+    {
+        public void onSuccess();
+        public void onFail(String error);
+    }
+
+    public void addRoom(boolean uploadImage, final Room room ,byte[] imageByteData,final IAddRoom callback) {
+        final String roomGeneratedKey;
+
+        if(room.getId().equals("1")) {
+            roomGeneratedKey = roomsReference.push().getKey();
+            room.setId(roomGeneratedKey);
+            roomsReference.child(roomGeneratedKey).setValue(room);
+        }
+        else
+        {
+            roomGeneratedKey = room.getId();
+        }
+
+        if (uploadImage) {
+            storageReference.child(roomGeneratedKey).putBytes(imageByteData).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        callback.onSuccess();
+                        roomsReference.child(roomGeneratedKey).setValue(room);
+                    } else
+                        callback.onFail(task.getException().getMessage().toString());
+                }
+            });
+        }
+        else {
+            roomsReference.child(roomGeneratedKey).setValue(room).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onSuccess();
+                }
+            });
+
+        }
+
     }
 
     interface IUpdateRoomCallback {

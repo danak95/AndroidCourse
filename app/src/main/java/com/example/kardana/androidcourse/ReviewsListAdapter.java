@@ -116,6 +116,12 @@ public class ReviewsListAdapter extends BaseAdapter {
                 }
             });
         }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         /*Model.getInstance().getUserById(data.get(i).getUserId(), new Model.IGetUserByIdCallback() {
             @Override
             public void onComplete(User user) {

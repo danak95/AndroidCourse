@@ -11,6 +11,8 @@ import android.util.LruCache;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 
+import com.example.kardana.androidcourse.MainActivity;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,8 +34,7 @@ public class Model {
     private ReviewsLiveData reviewsLiveData = new ReviewsLiveData();
     private ModelFirebaseReview modelFirebaseReviews;
 
-    // Memory cache
-    public static LruCache<String, Bitmap> mCache;
+
 
     public static User user = null;
     public static Model instance = new Model();
@@ -43,19 +44,6 @@ public class Model {
         modelFirebaseRoom = new ModelFirebaseRoom();
         modelFirebase = new ModelFirebaseStorage();
         modelFirebaseReviews = new ModelFirebaseReview();
-
-        // Handle cache
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        final int cacheSize = maxMemory * 3 / 4;
-        mCache = new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
-                return bitmap.getByteCount() / 1024;
-            }
-        };
-
     }
 
     public static Model getInstance() {
@@ -249,15 +237,15 @@ public class Model {
     // Handle cache
     static public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
-            mCache.put(key, bitmap);
+            MainActivity.mCache.put(key, bitmap);
         }
     }
 
     static public Bitmap getBitmapFromMemCache(String key) {
-        if (mCache.get(key) != null) {
-            return mCache.get(key);
-        }
-        return  null;
+       // if (MainActivity.mCache.get(key) != null) {
+            return MainActivity.mCache.get(key);
+        //}
+       // return  null;
     }
 
     // Handle display imageView
@@ -383,9 +371,9 @@ public class Model {
         modelFirebaseRoom.cancelGetAllRooms();
     }
 
-    public void addRoom(Room room)
+    public void addRoom(boolean uploadImage, Room room, byte[] imageByteData, ModelFirebaseRoom.IAddRoom callback)
     {
-        modelFirebaseRoom.addRoom(room);
+        modelFirebaseRoom.addRoom(uploadImage,room,imageByteData,callback);
     }
 
     public void updateRoom(Room room)
