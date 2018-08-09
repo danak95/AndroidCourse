@@ -195,12 +195,13 @@ public class AddNewRoomFragment extends Fragment {
                     newRoom.setRoomSite(newRoomUrl.getText().toString());
                     newRoom.setOwnerId(currUser.getUserid());
                     newRoom.setTypes(types);
+                    Model.getInstance().addRoom(newRoom);
 
                     Model.getInstance().saveImage(Room.IMAGE_PATH, newRoom.getId(), imageBitmap, new Model.SaveImageListener() {
                         @Override
                         public void onDone(String url) {
                             newRoom.setImagePath(url);
-                            Model.getInstance().addRoom(newRoom);
+                            Model.getInstance().updateRoom(newRoom);
                             Toast.makeText(getContext(), "Room was saved successfully!", Toast.LENGTH_SHORT).show();
                             getActivity().onBackPressed();
                         }
