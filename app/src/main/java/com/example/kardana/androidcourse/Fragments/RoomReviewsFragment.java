@@ -83,6 +83,7 @@ public class RoomReviewsFragment extends Fragment {
             public void onClick(View view) {
                 newReview = new Review();
                 ShowAddReview();
+
             }
         });
         return view;
@@ -201,6 +202,7 @@ public class RoomReviewsFragment extends Fragment {
                                 if (success)
                                 {
                                     Toast.makeText(getContext(), "Review was saved successfully", Toast.LENGTH_SHORT).show();
+                                    reviewsListAdapter.notifyDataSetChanged();
                                 }
                                 else
                                 {
