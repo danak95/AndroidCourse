@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity
         final ImageView currUserImage = this.findViewById(R.id.nav_imageView);
         final TextView userNameView = this.findViewById(R.id.nav_nameView);
         final TextView userEmailView = this.findViewById(R.id.nav_emailView);
-/*        Model.getInstance().getImage(currUser.getImagePath(), new Model.GetImageListener() {
+        Model.getInstance().getImage(currUser.getImagePath(), new Model.GetImageListener() {
             @Override
             public void onDone(Bitmap imageBitmap) {
                 // Update Data
@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity
                 userNameView.setText(currUser.getName());
                 userEmailView.setText(currUser.getEmail());
             }
-        }, null);*/
+        }, null);
 
         return true;
     }

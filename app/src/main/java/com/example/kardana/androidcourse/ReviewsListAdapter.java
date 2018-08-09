@@ -95,12 +95,6 @@ public class ReviewsListAdapter extends BaseAdapter {
             holder = (ReviewsListAdapter.ViewHolder) view.getTag();
         }
 
-        if (!wantedReview.equals((view.getTag()))){
-            holder.reviewUserImage.setImageBitmap(null);
-            holder.reviewImage.setImageBitmap(null);
-        }
-
-
         holder.reviewRank.setText("דירוג: 5/" + String.valueOf(data.get(i).getRank()));
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
