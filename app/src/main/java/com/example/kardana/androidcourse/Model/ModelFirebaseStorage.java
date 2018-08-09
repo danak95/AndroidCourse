@@ -28,6 +28,7 @@ public class ModelFirebaseStorage {
 
     //Managing Files
     public void saveImage(String path, String imageName ,Bitmap imageBitmap, final Model.SaveImageListener listener) {
+
         if (imageBitmap != null) {
             final StorageReference imagesRef = storage.getReference().child("images").child(path).child(imageName);
 

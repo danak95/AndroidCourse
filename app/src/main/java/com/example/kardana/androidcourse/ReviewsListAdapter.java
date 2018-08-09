@@ -83,6 +83,7 @@ public class ReviewsListAdapter extends BaseAdapter {
                     for (User user :  users) {
                         if (user.getUserid().equals(holder.item.getUserId())) {
                             userReview[0] = user;
+                            holder.reviewUserName.setText(user.getName());
                             break;
                         }
                     }
@@ -98,7 +99,7 @@ public class ReviewsListAdapter extends BaseAdapter {
         holder.reviewRank.setText("דירוג: 5/" + String.valueOf(data.get(i).getRank()));
         holder.reviewContent.setText(data.get(i).getContent());
         holder.reviewDate.setText(data.get(i).getDate());
-        holder.reviewUserName.setText(userReview[0].getName());
+        //holder.reviewUserName.setText(userReview[0].getName());
         if (userReview[0].getUserid() != null) {
             Model.getInstance().putImageViewUser(userReview[0].getUserid(), userReview[0].getImagePath(), view.getContext(), new GlobalListener<Bitmap>() {
                 @Override

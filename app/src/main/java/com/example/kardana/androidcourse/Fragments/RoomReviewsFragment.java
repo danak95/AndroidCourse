@@ -184,7 +184,7 @@ public class RoomReviewsFragment extends Fragment {
                 Model.getInstance().AddReview(isNewReview, newReview, getDataFromImageView(image), new ModelFirebaseReview.IAddReview() {
                     @Override
                     public void onSuccess() {
-
+                        reviewsListAdapter.notifyDataSetChanged();
                     }
 
                     @Override
