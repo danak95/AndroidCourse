@@ -261,7 +261,7 @@ public class Model {
     }
 
     // Handle display imageView
-    static public void displayImageView(final ImageView ImageView, final Bitmap imageBitmap, final double scale) {
+    static public void displayImageView(final ImageView imageView, final Bitmap imageBitmap, final double scale) {
 
         class DisplayPictureAsyncTask extends AsyncTask<String, String, Bitmap> {
             @Override
@@ -275,8 +275,8 @@ public class Model {
 
             @Override
             protected void onPostExecute(Bitmap result) {
-                if (ImageView != null) {
-                    ImageView.setImageBitmap(result);
+                if (imageView != null) {
+                    imageView.setImageBitmap(result);
                 }
             }
         }

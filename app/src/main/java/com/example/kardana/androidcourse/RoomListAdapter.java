@@ -90,6 +90,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         holder.roomName.setText(filteredData.get(position).getName());
         holder.roomAddress.setText(filteredData.get(position).getAddress());
         holder.roomDescription.setText(filteredData.get(position).getDescription());
@@ -99,6 +100,7 @@ public class RoomListAdapter extends BaseAdapter implements Filterable
                 @Override
                 public void onComplete(Bitmap bitmap) {
                     Model.getInstance().displayImageView(holder.roomImage, bitmap, 1);
+
                 }
             });
         }
